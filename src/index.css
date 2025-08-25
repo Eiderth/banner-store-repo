@@ -1,5 +1,4 @@
 :root {
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
 }
 
@@ -14,14 +13,14 @@ body {
   margin: 0;
 }
 
-body {
+#root {
+  min-height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-#root {
-  min-height: 100%;
-  width: 100%;
+  background-color: #11111b;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
 }
