@@ -1,26 +1,40 @@
 import React from "react";
 import Form from "./components-secondary/form/Form";
+import Input from "./components-secondary/Input";
 type Props = {};
 export default function Aplication({}: Props) {
-  const inputsForm = [
-    <input
+  const inputs = [
+    <Input
+      label="Producto"
       type="text"
-      placeholder="Producto"
-      name="Producto"
-      className="bg-gray-500 rounded-2xl p-2.5"
+      id="Producto"
+      placeholder="ejemplo: Harina"
     />,
-    <input
+    <Input label="Costo" type="number" id="Costo" placeholder="$" />,
+    <Input
+      label="Unidades"
       type="number"
-      placeholder="Precio"
-      name="Precio"
-      className="bg-gray-500 rounded-2xl p-2.5"
+      id="Unidades"
+      placeholder="Indique cuantas unidades"
+    />,
+    <Input
+      label="Porcentaje a ganar"
+      type="number"
+      id="Porcentaje"
+      placeholder="%"
+    />,
+    <Input
+      label="Incluir IVA? (0.16%)"
+      type="checkbox"
+      id="IVA"
+      clases="pl-2 col-span-full"
     />,
   ];
 
   return (
     <>
       <Form title={"Formulario de app"}>
-        {inputsForm.map((input, index) =>
+        {inputs.map((input, index) =>
           React.cloneElement(input as React.ReactElement, { key: index })
         )}
       </Form>
