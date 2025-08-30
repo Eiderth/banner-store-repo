@@ -1,5 +1,5 @@
 import React from "react";
-import Form from "./components-secondary/form/Form";
+import Form from "./components-secondary/Form";
 import Input from "./components-secondary/Input";
 type Props = {};
 export default function Aplication({}: Props) {
