@@ -1,23 +1,21 @@
 import { twMerge } from "tailwind-merge";
+import type { ComponentProps } from "react";
 
 type Props = {
   label: string;
-  type: string;
-  id: string;
-  placeholder?: string;
   className?: string;
-};
+  classNameInput?: string;
+} & ComponentProps<"input">;
 
 export default function Input({
   label,
-  type,
-  id,
-  placeholder,
   className,
+  classNameInput,
+  ...props
 }: Props) {
   return (
     <label
-      htmlFor={id}
+      htmlFor={props.id}
       className={twMerge(
         "font-bold font-sans  flex flex-col items-start",
         className
@@ -25,10 +23,11 @@ export default function Input({
     >
       <span className={className ? "" : "pl-2.5"}>{label}</span>
       <input
-        type={type}
-        id={id}
-        placeholder={placeholder}
-        className="rounded-2xl p-2.5 border-4 border-blue-300"
+        {...props}
+        className={twMerge(
+          "rounded-2xl p-2.5 border-4 border-blue-300 w-full",
+          classNameInput
+        )}
       />
     </label>
   );
