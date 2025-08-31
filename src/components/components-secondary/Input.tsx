@@ -1,18 +1,29 @@
+import { twMerge } from "tailwind-merge";
+
 type Props = {
   label: string;
   type: string;
   id: string;
   placeholder?: string;
-  clases?: string;
+  className?: string;
 };
 
-export default function Input({ label, type, id, placeholder, clases }: Props) {
+export default function Input({
+  label,
+  type,
+  id,
+  placeholder,
+  className,
+}: Props) {
   return (
     <label
       htmlFor={id}
-      className={`font-bold font-sans  flex flex-col items-start ${clases}`}
+      className={twMerge(
+        "font-bold font-sans  flex flex-col items-start",
+        className
+      )}
     >
-      <span className={clases ? "" : "pl-2.5"}>{label}</span>
+      <span className={className ? "" : "pl-2.5"}>{label}</span>
       <input
         type={type}
         id={id}

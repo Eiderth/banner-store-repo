@@ -1,8 +1,13 @@
 import React from "react";
 import Form from "./components-secondary/Form";
 import Input from "./components-secondary/Input";
-type Props = {};
-export default function Aplication({}: Props) {
+import PricingBanner from "./components-secondary/PricingBanner";
+import Btn from "./components-secondary/btn";
+
+export default function Aplication() {
+  const handleClick = () => {
+    alert("Hola");
+  };
   const inputs = [
     <Input
       label="Producto"
@@ -27,7 +32,13 @@ export default function Aplication({}: Props) {
       label="Incluir IVA? (0.16%)"
       type="checkbox"
       id="IVA"
-      clases="pl-2 col-span-full"
+      className="pl-2 col-span-full pb-4"
+    />,
+    <Btn
+      text="Agregar producto"
+      onClick={handleClick}
+      className="col-span-full"
+      type="button"
     />,
   ];
 
@@ -38,6 +49,7 @@ export default function Aplication({}: Props) {
           React.cloneElement(input as React.ReactElement, { key: index })
         )}
       </Form>
+      <PricingBanner />
     </>
   );
 }
