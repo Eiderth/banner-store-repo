@@ -1,32 +1,50 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Form from "./components-secondary/Form";
 import Input from "./components-secondary/Input";
 import Banner from "./components-secondary/Banner";
 import Btn from "./components-secondary/Btn";
 
 export default function Aplication() {
-  const productNameRef = useRef<HTMLInputElement>(null);
-  const costoTotalRef = useRef<HTMLInputElement>(null);
-  const unidadesRef = useRef<HTMLInputElement>(null);
-  const porcentajeRef = useRef<HTMLInputElement>(null);
-  const ivaRef = useRef<HTMLInputElement>(null);
-
+  const initialFormData = {
+    producto: "",
+    costo: "",
+    unidades: "",
+    porcentaje: "",
+    iva: false,
+  };
+  const [formData, setFormData] = useState({
+    producto: "",
+    costo: "",
+    unidades: "",
+    porcentaje: "",
+    iva: false,
+  });
   const [products, setProducts] = useState<any[]>([]);
 
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name.toLowerCase()]: type === "checkbox" ? checked : value,
+    });
+  };
+
   const handleClick = () => {
-    const formData = {
-      Producto: String(productNameRef.current?.value),
-      Costo: Number(costoTotalRef.current?.value),
-      Unidades: Number(unidadesRef.current?.value),
-      Porcentaje: Number(porcentajeRef.current?.value),
-      IVA: ivaRef.current?.checked ? "Sí" : "No",
+    const newProduct = {
+      ...formData,
+      iva: formData.iva ? 0 : "No",
+      precio: 0,
     };
-    setProducts((prevProducts) => [...prevProducts, formData]);
-    productNameRef.current!.value = "";
-    costoTotalRef.current!.value = "";
-    unidadesRef.current!.value = "";
-    porcentajeRef.current!.value = "";
-    ivaRef.current!.checked = false;
+
+    newProduct.precio =
+      (parseFloat(formData.costo) / parseFloat(formData.unidades)) *
+      (1 + parseFloat(formData.porcentaje) / 100);
+    if (formData.iva) {
+      newProduct.iva = newProduct.precio * 0.16;
+      newProduct.precio += newProduct.iva;
+    }
+    setProducts((prevProducts) => [...prevProducts, newProduct]);
+    setFormData(initialFormData);
   };
 
   const inputs = [
@@ -35,41 +53,41 @@ export default function Aplication() {
       type: "text",
       id: "Producto",
       name: "Producto",
+      value: formData.producto,
       placeholder: "ejemplo: Harina",
-      ref: productNameRef,
     },
     {
       label: "Costo",
       type: "number",
       id: "Costo",
       name: "Costo",
+      value: formData.costo,
       placeholder: "$",
-      ref: costoTotalRef,
     },
     {
       label: "Unidades",
       type: "number",
       id: "Unidades",
       name: "Unidades",
+      value: formData.unidades,
       placeholder: "Indique cuantas unidades",
-      ref: unidadesRef,
     },
     {
       label: "Porcentaje a ganar",
       type: "number",
       id: "Porcentaje",
       name: "Porcentaje",
+      value: formData.porcentaje,
       placeholder: "%",
-      ref: porcentajeRef,
     },
     {
       label: "Incluir IVA? (0.16%)",
       type: "checkbox",
       id: "IVA",
       name: "IVA",
+      checked: formData.iva,
       className: "pl-2 col-span-full pb-4",
       classNameInput: "w-fit",
-      ref: ivaRef,
     },
   ];
 
@@ -77,7 +95,7 @@ export default function Aplication() {
     <>
       <Form title={"Formulario de app"}>
         {inputs.map((inputProps) => (
-          <Input {...inputProps} key={inputProps.id} />
+          <Input {...inputProps} key={inputProps.id} onChange={onChange} />
         ))}
         <Btn
           text="Agregar producto"
@@ -86,7 +104,10 @@ export default function Aplication() {
           onClick={handleClick}
         />
       </Form>
-      <Banner headers={inputs.map((inputs) => inputs.name)} data={products} />
+      <Banner
+        headers={[...inputs.map((input) => input.name), "Precio"]}
+        data={products}
+      />
     </>
   );
 }

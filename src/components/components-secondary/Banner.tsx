@@ -21,11 +21,11 @@ export default function Banner({ headers, data }: Props) {
         </tr>
       </thead>
       <tbody>
-        {data?.map((row, rowIndex) => (
+        {data?.map((object, rowIndex) => (
           <tr key={rowIndex}>
             {headers.map((headerKey) => (
               <td key={`${rowIndex}-${headerKey}`} className="p-2 text-center">
-                {row[headerKey]}
+                {object[headerKey.toLowerCase()]}
               </td>
             ))}
           </tr>
