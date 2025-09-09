@@ -2,17 +2,11 @@ import { twMerge } from "tailwind-merge";
 import type { ComponentProps } from "react";
 
 type Props = {
-  label: string;
   className?: string;
   classNameInput?: string;
 } & ComponentProps<"input">;
 
-export default function Input({
-  label,
-  className,
-  classNameInput,
-  ...props
-}: Props) {
+export default function Input({ className, classNameInput, ...props }: Props) {
   return (
     <label
       htmlFor={props.id}
@@ -21,11 +15,11 @@ export default function Input({
         className
       )}
     >
-      <span className={className ? "" : "pl-2.5"}>{label}</span>
+      <span className={"pl-2.5"}>{props.id}</span>
       <input
         {...props}
         className={twMerge(
-          "rounded-2xl p-2.5 border-4 border-blue-300 w-full",
+          "rounded-2xl p-2.5 border-4 border-blue-300 w-full focus:border-violet-600 focus:outline-0 transition-colors  invalid:focus:border-red-600 invalid:focus:text-red-600",
           classNameInput
         )}
       />

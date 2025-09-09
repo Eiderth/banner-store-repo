@@ -1,6 +1,7 @@
+import React from "react";
 type Props = {
   title: string;
-  children?: React.ReactNode;
+  children?: React.ReactElement[] | React.ReactElement;
 };
 
 export default function Form({ title, children }: Props) {
