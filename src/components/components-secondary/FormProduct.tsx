@@ -3,7 +3,7 @@ import Form from "./Form";
 import Input from "./Input";
 import Btn from "./Btn";
 
-export type TypeFormData = {
+export type formData = {
   producto: string;
   costo: string;
   unidades: string;
@@ -12,7 +12,7 @@ export type TypeFormData = {
 };
 
 type Props = {
-  onClick: (data: TypeFormData) => void;
+  onClick: (data: formData) => void;
 };
 
 export default function FormProduct({ onClick }: Props) {
@@ -26,10 +26,24 @@ export default function FormProduct({ onClick }: Props) {
 
   const handleChangue = (e: ChangeEvent<HTMLInputElement>) => {
     const { type, id, value, checked } = e.target;
+
+    // recordar agregar validacion en handleChange
+
     setData((prevData) => ({
       ...prevData,
       [id.toLowerCase()]: type === "checkbox" ? checked : value,
     }));
+  };
+
+  const validation = () => {
+    let key: keyof formData;
+    for (key in data) {
+      if (typeof data[key] !== "boolean" && data[key] === "") {
+        return true;
+      } else if (key === "producto" && data[key].length < 3) {
+        return true;
+      } else if (Number(data[key]) < 0) return true;
+    }
   };
 
   return (
@@ -76,7 +90,8 @@ export default function FormProduct({ onClick }: Props) {
         text="Agregar"
         type="button"
         onClick={() => onClick(data)}
-        className="col-span-full"
+        className="col-span-full disabled:bg-gray-500"
+        disabled={validation()}
       />
     </Form>
   );

@@ -2,16 +2,16 @@ import Banner from "./components-secondary/Banner";
 import FormProduct from "./components-secondary/FormProduct";
 
 import { useState } from "react";
-import type { TypeFormData } from "./components-secondary/FormProduct";
+import type { formData } from "./components-secondary/FormProduct";
 
-type typeProducts = {
-  precio: number;
-} & TypeFormData;
+export type products = {
+  precio: string;
+} & formData;
 
 export default function Aplication() {
-  const [product, setProduct] = useState<typeProducts[]>([]);
+  const [product, setProduct] = useState<products[]>([]);
 
-  const handleClick = (data: TypeFormData) => {
+  const handleClick = (data: formData) => {
     let { costo, unidades, porcentaje, iva } = data;
     const numCosto = Number(costo);
     const numUnidades = Number(unidades);
@@ -20,7 +20,10 @@ export default function Aplication() {
     let precio = (numCosto / numUnidades) * (numPorcentaje + 1);
     iva ? (precio += precio * 0.16) : precio;
 
-    setProduct((prevProduct) => [...prevProduct, { ...data, precio: precio }]);
+    setProduct((prevProduct) => [
+      ...prevProduct,
+      { ...data, precio: precio.toString() },
+    ]);
     console.log(product);
   };
 
@@ -36,6 +39,7 @@ export default function Aplication() {
           "iva",
           "precio",
         ]}
+        data={product}
       />
     </>
   );

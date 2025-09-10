@@ -19,7 +19,7 @@ export default function Input({ className, classNameInput, ...props }: Props) {
       <input
         {...props}
         className={twMerge(
-          "rounded-2xl p-2.5 border-4 border-blue-300 w-full focus:border-violet-600 focus:outline-0 transition-colors  invalid:focus:border-red-600 invalid:focus:text-red-600",
+          "rounded-2xl p-2.5 border-4 border-blue-300 w-full focus:border-green-400 focus:outline-0 transition-colors  invalid:focus:border-red-600 invalid:focus:text-red-600",
           classNameInput
         )}
       />

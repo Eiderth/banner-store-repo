@@ -1,8 +1,11 @@
+import type { products } from "../Aplication";
+
 type Props = {
-  headers: string[];
+  headers: (keyof products)[];
+  data?: products[];
 };
 
-export default function Banner({ headers }: Props) {
+export default function Banner({ headers, data }: Props) {
   return (
     <table className="table-fixed rounded-3xl border-4 border-separate border-spacing-0 border-blue-400 p-1">
       <thead>
@@ -17,7 +20,21 @@ export default function Banner({ headers }: Props) {
           ))}
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        {data?.map((props, keyRow) => (
+          <tr key={keyRow}>
+            {headers.map((key) => (
+              <td key={`${key}-${keyRow}`} className="text-center">
+                {typeof props[key] === "boolean"
+                  ? props[key]
+                    ? "Si"
+                    : "No"
+                  : props[key]}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 }
