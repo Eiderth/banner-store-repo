@@ -4,9 +4,7 @@ import FormProduct from "./components-secondary/FormProduct";
 import { useState } from "react";
 import type { formData } from "./components-secondary/FormProduct";
 
-export type products = {
-  precio: string;
-} & formData;
+export type products = formData & { precio: string };
 
 export default function Aplication() {
   const [product, setProduct] = useState<products[]>([]);

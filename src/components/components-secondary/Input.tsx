@@ -4,9 +4,15 @@ import type { ComponentProps } from "react";
 type Props = {
   className?: string;
   classNameInput?: string;
+  invalid?: boolean;
 } & ComponentProps<"input">;
 
-export default function Input({ className, classNameInput, ...props }: Props) {
+export default function Input({
+  className,
+  classNameInput,
+  invalid,
+  ...props
+}: Props) {
   return (
     <label
       htmlFor={props.id}
@@ -15,11 +21,13 @@ export default function Input({ className, classNameInput, ...props }: Props) {
         className
       )}
     >
-      <span className={"pl-2.5"}>{props.id}</span>
+      <span className={"pl-2.5"}>{props.name}</span>
       <input
         {...props}
         className={twMerge(
-          "rounded-2xl p-2.5 border-4 border-blue-300 w-full focus:border-green-400 focus:outline-0 transition-colors  invalid:focus:border-red-600 invalid:focus:text-red-600",
+          `rounded-2xl p-2.5 border-4 border-blue-300 w-full outline-0 transition-colors ${
+            invalid ? "border-red-500" : ""
+          }`,
           classNameInput
         )}
       />
