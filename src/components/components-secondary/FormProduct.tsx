@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { ChangeEvent } from "react";
 import Form from "./Form";
 import Input from "./Input";
@@ -10,6 +10,7 @@ export type formData = {
   unidades: string;
   porcentaje: string;
   iva: boolean;
+  precio?: string;
 };
 
 type Props = {
@@ -17,40 +18,29 @@ type Props = {
 };
 
 export default function FormProduct({ onClick }: Props) {
-  const [data, setData] = useState({
+  const [data, setData] = useState<formData>({
     producto: "",
     costo: "",
     unidades: "",
     porcentaje: "",
     iva: false,
   });
-
   const [invalid, setInvalid] = useState({
     producto: false,
     costo: false,
     unidades: false,
     porcentaje: false,
   });
-
   const [disabled, setDisabled] = useState(true);
 
-  useEffect(() => {
-    const isInvalid = Object.values(invalid).some((value) => value);
+  const handleChangue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const setSetInvalid = (name: string, value: boolean) => {
+      setInvalid((prevInvalid) => ({
+        ...prevInvalid,
+        [name]: value,
+      }));
+    };
 
-    const isEmptyField =
-      !data.producto || !data.costo || !data.unidades || !data.porcentaje;
-
-    setDisabled(isInvalid || isEmptyField);
-  }, [invalid, data]);
-
-  const setSetInvalid = (name: string, value: boolean) => {
-    setInvalid((prevInvalid) => ({
-      ...prevInvalid,
-      [name]: value,
-    }));
-  };
-
-  const handleChangue = (e: ChangeEvent<HTMLInputElement>) => {
     const { type, name, value, checked } = e.target;
     const lowerName = name.toLowerCase() as keyof formData;
     setSetInvalid(lowerName, false);
@@ -62,7 +52,7 @@ export default function FormProduct({ onClick }: Props) {
 
     if (type === "text") {
       const newValue = value.toUpperCase();
-      if (newValue.length > 15 || /[^a-zA-Z ]/.test(newValue)) {
+      if (newValue.length > 20 || /[^a-zA-Z ]/.test(newValue)) {
         setSetInvalid(lowerName, true);
       }
 
@@ -88,7 +78,35 @@ export default function FormProduct({ onClick }: Props) {
         setData((prevData) => ({ ...prevData, [lowerName]: value }));
       }
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const isInvalid = Object.values(invalid).some((value) => value);
+
+    const isEmptyField =
+      !data.producto || !data.costo || !data.unidades || !data.porcentaje;
+
+    setDisabled(isInvalid || isEmptyField);
+  }, [invalid, data]);
+
+  const handleClick = useCallback(() => {
+    const newData = {
+      ...data,
+      precio: (Number(data.costo) / Number(data.unidades)).toFixed(2),
+    };
+
+    onClick(newData);
+
+    const initialData = {
+      producto: "",
+      costo: "",
+      unidades: "",
+      porcentaje: "",
+      iva: false,
+    };
+
+    setData(initialData);
+  }, [data, onClick]);
 
   return (
     <Form title="Formulario de Productos">
@@ -146,7 +164,7 @@ export default function FormProduct({ onClick }: Props) {
       <Btn
         text="Agregar"
         type="button"
-        onClick={() => onClick(data)}
+        onClick={handleClick}
         className="col-span-full disabled:bg-gray-500"
         disabled={disabled}
       />
