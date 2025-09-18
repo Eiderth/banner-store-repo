@@ -8,7 +8,7 @@ export type products = {
   producto: string;
   costo: number;
   unidades: number;
-  porcentaje: number;
+  ganancia: number;
   iva: number;
   precio: number;
 };
@@ -21,28 +21,29 @@ export default function Aplication() {
   }, []);
   const products = useMemo(
     () =>
-      productsProps.map((item) => ({
-        producto: item.producto,
-        costo: Number(item.costo),
-        unidades: Number(item.unidades),
-        porcentaje: Number(
-          (Number(item.costo) * (Number(item.porcentaje) / 100)).toFixed(2)
-        ),
-        iva: item.iva
-          ? Number(
-              (
-                ((Number(item.costo) * (Number(item.porcentaje) / 100 + 1)) /
-                  Number(item.unidades)) *
-                0.16
-              ).toFixed(2)
-            )
-          : 0,
-        precio:
-          (Number(item.costo) * (Number(item.porcentaje) / 100 + 1)) /
-          Number(item.unidades),
-      })),
+      productsProps.map((item) => {
+        const costoNum = Number(item.costo);
+        const unidadesNum = Number(item.unidades);
+        const porcentajeNum = Number(item.porcentaje);
+
+        const precioPorUnidad =
+          (costoNum * (1 + porcentajeNum / 100)) / unidadesNum;
+
+        const ganancia = Number((costoNum * (porcentajeNum / 100)).toFixed(2));
+        const iva = item.iva ? Number((precioPorUnidad * 0.16).toFixed(2)) : 0;
+        const precioFinal = Number(precioPorUnidad.toFixed(2));
+
+        return {
+          producto: item.producto,
+          costo: costoNum,
+          unidades: unidadesNum,
+          ganancia: ganancia,
+          iva: iva,
+          precio: precioFinal,
+        };
+      }),
     [productsProps]
-  ); 
+  );
 
   const handleDelete = useCallback((indexToDelete: number) => {
     setProductsProps((prevProducts) =>
@@ -65,7 +66,7 @@ export default function Aplication() {
       />
       <Banner
         title="Porcentaje"
-        headers={["producto", "porcentaje"]}
+        headers={["producto", "ganancia"]}
         data={products}
         sign={{ porcentaje: "$" }}
       />
@@ -84,13 +85,11 @@ export default function Aplication() {
       <Banner
         className="col-span-full"
         title="Preio Final"
-        headers={["producto", "costo", "porcentaje", "iva", "precio"]}
+        headers={["producto", "costo", "ganancia", "iva", "precio"]}
         data={products}
-        // sign={{ iva: "$" }}
       />
     </section>
   );
 }
 
 //Sigue asi campeon vas avanzando
-//Recordar añadir  propiedad precio base y ganacias

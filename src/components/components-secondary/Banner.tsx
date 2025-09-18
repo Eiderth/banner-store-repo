@@ -1,6 +1,4 @@
 import { twMerge } from "tailwind-merge";
-import type { products } from "../Aplication";
-import type { formData } from "./FormProduct";
 
 const signInitial = { iva: "", precio: "", costo: "", porcentaje: "" };
 type sign = {
@@ -10,16 +8,17 @@ type sign = {
   porcentaje?: string;
 };
 
-type Props = {
-  headers: (keyof products)[] | (keyof formData)[];
-  data: products[] | formData[];
+type Props<T> = {
+  headers: (keyof T)[];
+  data: T[];
   title: string;
   sign?: sign;
   className?: string;
   classNameTable?: string;
   onDelete?: (index: number) => void;
 };
-export default function Banner({
+
+export default function Banner<T extends Record<string, any>>({
   headers,
   data,
   title,
@@ -27,7 +26,7 @@ export default function Banner({
   className,
   classNameTable,
   onDelete,
-}: Props) {
+}: Props<T>) {
   const finalSign = { ...signInitial, ...sign };
   const { iva, precio = "$", costo = "$", porcentaje = "%" } = finalSign;
 
@@ -51,10 +50,12 @@ export default function Banner({
           <tr>
             {headers.map((header) => (
               <th
-                key={header}
+                key={header as string} // Hacemos un type assertion aquí
                 className="p-0.5 text-xs font-bold text-balance break-words text-center md:p-2"
               >
-                {header === "porcentaje" ? "%" : header.toUpperCase()}
+                {header === "porcentaje"
+                  ? "%"
+                  : (header as string).toUpperCase()}
               </th>
             ))}
           </tr>
@@ -64,14 +65,15 @@ export default function Banner({
             <tr key={keyRow}>
               {headers.map((key) => (
                 <td
-                  key={`${key}-${keyRow}`}
+                  key={`${String(key)}-${keyRow}`}
                   className="text-center font-semibold text-xs"
                 >
+                  {/* Ahora 'props[key]' es seguro porque T[keyof T] es válido */}
                   {typeof props[key] === "boolean"
                     ? props[key]
                       ? "Si"
                       : "No"
-                    : props[key]}
+                    : String(props[key])}
                   {(key === "iva" && iva) ||
                     (key === "costo" && `${costo}`) ||
                     (key === "precio" && `${precio}`) ||

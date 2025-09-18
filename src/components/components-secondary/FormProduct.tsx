@@ -69,6 +69,7 @@ export default function FormProduct({ onClick }: Props) {
           setSetInvalid(lowerName, true);
         }
         setData((prevData) => ({ ...prevData, [lowerName]: value }));
+        return;
       }
 
       if (lowerName === "unidades") {
@@ -76,6 +77,7 @@ export default function FormProduct({ onClick }: Props) {
           setSetInvalid(lowerName, true);
         }
         setData((prevData) => ({ ...prevData, [lowerName]: value }));
+        return;
       }
     }
   }, []);
