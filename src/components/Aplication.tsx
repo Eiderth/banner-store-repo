@@ -2,46 +2,41 @@ import Banner from "./components-secondary/Banner";
 import FormProduct from "./components-secondary/FormProduct";
 import { useMemo, useCallback, useState } from "react";
 
-import type { formData } from "./components-secondary/FormProduct";
+import type { FormData, Products } from "../types";
 
-export type products = {
-  producto: string;
-  costo: number;
-  unidades: number;
-  ganancia: number;
-  iva: number;
-  precio: number;
-};
+function calculateProductMetrics(item: FormData): Products {
+  const costoNum = Number(item.costo);
+  const unidadesNum = Number(item.unidades);
+  const porcentajeNum = Number(item.porcentaje);
+
+  const precioPorUnidad = (costoNum * (1 + porcentajeNum / 100)) / unidadesNum;
+  const ganancia = Number((costoNum * (porcentajeNum / 100)).toFixed(2));
+  const iva = item.iva ? Number((precioPorUnidad * 0.16).toFixed(2)) : 0;
+  const precioFinal = Number((precioPorUnidad + iva).toFixed(2)); // Corregido para incluir el IVA
+
+  return {
+    producto: item.producto,
+    costo: costoNum,
+    unidades: unidadesNum,
+    ganancia,
+    iva,
+    precio: precioFinal,
+  };
+}
 
 export default function Aplication() {
-  const [productsProps, setProductsProps] = useState<formData[]>([]);
+  const [productsProps, setProductsProps] = useState<FormData[]>([]);
 
-  const handleClick = useCallback((data: formData) => {
-    setProductsProps((prevProduct) => [...prevProduct, data]);
+  const handleClick = useCallback((data: Omit<FormData, "precio">) => {
+    const newData: FormData = {
+      ...data,
+      precio: (Number(data.costo) / Number(data.unidades)).toFixed(2),
+    };
+    setProductsProps((prevProduct) => [...prevProduct, newData]);
   }, []);
-  const products = useMemo(
-    () =>
-      productsProps.map((item) => {
-        const costoNum = Number(item.costo);
-        const unidadesNum = Number(item.unidades);
-        const porcentajeNum = Number(item.porcentaje);
 
-        const precioPorUnidad =
-          (costoNum * (1 + porcentajeNum / 100)) / unidadesNum;
-
-        const ganancia = Number((costoNum * (porcentajeNum / 100)).toFixed(2));
-        const iva = item.iva ? Number((precioPorUnidad * 0.16).toFixed(2)) : 0;
-        const precioFinal = Number(precioPorUnidad.toFixed(2));
-
-        return {
-          producto: item.producto,
-          costo: costoNum,
-          unidades: unidadesNum,
-          ganancia: ganancia,
-          iva: iva,
-          precio: precioFinal,
-        };
-      }),
+  const products: Products[] = useMemo(
+    () => productsProps.map(calculateProductMetrics),
     [productsProps]
   );
 

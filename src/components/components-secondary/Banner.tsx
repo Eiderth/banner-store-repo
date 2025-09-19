@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 
-const signInitial = { iva: "", precio: "", costo: "", porcentaje: "" };
-type sign = {
+const defaultSign = { iva: "", precio: "$", costo: "$", porcentaje: "%" };
+type Sign = {
   iva?: string;
   costo?: string;
   precio?: string;
@@ -12,7 +12,7 @@ type Props<T> = {
   headers: (keyof T)[];
   data: T[];
   title: string;
-  sign?: sign;
+  sign?: Sign;
   className?: string;
   classNameTable?: string;
   onDelete?: (index: number) => void;
@@ -22,13 +22,12 @@ export default function Banner<T extends Record<string, any>>({
   headers,
   data,
   title,
-  sign = signInitial,
+  sign = {},
   className,
   classNameTable,
   onDelete,
 }: Props<T>) {
-  const finalSign = { ...signInitial, ...sign };
-  const { iva, precio = "$", costo = "$", porcentaje = "%" } = finalSign;
+  const finalSign = { ...defaultSign, ...sign };
 
   return (
     <div
@@ -50,7 +49,7 @@ export default function Banner<T extends Record<string, any>>({
           <tr>
             {headers.map((header) => (
               <th
-                key={header as string} // Hacemos un type assertion aquí
+                key={header as string}
                 className="p-0.5 text-xs font-bold text-balance break-words text-center md:p-2"
               >
                 {header === "porcentaje"
@@ -68,16 +67,13 @@ export default function Banner<T extends Record<string, any>>({
                   key={`${String(key)}-${keyRow}`}
                   className="text-center font-semibold text-xs"
                 >
-                  {/* Ahora 'props[key]' es seguro porque T[keyof T] es válido */}
                   {typeof props[key] === "boolean"
                     ? props[key]
                       ? "Si"
                       : "No"
-                    : String(props[key])}
-                  {(key === "iva" && iva) ||
-                    (key === "costo" && `${costo}`) ||
-                    (key === "precio" && `${precio}`) ||
-                    (key === "porcentaje" && `${porcentaje}`)}
+                    : `${String(props[key])}${
+                        finalSign[key as keyof Sign] ?? ""
+                      }`}
                 </td>
               ))}
               {onDelete && (

@@ -4,21 +4,13 @@ import Form from "./Form";
 import Input from "./Input";
 import Btn from "./Btn";
 
-export type formData = {
-  producto: string;
-  costo: string;
-  unidades: string;
-  porcentaje: string;
-  iva: boolean;
-  precio?: string;
-};
-
+import type { FormData } from "../../types";
 type Props = {
-  onClick: (data: formData) => void;
+  onClick: (data: Omit<FormData, "precio">) => void;
 };
 
 export default function FormProduct({ onClick }: Props) {
-  const [data, setData] = useState<formData>({
+  const [data, setData] = useState({
     producto: "",
     costo: "",
     unidades: "",
@@ -42,7 +34,7 @@ export default function FormProduct({ onClick }: Props) {
     };
 
     const { type, name, value, checked } = e.target;
-    const lowerName = name.toLowerCase() as keyof formData;
+    const lowerName = name.toLowerCase() as keyof FormData;
     setSetInvalid(lowerName, false);
 
     if (type === "checkbox") {
@@ -92,12 +84,7 @@ export default function FormProduct({ onClick }: Props) {
   }, [invalid, data]);
 
   const handleClick = useCallback(() => {
-    const newData = {
-      ...data,
-      precio: (Number(data.costo) / Number(data.unidades)).toFixed(2),
-    };
-
-    onClick(newData);
+    onClick(data);
 
     const initialData = {
       producto: "",
