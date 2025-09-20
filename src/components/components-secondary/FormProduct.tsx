@@ -1,101 +1,115 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useReducer } from "react";
 import type { ChangeEvent } from "react";
+import type { FormData } from "../../types";
 import Form from "./Form";
 import Input from "./Input";
 import Btn from "./Btn";
 
-import type { FormData } from "../../types";
+const initialData: Omit<FormData, "precio"> = {
+  producto: "",
+  costo: "",
+  unidades: "",
+  porcentaje: "",
+  iva: false,
+};
+
+type ActionData =
+  | {
+      type: "FIELD_SET";
+      fieldName: string;
+      value: string | boolean;
+    }
+  | { type: "FIELD_RESET" };
+
+const reducer = (state: Omit<FormData, "precio">, action: ActionData) => {
+  switch (action.type) {
+    case "FIELD_SET": {
+      return { ...state, [action.fieldName]: action.value };
+    }
+    case "FIELD_RESET": {
+      return initialData;
+    }
+  }
+};
+
+const validate = (
+  name: keyof Omit<FormData, "precio" | "iva">,
+  value: string
+): boolean => {
+  switch (name) {
+    case "producto": {
+      const newValue = value.toUpperCase();
+      return newValue.length > 20 || /[^a-zA-Z ]/.test(newValue);
+    }
+    case "costo":
+      return !/^\d*\.?\d*$/.test(value);
+
+    case "unidades":
+      return !/^\d*$/.test(value);
+
+    case "porcentaje":
+      return !/^\d*\.?\d*$/.test(value);
+  }
+};
+
 type Props = {
   onClick: (data: Omit<FormData, "precio">) => void;
 };
 
 export default function FormProduct({ onClick }: Props) {
-  const [data, setData] = useState({
-    producto: "",
-    costo: "",
-    unidades: "",
-    porcentaje: "",
-    iva: false,
-  });
+  const [stateData, dispathData] = useReducer(reducer, initialData);
+
   const [invalid, setInvalid] = useState({
     producto: false,
     costo: false,
     unidades: false,
     porcentaje: false,
   });
+
   const [disabled, setDisabled] = useState(true);
 
   const handleChangue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const setSetInvalid = (name: string, value: boolean) => {
-      setInvalid((prevInvalid) => ({
-        ...prevInvalid,
-        [name]: value,
-      }));
-    };
-
-    const { type, name, value, checked } = e.target;
-    const lowerName = name.toLowerCase() as keyof FormData;
-    setSetInvalid(lowerName, false);
+    const { name, type, value, checked } = e.target;
+    const fieldName = name.toLowerCase() as keyof Omit<FormData, "precio">;
 
     if (type === "checkbox") {
-      setData((prevData) => ({ ...prevData, [lowerName]: checked }));
+      dispathData({ type: "FIELD_SET", fieldName: fieldName, value: checked });
       return;
     }
 
-    if (type === "text") {
-      const newValue = value.toUpperCase();
-      if (newValue.length > 20 || /[^a-zA-Z ]/.test(newValue)) {
-        setSetInvalid(lowerName, true);
-      }
+    setInvalid((prevInvalid) => ({
+      ...prevInvalid,
+      [fieldName]: validate(
+        fieldName as keyof Omit<FormData, "precio" | "iva">,
+        value
+      ),
+    }));
 
-      setData((prevData) => ({
-        ...prevData,
-        [lowerName]: newValue,
-      }));
-      return;
-    }
-
-    if (type === "number") {
-      if (lowerName === "costo" || lowerName === "porcentaje") {
-        if (!/^\d*\.?\d*$/.test(value)) {
-          setSetInvalid(lowerName, true);
-        }
-        setData((prevData) => ({ ...prevData, [lowerName]: value }));
-        return;
-      }
-
-      if (lowerName === "unidades") {
-        if (!/^\d*$/.test(value)) {
-          setSetInvalid(lowerName, true);
-        }
-        setData((prevData) => ({ ...prevData, [lowerName]: value }));
-        return;
-      }
-    }
+    dispathData({
+      type: "FIELD_SET",
+      fieldName: fieldName,
+      value: type === "text" ? value.toUpperCase() : value,
+    });
   }, []);
 
   useEffect(() => {
-    const isInvalid = Object.values(invalid).some((value) => value);
+    const isInvalid = Object.values(invalid).some((item) => item);
 
-    const isEmptyField =
-      !data.producto || !data.costo || !data.unidades || !data.porcentaje;
+    const emptyField =
+      !stateData.producto ||
+      !stateData.costo ||
+      !stateData.unidades ||
+      !stateData.porcentaje;
 
-    setDisabled(isInvalid || isEmptyField);
-  }, [invalid, data]);
+    setDisabled(isInvalid || emptyField);
+  }, [stateData]);
 
   const handleClick = useCallback(() => {
-    onClick(data);
-
-    const initialData = {
-      producto: "",
-      costo: "",
-      unidades: "",
-      porcentaje: "",
-      iva: false,
-    };
-
-    setData(initialData);
-  }, [data, onClick]);
+    const newState = { ...stateData, producto: stateData.producto.trim() };
+    console.log(newState);
+    onClick(newState);
+    dispathData({ type: "FIELD_RESET" });
+  }, [onClick, stateData]);
 
   return (
     <Form title="Formulario de Productos">
@@ -105,7 +119,7 @@ export default function FormProduct({ onClick }: Props) {
         type="text"
         placeholder="Ejemplo: Harina"
         required
-        value={data.producto}
+        value={stateData.producto}
         onChange={handleChangue}
         invalid={invalid.producto}
       />
@@ -116,7 +130,7 @@ export default function FormProduct({ onClick }: Props) {
         placeholder="$"
         required
         step="any"
-        value={data.costo}
+        value={stateData.costo}
         onChange={handleChangue}
         invalid={invalid.costo}
       />
@@ -126,7 +140,7 @@ export default function FormProduct({ onClick }: Props) {
         type="number"
         placeholder="Cantidad de unidades"
         required
-        value={data.unidades}
+        value={stateData.unidades}
         onChange={handleChangue}
         invalid={invalid.unidades}
       />
@@ -136,7 +150,7 @@ export default function FormProduct({ onClick }: Props) {
         type="number"
         placeholder="%"
         step="any"
-        value={data.porcentaje}
+        value={stateData.porcentaje}
         onChange={handleChangue}
         invalid={invalid.porcentaje}
       />
@@ -145,7 +159,7 @@ export default function FormProduct({ onClick }: Props) {
         id="Iva"
         type="checkbox"
         placeholder="%"
-        checked={data.iva}
+        checked={stateData.iva}
         onChange={handleChangue}
         className="col-span-full pl-1 gap-2 flex-row items-center mb-5"
         classNameInput="w-auto"

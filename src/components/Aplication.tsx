@@ -7,12 +7,13 @@ import type { FormData, Products } from "../types";
 function calculateProductMetrics(item: FormData): Products {
   const costoNum = Number(item.costo);
   const unidadesNum = Number(item.unidades);
-  const porcentajeNum = Number(item.porcentaje);
+  const porcentajeNum = Number(item.porcentaje) / 100;
 
-  const precioPorUnidad = (costoNum * (1 + porcentajeNum / 100)) / unidadesNum;
-  const ganancia = Number((costoNum * (porcentajeNum / 100)).toFixed(2));
-  const iva = item.iva ? Number((precioPorUnidad * 0.16).toFixed(2)) : 0;
-  const precioFinal = Number((precioPorUnidad + iva).toFixed(2)); // Corregido para incluir el IVA
+  const precioPorUnidad = (costoNum * (1 + porcentajeNum) * 1.16) / unidadesNum;
+  const ganancia = Number((costoNum * porcentajeNum).toFixed(2));
+  const iva = item.iva
+    ? Number((costoNum * (1 + porcentajeNum) * 0.16).toFixed(2))
+    : 0;
 
   return {
     producto: item.producto,
@@ -20,7 +21,7 @@ function calculateProductMetrics(item: FormData): Products {
     unidades: unidadesNum,
     ganancia,
     iva,
-    precio: precioFinal,
+    precio: precioPorUnidad,
   };
 }
 
