@@ -5,12 +5,14 @@ type Props = {
   className?: string;
   classNameInput?: string;
   invalid?: boolean;
+  label: string;
 } & ComponentProps<"input">;
 
 export default function Input({
   className,
   classNameInput,
   invalid,
+  label,
   ...props
 }: Props) {
   return (
@@ -21,7 +23,7 @@ export default function Input({
         className
       )}
     >
-      <span className={"pl-2.5"}>{props.name}</span>
+      <span className={"pl-2.5"}>{label}</span>
       <input
         {...props}
         className={twMerge(

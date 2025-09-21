@@ -8,19 +8,23 @@ function calculateProductMetrics(item: FormData): Products {
   const costoNum = Number(item.costo);
   const unidadesNum = Number(item.unidades);
   const porcentajeNum = Number(item.porcentaje) / 100;
+  const precio_base = Number(item.precio);
 
-  const precioPorUnidad = (costoNum * (1 + porcentajeNum) * 1.16) / unidadesNum;
+  let precioPorUnidad = (costoNum * (1 + porcentajeNum)) / unidadesNum;
   const ganancia = Number((costoNum * porcentajeNum).toFixed(2));
   const iva = item.iva
-    ? Number((costoNum * (1 + porcentajeNum) * 0.16).toFixed(2))
+    ? Number(
+        (((costoNum * (1 + porcentajeNum)) / unidadesNum) * 0.16).toFixed(2)
+      )
     : 0;
-
+  precioPorUnidad += iva;
   return {
     producto: item.producto,
     costo: costoNum,
     unidades: unidadesNum,
     ganancia,
     iva,
+    precio_base,
     precio: precioPorUnidad,
   };
 }
@@ -61,16 +65,10 @@ export default function Aplication() {
         onDelete={handleDelete}
       />
       <Banner
-        title="Porcentaje"
+        title="porcentaje"
         headers={["producto", "ganancia"]}
         data={products}
         sign={{ porcentaje: "$" }}
-      />
-      <Banner
-        title="Precio base"
-        headers={["producto", "precio"]}
-        data={productsProps}
-        sign={{ precio: "$" }}
       />
       <Banner
         title="Iva"
@@ -79,10 +77,25 @@ export default function Aplication() {
         sign={{ iva: "$" }}
       />
       <Banner
+        title="Precio base"
+        headers={["producto", "precio"]}
+        data={productsProps}
+        sign={{ precio: "$" }}
+      />
+      <Banner
+        title="Precio final"
+        headers={["producto", "precio"]}
+        data={products}
+        sign={{ precio: "$$" }}
+      />
+      <Banner
         className="col-span-full"
         title="Preio Final"
-        headers={["producto", "costo", "ganancia", "iva", "precio"]}
-        data={products}
+        headers={["producto", "precio_base", "ganancia", "iva", "precio"]}
+        data={products.map((item) => ({
+          ...item,
+          ganancia: item.ganancia / item.unidades,
+        }))}
       />
     </section>
   );

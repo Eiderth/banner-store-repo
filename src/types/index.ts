@@ -4,6 +4,7 @@ export type Products = {
   unidades: number;
   ganancia: number;
   iva: number;
+  precio_base: number;
   precio: number;
 };
 export type FormData = {
@@ -12,5 +13,5 @@ export type FormData = {
   unidades: string;
   porcentaje: string;
   iva: boolean;
-  precio?: string;
+  precio: string;
 };

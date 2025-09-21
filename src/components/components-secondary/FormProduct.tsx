@@ -70,24 +70,21 @@ export default function FormProduct({ onClick }: Props) {
 
   const handleChangue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, type, value, checked } = e.target;
-    const fieldName = name.toLowerCase() as keyof Omit<FormData, "precio">;
+    name as keyof Omit<FormData, "precio">;
 
     if (type === "checkbox") {
-      dispathData({ type: "FIELD_SET", fieldName: fieldName, value: checked });
+      dispathData({ type: "FIELD_SET", fieldName: name, value: checked });
       return;
     }
 
     setInvalid((prevInvalid) => ({
       ...prevInvalid,
-      [fieldName]: validate(
-        fieldName as keyof Omit<FormData, "precio" | "iva">,
-        value
-      ),
+      [name]: validate(name as keyof Omit<FormData, "precio" | "iva">, value),
     }));
 
     dispathData({
       type: "FIELD_SET",
-      fieldName: fieldName,
+      fieldName: name,
       value: type === "text" ? value.toUpperCase() : value,
     });
   }, []);
@@ -114,8 +111,9 @@ export default function FormProduct({ onClick }: Props) {
   return (
     <Form title="Formulario de Productos">
       <Input
-        name="Producto"
-        id="Producto"
+        label="Producto"
+        name="producto"
+        id="producto"
         type="text"
         placeholder="Ejemplo: Harina"
         required
@@ -124,8 +122,9 @@ export default function FormProduct({ onClick }: Props) {
         invalid={invalid.producto}
       />
       <Input
-        name="Costo"
-        id="Costo"
+        label="Costo Total"
+        name="costo"
+        id="costo"
         type="number"
         placeholder="$"
         required
@@ -135,8 +134,9 @@ export default function FormProduct({ onClick }: Props) {
         invalid={invalid.costo}
       />
       <Input
-        name="Unidades"
-        id="Unidades"
+        label="Cant Unidades"
+        name="unidades"
+        id="unidades"
         type="number"
         placeholder="Cantidad de unidades"
         required
@@ -145,8 +145,9 @@ export default function FormProduct({ onClick }: Props) {
         invalid={invalid.unidades}
       />
       <Input
-        name="Porcentaje"
-        id="Porcentaje"
+        label="Porcentaje de Ganancia"
+        name="porcentaje"
+        id="porcentaje"
         type="number"
         placeholder="%"
         step="any"
@@ -155,8 +156,9 @@ export default function FormProduct({ onClick }: Props) {
         invalid={invalid.porcentaje}
       />
       <Input
-        name="Iva"
-        id="Iva"
+        label="Iva"
+        name="iva"
+        id="iva"
         type="checkbox"
         placeholder="%"
         checked={stateData.iva}
