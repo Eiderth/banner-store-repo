@@ -1,15 +1,25 @@
 import { twMerge } from "tailwind-merge";
 
-const defaultSign = { iva: "", precio: "$", costo: "$", porcentaje: "%" };
+const defaultSign = {
+  iva: "",
+  precio_base: "$",
+  precio: "$",
+  costo: "$",
+  porcentaje: "%",
+  ganancia: "$",
+};
 type Sign = {
   iva?: string;
   costo?: string;
   precio?: string;
   porcentaje?: string;
+  ganancia?: string;
+  precio_base?: string;
 };
 
 type Props<T> = {
-  headers: (keyof T)[];
+  headers: string[];
+  keys: (keyof T)[];
   data: T[];
   title: string;
   sign?: Sign;
@@ -20,6 +30,7 @@ type Props<T> = {
 
 export default function Banner<T extends Record<string, any>>({
   headers,
+  keys,
   data,
   title,
   sign = {},
@@ -49,12 +60,10 @@ export default function Banner<T extends Record<string, any>>({
           <tr>
             {headers.map((header) => (
               <th
-                key={header as string}
+                key={header}
                 className="p-0.5 text-xs font-bold text-balance break-words text-center md:p-2"
               >
-                {header === "porcentaje"
-                  ? "%"
-                  : (header as string).toUpperCase()}
+                {header === "porcentaje" ? "%" : header.toUpperCase()}
               </th>
             ))}
           </tr>
@@ -62,10 +71,10 @@ export default function Banner<T extends Record<string, any>>({
         <tbody>
           {data?.map((props, keyRow) => (
             <tr key={keyRow}>
-              {headers.map((key) => (
+              {keys.map((key) => (
                 <td
                   key={`${String(key)}-${keyRow}`}
-                  className="text-center font-semibold text-xs"
+                  className="text-center font-medium text-xs"
                 >
                   {typeof props[key] === "boolean"
                     ? props[key]

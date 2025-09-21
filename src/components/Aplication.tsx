@@ -10,7 +10,9 @@ function calculateProductMetrics(item: FormData): Products {
   const porcentajeNum = Number(item.porcentaje) / 100;
   const precio_base = Number(item.precio);
 
-  let precioPorUnidad = (costoNum * (1 + porcentajeNum)) / unidadesNum;
+  let precioPorUnidad = Number(
+    ((costoNum * (1 + porcentajeNum)) / unidadesNum).toFixed(2)
+  );
   const ganancia = Number((costoNum * porcentajeNum).toFixed(2));
   const iva = item.iva
     ? Number(
@@ -61,40 +63,47 @@ export default function Aplication() {
         classNameTable="border-spacing-1"
         title="Datos"
         headers={["producto", "costo", "unidades", "porcentaje", "iva"]}
+        keys={["producto", "costo", "unidades", "porcentaje", "iva"]}
         data={productsProps}
         onDelete={handleDelete}
       />
       <Banner
         title="porcentaje"
         headers={["producto", "ganancia"]}
+        keys={["producto", "ganancia"]}
         data={products}
-        sign={{ porcentaje: "$" }}
+        sign={{ ganancia: "$" }}
       />
       <Banner
         title="Iva"
         headers={["producto", "iva"]}
+        keys={["producto", "iva"]}
         data={products}
         sign={{ iva: "$" }}
       />
       <Banner
         title="Precio base"
         headers={["producto", "precio"]}
+        keys={["producto", "precio"]}
         data={productsProps}
         sign={{ precio: "$" }}
       />
       <Banner
         title="Precio final"
         headers={["producto", "precio"]}
+        keys={["producto", "precio"]}
         data={products}
         sign={{ precio: "$$" }}
       />
       <Banner
         className="col-span-full"
         title="Preio Final"
-        headers={["producto", "precio_base", "ganancia", "iva", "precio"]}
+        headers={["producto", "precio base", "ganancia", "iva", "precio"]}
+        keys={["producto", "precio_base", "ganancia", "iva", "precio"]}
+        sign={{ iva: "$" }}
         data={products.map((item) => ({
           ...item,
-          ganancia: item.ganancia / item.unidades,
+          ganancia: Number((item.ganancia / item.unidades).toFixed(2)),
         }))}
       />
     </section>
