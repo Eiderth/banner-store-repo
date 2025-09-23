@@ -12,6 +12,12 @@ const initialData: Omit<FormData, "precio"> = {
   porcentaje: "",
   iva: false,
 };
+const initialInvalid = {
+  producto: false,
+  costo: false,
+  unidades: false,
+  porcentaje: false,
+};
 
 type ActionData =
   | {
@@ -21,7 +27,7 @@ type ActionData =
     }
   | { type: "FIELD_RESET" };
 
-const reducer = (state: Omit<FormData, "precio">, action: ActionData) => {
+const reducerData = (state: Omit<FormData, "precio">, action: ActionData) => {
   switch (action.type) {
     case "FIELD_SET": {
       return { ...state, [action.fieldName]: action.value };
@@ -31,7 +37,15 @@ const reducer = (state: Omit<FormData, "precio">, action: ActionData) => {
     }
   }
 };
-
+const reducerInvalid = (
+  state: typeof initialInvalid,
+  action: { key: keyof typeof initialInvalid; value: string | boolean }
+) => {
+  return {
+    ...state,
+    [action.key]: action.value,
+  };
+};
 const validate = (
   name: keyof Omit<FormData, "precio" | "iva">,
   value: string
@@ -57,30 +71,27 @@ type Props = {
 };
 
 export default function FormProduct({ onClick }: Props) {
-  const [stateData, dispathData] = useReducer(reducer, initialData);
+  const [stateData, dispathData] = useReducer(reducerData, initialData);
 
-  const [invalid, setInvalid] = useState({
-    producto: false,
-    costo: false,
-    unidades: false,
-    porcentaje: false,
-  });
+  const [stateInvalid, dispathInvalid] = useReducer(
+    reducerInvalid,
+    initialInvalid
+  );
 
   const [disabled, setDisabled] = useState(true);
 
   const handleChangue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, type, value, checked } = e.target;
-    name as keyof Omit<FormData, "precio">;
 
     if (type === "checkbox") {
       dispathData({ type: "FIELD_SET", fieldName: name, value: checked });
       return;
     }
 
-    setInvalid((prevInvalid) => ({
-      ...prevInvalid,
-      [name]: validate(name as keyof Omit<FormData, "precio" | "iva">, value),
-    }));
+    dispathInvalid({
+      key: name as keyof typeof initialInvalid,
+      value: validate(name as keyof Omit<FormData, "precio" | "iva">, value),
+    });
 
     dispathData({
       type: "FIELD_SET",
@@ -90,7 +101,7 @@ export default function FormProduct({ onClick }: Props) {
   }, []);
 
   useEffect(() => {
-    const isInvalid = Object.values(invalid).some((item) => item);
+    const isInvalid = Object.values(stateInvalid).some((item) => item);
 
     const emptyField =
       !stateData.producto ||
@@ -103,7 +114,6 @@ export default function FormProduct({ onClick }: Props) {
 
   const handleClick = useCallback(() => {
     const newState = { ...stateData, producto: stateData.producto.trim() };
-    console.log(newState);
     onClick(newState);
     dispathData({ type: "FIELD_RESET" });
   }, [onClick, stateData]);
@@ -119,7 +129,7 @@ export default function FormProduct({ onClick }: Props) {
         required
         value={stateData.producto}
         onChange={handleChangue}
-        invalid={invalid.producto}
+        invalid={stateInvalid.producto}
       />
       <Input
         label="Costo Total"
@@ -131,7 +141,7 @@ export default function FormProduct({ onClick }: Props) {
         step="any"
         value={stateData.costo}
         onChange={handleChangue}
-        invalid={invalid.costo}
+        invalid={stateInvalid.costo}
       />
       <Input
         label="Cant Unidades"
@@ -142,7 +152,7 @@ export default function FormProduct({ onClick }: Props) {
         required
         value={stateData.unidades}
         onChange={handleChangue}
-        invalid={invalid.unidades}
+        invalid={stateInvalid.unidades}
       />
       <Input
         label="Porcentaje de Ganancia"
@@ -153,7 +163,7 @@ export default function FormProduct({ onClick }: Props) {
         step="any"
         value={stateData.porcentaje}
         onChange={handleChangue}
-        invalid={invalid.porcentaje}
+        invalid={stateInvalid.porcentaje}
       />
       <Input
         label="Iva"
