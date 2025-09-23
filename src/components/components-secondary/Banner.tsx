@@ -8,21 +8,13 @@ const defaultSign = {
   porcentaje: "%",
   ganancia: "$",
 };
-type Sign = {
-  iva?: string;
-  costo?: string;
-  precio?: string;
-  porcentaje?: string;
-  ganancia?: string;
-  precio_base?: string;
-};
 
 type Props<T> = {
   headers: string[];
   keys: (keyof T)[];
   data: T[];
   title: string;
-  sign?: Sign;
+  sign?: Partial<typeof defaultSign>;
   className?: string;
   classNameTable?: string;
   onDelete?: (index: number) => void;
@@ -33,7 +25,7 @@ export default function Banner<T extends Record<string, any>>({
   keys,
   data,
   title,
-  sign = {},
+  sign,
   className,
   classNameTable,
   onDelete,
@@ -81,7 +73,7 @@ export default function Banner<T extends Record<string, any>>({
                       ? "Si"
                       : "No"
                     : `${String(props[key])}${
-                        finalSign[key as keyof Sign] ?? ""
+                        finalSign[key as keyof typeof finalSign] ?? ""
                       }`}
                 </td>
               ))}
