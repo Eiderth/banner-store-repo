@@ -15,3 +15,7 @@ export type FormData = {
   iva: boolean;
   precio: string;
 };
+export type Links = {
+  li: string;
+  link: "form" | "data" | "banner";
+};

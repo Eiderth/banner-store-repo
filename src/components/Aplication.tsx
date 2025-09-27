@@ -1,8 +1,8 @@
-import Banner from "./components-secondary/Banner";
 import FormProduct from "./components-secondary/FormProduct";
+import SectionData from "./components-secondary/SectionData";
 import { useMemo, useCallback, useState } from "react";
-
-import type { FormData, Products } from "../types";
+import DashBoard from "./components-secondary/DashBoard";
+import type { FormData, Products, Links } from "../types";
 
 function calculateProductMetrics(item: FormData): Products {
   const costoNum = Number(item.costo);
@@ -30,9 +30,17 @@ function calculateProductMetrics(item: FormData): Products {
     precio: precioPorUnidad,
   };
 }
-
+const liElements: Links[] = [
+  { li: "Formulario", link: "form" },
+  { li: "Datos", link: "data" },
+  { li: "Banner", link: "banner" },
+];
 export default function Aplication() {
   const [productsProps, setProductsProps] = useState<FormData[]>([]);
+
+  const [changueSection, setChangieSection] = useState<
+    "form" | "data" | "banner"
+  >("form");
 
   const handleClick = useCallback((data: Omit<FormData, "precio">) => {
     const newData: FormData = {
@@ -54,59 +62,26 @@ export default function Aplication() {
   }, []);
 
   return (
-    <section className="max-w-screen min-h-screen p-1 sm:p-2.5 grid grid-cols-2 sm:grid-cols-3 place-items-center gap-5">
-      <div className="col-span-full">
-        <FormProduct onClick={handleClick} />
-      </div>
-      <Banner
-        className="p-1 col-span-full max-w-full"
-        classNameTable="border-spacing-1"
-        title="Datos"
-        headers={["producto", "costo", "unidades", "porcentaje", "iva"]}
-        keys={["producto", "costo", "unidades", "porcentaje", "iva"]}
-        data={productsProps}
-        onDelete={handleDelete}
-      />
-      <Banner
-        title="porcentaje"
-        headers={["producto", "ganancia"]}
-        keys={["producto", "ganancia"]}
-        data={products}
-        sign={{ ganancia: "$" }}
-      />
-      <Banner
-        title="Iva"
-        headers={["producto", "iva"]}
-        keys={["producto", "iva"]}
-        data={products}
-        sign={{ iva: "$" }}
-      />
-      <Banner
-        title="Precio base"
-        headers={["producto", "precio"]}
-        keys={["producto", "precio"]}
-        data={productsProps}
-        sign={{ precio: "$" }}
-      />
-      <Banner
-        title="Precio final"
-        headers={["producto", "precio"]}
-        keys={["producto", "precio"]}
-        data={products}
-        sign={{ precio: "$$" }}
-      />
-      <Banner
-        className="col-span-full"
-        title="Preio Final"
-        headers={["producto", "precio base", "ganancia", "iva", "precio"]}
-        keys={["producto", "precio_base", "ganancia", "iva", "precio"]}
-        sign={{ iva: "$" }}
-        data={products.map((item) => ({
-          ...item,
-          ganancia: Number((item.ganancia / item.unidades).toFixed(2)),
-        }))}
-      />
-    </section>
+    <main>
+      <nav className="fixed top-1 right-2.5 min-w-[50%] max-w-fit overflow-hidden rounded-full ">
+        <DashBoard liElements={liElements} changueSection={setChangieSection} />
+      </nav>
+      {changueSection === "form" && (
+        <section className="max-w-screen min-h-screen p-1 sm:p-2.5 grid grid-cols-2 sm:grid-cols-3 place-items-center gap-5">
+          <div className="col-span-full">
+            <FormProduct onClick={handleClick} />
+          </div>
+        </section>
+      )}
+      {changueSection === "data" && (
+        <SectionData
+          handleDelete={handleDelete}
+          products={products}
+          productsProps={productsProps}
+        />
+      )}
+      {changueSection === "banner" && <section>Banner Section</section>}
+    </main>
   );
 }
 
