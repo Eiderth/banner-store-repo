@@ -17,7 +17,7 @@ export default function Aplication() {
 
   return (
     <DataContext>
-      <nav className="fixed top-1 right-2.5 min-w-[50%] max-w-fit overflow-hidden rounded-full ">
+      <nav className="fixed top-2.5 right-2.5 min-w-[50%] max-w-fit overflow-hidden rounded-full ">
         <DashBoard liElements={liElements} changueSection={setChangieSection} />
       </nav>
       <main className="h-full">
