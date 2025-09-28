@@ -16,19 +16,16 @@ export default function Aplication() {
   >("form");
 
   return (
-    <main>
-      <DataContext>
-        <nav className="fixed top-1 right-2.5 min-w-[50%] max-w-fit overflow-hidden rounded-full ">
-          <DashBoard
-            liElements={liElements}
-            changueSection={setChangieSection}
-          />
-        </nav>
+    <DataContext>
+      <nav className="fixed top-1 right-2.5 min-w-[50%] max-w-fit overflow-hidden rounded-full ">
+        <DashBoard liElements={liElements} changueSection={setChangieSection} />
+      </nav>
+      <main className="h-full">
         {changueSection === "form" && <SectionForm />}
         {changueSection === "data" && <SectionData />}
         {changueSection === "banner" && <section>Banner Section</section>}
-      </DataContext>
-    </main>
+      </main>
+    </DataContext>
   );
 }
 
