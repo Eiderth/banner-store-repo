@@ -1,80 +1,33 @@
 import SectionData from "./components-secondary/SectionData";
-import { useMemo, useCallback, useState } from "react";
+import { useState } from "react";
 import DashBoard from "./components-secondary/DashBoard";
-import type { FormData, Products, Links } from "../types";
+import type { Links } from "../types";
 import SectionForm from "./components-secondary/SectionForm";
+import DataContext from "../contexts/DataContext";
 
-function calculateProductMetrics(item: FormData): Products {
-  const costoNum = Number(item.costo);
-  const unidadesNum = Number(item.unidades);
-  const porcentajeNum = Number(item.porcentaje) / 100;
-  const precio_base = Number(item.precio);
-
-  let precioPorUnidad = Number(
-    ((costoNum * (1 + porcentajeNum)) / unidadesNum).toFixed(2)
-  );
-  const ganancia = Number((costoNum * porcentajeNum).toFixed(2));
-  const iva = item.iva
-    ? Number(
-        (((costoNum * (1 + porcentajeNum)) / unidadesNum) * 0.16).toFixed(2)
-      )
-    : 0;
-  precioPorUnidad += iva;
-  return {
-    producto: item.producto,
-    costo: costoNum,
-    unidades: unidadesNum,
-    ganancia,
-    iva,
-    precio_base,
-    precio: precioPorUnidad,
-  };
-}
 const liElements: Links[] = [
   { li: "Formulario", link: "form" },
   { li: "Datos", link: "data" },
   { li: "Banner", link: "banner" },
 ];
 export default function Aplication() {
-  const [productsProps, setProductsProps] = useState<FormData[]>([]);
-
   const [changueSection, setChangieSection] = useState<
     "form" | "data" | "banner"
   >("form");
 
-  const handleClick = useCallback((data: Omit<FormData, "precio">) => {
-    const newData: FormData = {
-      ...data,
-      precio: (Number(data.costo) / Number(data.unidades)).toFixed(2),
-    };
-    setProductsProps((prevProduct) => [...prevProduct, newData]);
-  }, []);
-
-  const products: Products[] = useMemo(
-    () => productsProps.map(calculateProductMetrics),
-    [productsProps]
-  );
-
-  const handleDelete = useCallback((indexToDelete: number) => {
-    setProductsProps((prevProducts) =>
-      prevProducts.filter((_, index) => index !== indexToDelete)
-    );
-  }, []);
-
   return (
     <main>
-      <nav className="fixed top-1 right-2.5 min-w-[50%] max-w-fit overflow-hidden rounded-full ">
-        <DashBoard liElements={liElements} changueSection={setChangieSection} />
-      </nav>
-      {changueSection === "form" && <SectionForm handleClick={handleClick} />}
-      {changueSection === "data" && (
-        <SectionData
-          handleDelete={handleDelete}
-          products={products}
-          productsProps={productsProps}
-        />
-      )}
-      {changueSection === "banner" && <section>Banner Section</section>}
+      <DataContext>
+        <nav className="fixed top-1 right-2.5 min-w-[50%] max-w-fit overflow-hidden rounded-full ">
+          <DashBoard
+            liElements={liElements}
+            changueSection={setChangieSection}
+          />
+        </nav>
+        {changueSection === "form" && <SectionForm />}
+        {changueSection === "data" && <SectionData />}
+        {changueSection === "banner" && <section>Banner Section</section>}
+      </DataContext>
     </main>
   );
 }

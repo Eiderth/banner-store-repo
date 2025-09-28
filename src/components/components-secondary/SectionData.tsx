@@ -1,16 +1,14 @@
+import { useDataContext } from "../../contexts/DataContext";
 import Banner from "./Banner";
-import type { Products, FormData } from "../../types";
-type Props = {
-  productsProps: FormData[];
-  products: Products[];
-  handleDelete: (indexToDelete: number) => void;
-};
+type Props = {};
 
-export default function SectionData({
-  products,
-  productsProps,
-  handleDelete,
-}: Props) {
+export default function SectionData({}: Props) {
+  const {
+    productsProps,
+    deleteProduct: handleDelete,
+    products,
+  } = useDataContext();
+
   return (
     <section className="max-w-screen min-h-screen p-1 sm:p-2.5 grid grid-cols-2 sm:grid-cols-3 place-items-center gap-5">
       <Banner
