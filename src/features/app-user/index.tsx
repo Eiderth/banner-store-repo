@@ -1,9 +1,10 @@
-import SectionData from "./components-secondary/SectionData";
+import SectionData from "./components/SectionData";
+("./components/SectionData");
 import { useState } from "react";
-import DashBoard from "./components-secondary/DashBoard";
-import type { Links } from "../types";
-import SectionForm from "./components-secondary/SectionForm";
-import DataContext from "../contexts/DataContext";
+import DashBoard from "../../components/DashBoard";
+import type { Links } from "../../types";
+import SectionForm from "./components/SectionForm";
+import DataContext from "../../contexts/DataContext";
 
 const liElements: Links[] = [
   { li: "Formulario", link: "form" },

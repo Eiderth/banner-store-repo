@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
-import type { Links } from "../../types";
+import type { Links } from "../types";
 
 type Props = {
   liElements: Links[];

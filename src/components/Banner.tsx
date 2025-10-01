@@ -35,7 +35,7 @@ export default function Banner<T extends Record<string, any>>({
   return (
     <div
       className={twMerge(
-        `box-border rounded-3xl flex flex-col gap-2 border-4  border-blue-400 p-1.5 sm:p-2.5 transition-all max-w-full h-full ${
+        `box-border w-full rounded-3xl flex flex-col gap-2 border-4 border-blue-400 p-1 text-nowrap sm:p-2.5 transition-all max-w-full max-h-[50vh] overflow-y-scroll ${
           data.length === 0 && "hidden"
         }`,
         className
@@ -44,7 +44,7 @@ export default function Banner<T extends Record<string, any>>({
       <h2 className="text-center font-bold text-2xl">{title}</h2>
       <table
         className={twMerge(
-          "w-full border-separate border-spacing-1 sm:border-spacing-2 max-w-full",
+          "w-full border-separate border-spacing-1 border-spacing-y-1.5 sm:border-spacing-2 max-w-full",
           classNameTable
         )}
       >

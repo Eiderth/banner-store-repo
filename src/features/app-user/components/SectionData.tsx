@@ -1,5 +1,5 @@
-import { useDataContext } from "../../contexts/DataContext";
-import Banner from "./Banner";
+import { useDataContext } from "../../../contexts/DataContext";
+import Banner from "../../../components/Banner";
 type Props = {};
 
 export default function SectionData({}: Props) {
@@ -10,10 +10,9 @@ export default function SectionData({}: Props) {
   } = useDataContext();
 
   return (
-    <section className="max-w-screen min-h-screen p-1 sm:p-2.5 grid grid-cols-2 sm:grid-cols-3 place-items-center gap-5">
+    <section className="max-w-screen min-h-fit h-fit p-2 sm:p-2.5 grid grid-cols-2 sm:grid-cols-3 place-items-center gap-5">
       <Banner
-        className="p-1 col-span-full max-w-full"
-        classNameTable="border-spacing-1"
+        className="col-span-full"
         title="Datos"
         headers={["producto", "costo", "unidades", "porcentaje", "iva"]}
         keys={["producto", "costo", "unidades", "porcentaje", "iva"]}
@@ -22,6 +21,7 @@ export default function SectionData({}: Props) {
       />
       <Banner
         title="porcentaje"
+        classNameTable="table-fixed"
         headers={["producto", "ganancia"]}
         keys={["producto", "ganancia"]}
         data={products}
@@ -30,6 +30,7 @@ export default function SectionData({}: Props) {
 
       <Banner
         title="Iva"
+        classNameTable="table-fixed"
         headers={["producto", "iva"]}
         keys={["producto", "iva"]}
         data={products}
@@ -37,6 +38,7 @@ export default function SectionData({}: Props) {
       />
       <Banner
         title="Precio base"
+        classNameTable="table-fixed"
         headers={["producto", "precio"]}
         keys={["producto", "precio"]}
         data={productsProps}
@@ -44,6 +46,7 @@ export default function SectionData({}: Props) {
       />
       <Banner
         title="Precio final"
+        classNameTable="table-fixed"
         headers={["producto", "precio"]}
         keys={["producto", "precio"]}
         data={products}
@@ -51,7 +54,7 @@ export default function SectionData({}: Props) {
       />
       <Banner
         className="col-span-full"
-        title="Preio Final"
+        title="Datos finales"
         headers={["producto", "precio base", "ganancia", "iva", "precio"]}
         keys={["producto", "precio_base", "ganancia", "iva", "precio"]}
         sign={{ iva: "$" }}

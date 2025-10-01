@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback, useReducer } from "react";
 import type { ChangeEvent } from "react";
-import type { FormData } from "../../types";
-import Form from "./Form";
-import Input from "./Input";
-import Btn from "./Btn";
+import type { FormData } from "../../../types";
+import Form from "../../../components/Form";
+import Input from "../../../components/Input";
+import Btn from "../../../components/Btn";
 
 const initialData: Omit<FormData, "precio"> = {
   producto: "",
