@@ -173,8 +173,8 @@ export default function FormProduct({ onClick }: Props) {
         placeholder="%"
         checked={stateData.iva}
         onChange={handleChangue}
-        className="col-span-full pl-1 gap-2 flex-row items-center mb-2"
-        classNameInput="w-auto"
+        className="col-span-full pl-1 gap-2 flex-row items-center mb-2 md:mb-5"
+        classNameInput="w-auto md:h-5 md:w-5"
       />
       <Btn
         text="Agregar"

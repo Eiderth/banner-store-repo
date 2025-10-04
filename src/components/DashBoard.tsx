@@ -15,7 +15,7 @@ export default function DashBoard({
   return (
     <ul
       className={twMerge(
-        "flex gap-2.5 justify-end bg-blue-300 p-2 px-4 w-full",
+        "flex gap-2.5 justify-end bg-blue-300 p-2 px-4 w-full md:py-3 md:gap-5 md:px-6",
         props.className
       )}
       {...props}
@@ -23,7 +23,7 @@ export default function DashBoard({
       {liElements.map((item, idx) => (
         <li
           key={`${item.li}-${idx}`}
-          className="bg-green-400 px-2  rounded-2xl font-medium"
+          className="bg-green-400 px-2 rounded-2xl font-medium md:text-2xl md:p-2 md:px-4"
           onClick={() => changueSection(item.link)}
         >
           <a href={`#${item.link.toLowerCase()}`}>{item.li.toLowerCase()}</a>

@@ -6,8 +6,8 @@ type Props = {
 
 export default function Form({ title, children }: Props) {
   return (
-    <form className="w-fit p-3 border-blue-200 border-4 rounded-2xl grid gap-2 grid-cols-1 md:grid-cols-2">
-      <h1 className="col-span-full text-center pb-1 font-extrabold font-sans text-2xl">
+    <form className="w-fit p-3 border-blue-200 border-4 rounded-2xl grid gap-2 grid-cols-1 md:grid-cols-2 md:gap-5 md:p-5">
+      <h1 className="col-span-full text-center pb-1 font-extrabold font-sans md:text-3xl md:pb-2.5">
         {title}
       </h1>
       {children}
