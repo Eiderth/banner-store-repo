@@ -21,7 +21,7 @@ export default function Aplication() {
       <nav className="fixed top-2.5 right-2.5 min-w-[50%] max-w-fit overflow-hidden rounded-full ">
         <DashBoard liElements={liElements} changueSection={setChangieSection} />
       </nav>
-      <main className="h-full">
+      <main className="min-h-[calc(100vh-50px)] flex flex-col justify-center">
         {changueSection === "form" && <SectionForm />}
         {changueSection === "data" && <SectionData />}
         {changueSection === "banner" && <section>Banner Section</section>}

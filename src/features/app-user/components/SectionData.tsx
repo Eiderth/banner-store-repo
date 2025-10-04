@@ -10,7 +10,7 @@ export default function SectionData({}: Props) {
   } = useDataContext();
 
   return (
-    <section className="max-w-screen min-h-fit h-fit p-2 sm:p-2.5 grid grid-cols-2 sm:grid-cols-3 place-items-center gap-5">
+    <section className="max-w-screen min-h-fit h-fit p-2 grid grid-cols-2 place-items-center gap-x-2 gap-y-4">
       <Banner
         className="col-span-full"
         title="Datos"

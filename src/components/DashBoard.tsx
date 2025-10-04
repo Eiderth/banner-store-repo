@@ -23,7 +23,7 @@ export default function DashBoard({
       {liElements.map((item, idx) => (
         <li
           key={`${item.li}-${idx}`}
-          className="bg-green-400 p-2 rounded-2xl font-medium"
+          className="bg-green-400 px-2  rounded-2xl font-medium"
           onClick={() => changueSection(item.link)}
         >
           <a href={`#${item.link.toLowerCase()}`}>{item.li.toLowerCase()}</a>

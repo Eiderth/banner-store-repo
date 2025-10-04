@@ -6,10 +6,8 @@ export default function SectionForm({}: Props) {
   const { setProductsProps } = useDataContext();
 
   return (
-    <section className="max-w-screen h-full grid grid-cols-2 sm:grid-cols-3 place-items-center gap-5">
-      <div className="col-span-full">
-        <FormProduct onClick={setProductsProps} />
-      </div>
+    <section className="max-w-screen h-full flex flex-col place-items-center p-2">
+      <FormProduct onClick={setProductsProps} />
     </section>
   );
 }

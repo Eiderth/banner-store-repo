@@ -35,16 +35,16 @@ export default function Banner<T extends Record<string, any>>({
   return (
     <div
       className={twMerge(
-        `box-border w-full rounded-3xl flex flex-col gap-2 border-4 border-blue-400 p-1 text-nowrap sm:p-2.5 transition-all max-w-full max-h-[50vh] overflow-y-scroll ${
+        `box-border w-full rounded-3xl flex flex-col gap-2 border-4 border-blue-400 p-1 text-nowrap transition-all max-w-full max-h-[50vh] overflow-y-scroll overflow-x-hidden  ${
           data.length === 0 && "hidden"
         }`,
         className
       )}
     >
-      <h2 className="text-center font-bold text-2xl">{title}</h2>
+      <h2 className="text-center font-bold text-md">{title}</h2>
       <table
         className={twMerge(
-          "w-full border-separate border-spacing-1 border-spacing-y-1.5 sm:border-spacing-2 max-w-full",
+          "w-full border-separate border-spacing-0.5 border-spacing-y-1.5",
           classNameTable
         )}
       >
@@ -53,7 +53,7 @@ export default function Banner<T extends Record<string, any>>({
             {headers.map((header) => (
               <th
                 key={header}
-                className="p-0.5 text-xs font-bold text-balance break-words text-center md:p-2"
+                className="p-0.5 text-[10px] font-medium text-balance text-center"
               >
                 {header === "porcentaje" ? "%" : header.toUpperCase()}
               </th>
