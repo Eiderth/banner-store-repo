@@ -10,9 +10,9 @@ export default function SectionData({}: Props) {
   } = useDataContext();
 
   return (
-    <section className="max-w-screen min-h-fit h-fit p-2 grid grid-cols-2 place-items-center gap-x-2 gap-y-4">
+    <section className="max-w-screen p-2 grid grid-cols-2 place-items-center gap-x-2 gap-y-4 md:grid-cols-4 md:grid-rows-3 h-full">
       <Banner
-        className="col-span-full"
+        className="col-span-full md:col-span-2 md:col-start-1"
         title="Datos"
         headers={["producto", "costo", "unidades", "porcentaje", "iva"]}
         keys={["producto", "costo", "unidades", "porcentaje", "iva"]}
@@ -20,6 +20,7 @@ export default function SectionData({}: Props) {
         onDelete={handleDelete}
       />
       <Banner
+        className="md:row-2 md:col-span-1"
         title="porcentaje"
         classNameTable="table-fixed"
         headers={["producto", "ganancia"]}
@@ -37,6 +38,7 @@ export default function SectionData({}: Props) {
         sign={{ iva: "$" }}
       />
       <Banner
+        className="md:col-1 md:row-3"
         title="Precio base"
         classNameTable="table-fixed"
         headers={["producto", "precio"]}
@@ -45,6 +47,7 @@ export default function SectionData({}: Props) {
         sign={{ precio: "$" }}
       />
       <Banner
+        className="md:col-2 md:row-3"
         title="Precio final"
         classNameTable="table-fixed"
         headers={["producto", "precio"]}
@@ -53,7 +56,7 @@ export default function SectionData({}: Props) {
         sign={{ precio: "$$" }}
       />
       <Banner
-        className="col-span-full"
+        className="col-span-full md:col-span-2 md:col-start-3 md:row-start-1 md:row-span-3"
         title="Datos finales"
         headers={["producto", "precio base", "ganancia", "iva", "precio"]}
         keys={["producto", "precio_base", "ganancia", "iva", "precio"]}

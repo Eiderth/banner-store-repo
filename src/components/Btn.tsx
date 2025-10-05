@@ -10,7 +10,7 @@ export default function Btn({ text, className, ...props }: Props) {
     <button
       {...props}
       className={twMerge(
-        "bg-red-600 text-white p-2.5 rounded-2xl active:scale-90 transition-transform md:text-2xl",
+        "bg-red-600 text-white p-2.5 rounded-2xl active:scale-90 transition-transform md:text-2xl md:p-5",
         className
       )}
     >

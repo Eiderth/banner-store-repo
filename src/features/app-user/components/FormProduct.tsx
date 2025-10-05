@@ -164,6 +164,7 @@ export default function FormProduct({ onClick }: Props) {
         value={stateData.porcentaje}
         onChange={handleChangue}
         invalid={stateInvalid.porcentaje}
+        classNameSpan="md:p-0"
       />
       <Input
         label="Iva"
