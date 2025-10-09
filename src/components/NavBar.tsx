@@ -15,7 +15,7 @@ export default function NavBar({
   return (
     <ul
       className={twMerge(
-        "flex gap-2.5 justify-end bg-blue-300 p-2 px-4 w-full md:py-3 md:gap-5 md:px-6",
+        "flex gap-2.5 justify-end bg-blue-300 p-2 px-4 w-full",
         props.className
       )}
       {...props}
@@ -23,7 +23,7 @@ export default function NavBar({
       {liElements.map((item, idx) => (
         <li
           key={`${item.li}-${idx}`}
-          className="bg-green-400 px-2 rounded-2xl font-medium md:text-2xl md:p-2 md:px-4"
+          className="bg-green-400 px-2 rounded-2xl font-medium"
           onClick={() => changueSection(item.link)}
         >
           <a href={`#${item.link.toLowerCase()}`}>{item.li.toLowerCase()}</a>
