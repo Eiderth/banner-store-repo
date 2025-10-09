@@ -7,7 +7,7 @@ type Props = {
   changueSection: (section: "form" | "data" | "banner") => void;
 } & ComponentProps<"ul">;
 
-export default function DashBoard({
+export default function NavBar({
   liElements,
   changueSection,
   ...props

@@ -35,16 +35,16 @@ export default function Banner<T extends Record<string, any>>({
   return (
     <div
       className={twMerge(
-        `box-border w-full h-full rounded-3xl flex flex-col gap-2 border-4 border-blue-400 p-1 text-nowrap md:gap-y-5 ${
-          data.length === 0 && "hidden"
-        }`,
+        `box-border w-full rounded-3xl flex flex-col gap-2 border-4 border-blue-400 p-1 text-nowrap md:gap-y-5 md:py-2.5
+        lg:p-2.5
+        ${data.length === 0 && "hidden"}`,
         className
       )}
     >
-      <h2 className="text-center font-bold text-md md:text-2xl">{title}</h2>
+      <h2 className="text-center font-bold md:text-3xl">{title}</h2>
       <table
         className={twMerge(
-          "w-full border-separate border-spacing-0.5 border-spacing-y-1.5",
+          "w-full border-separate border-spacing-0.5 border-spacing-y-1.5 md:border-spacing-2",
           classNameTable
         )}
       >
@@ -53,7 +53,7 @@ export default function Banner<T extends Record<string, any>>({
             {headers.map((header) => (
               <th
                 key={header}
-                className="p-0.5 text-[10px] font-medium text-balance text-center"
+                className="p-0.5 text-xs font-medium text-balance text-center md:text-base"
               >
                 {header === "porcentaje" ? "%" : header.toUpperCase()}
               </th>
@@ -66,7 +66,7 @@ export default function Banner<T extends Record<string, any>>({
               {keys.map((key) => (
                 <td
                   key={`${String(key)}-${keyRow}`}
-                  className="text-center font-medium text-xs"
+                  className="text-center font-medium text-xs md:text-lg"
                 >
                   {typeof props[key] === "boolean"
                     ? props[key]
@@ -83,7 +83,7 @@ export default function Banner<T extends Record<string, any>>({
                     type="button"
                     key={`button-${keyRow}`}
                     onClick={() => onDelete(keyRow)}
-                    className="bg-red-600 text-white rounded-2xl p-1 max-w-full"
+                    className="bg-red-600 text-white rounded-2xl p-1 max-w-full "
                   >
                     Borrar
                   </button>
