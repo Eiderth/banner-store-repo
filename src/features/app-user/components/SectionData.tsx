@@ -10,8 +10,7 @@ export default function SectionData({}: Props) {
   } = useDataContext();
 
   return (
-    <section className="w-screen flex flex-col items-center p-2 gap-y-4 md:gap-y-8 h-full pb-8">
-      <h1>Holaa</h1>
+    <section className="w-full flex flex-col items-center p-2 gap-y-4 md:gap-y-8 h-full pb-8">
       <Banner
         className="col-span-full md:row-start-1 md:row-span-3 md:m-5 md:w-[90%] md:h-96 lg:h-[65vh]"
         title="Resultados"
