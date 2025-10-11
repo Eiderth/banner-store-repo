@@ -17,10 +17,10 @@ export default function Slider({ children }: Props) {
   }, [handleSlider]);
 
   return (
-    <section className="w-screen h-screen grid grid-cols-1 grid-rows-[85%_15%]">
+    <div className="w-screen h-screen grid grid-cols-1 grid-rows-[85%_15%]">
       <div
         ref={contendorRef}
-        className="flex overflow-x-scroll h-full scroll-smooth"
+        className="flex overflow-x-scroll hide-scroll-bar h-full scroll-smooth"
       >
         {children.map((child, idx) => (
           <div
@@ -31,7 +31,6 @@ export default function Slider({ children }: Props) {
           </div>
         ))}
       </div>
-
       <div className="w-full flex flex-row flex-shrink-0 justify-center gap-2 items-center p-4 min-h-28">
         {children.map((_, idx) => (
           <input
@@ -43,6 +42,6 @@ export default function Slider({ children }: Props) {
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 }
