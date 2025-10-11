@@ -17,7 +17,7 @@ export default function Slider({ children }: Props) {
   }, [handleSlider]);
 
   return (
-    <div className="w-screen h-screen grid grid-cols-1 grid-rows-[85%_15%]">
+    <div className="w-screen h-screen grid grid-cols-1 grid-rows-[90%_10%]">
       <div
         ref={contendorRef}
         className="flex overflow-x-scroll hide-scroll-bar h-full scroll-smooth"
@@ -31,7 +31,7 @@ export default function Slider({ children }: Props) {
           </div>
         ))}
       </div>
-      <div className="w-full flex flex-row flex-shrink-0 justify-center gap-2 items-center p-4 min-h-28">
+      <div className="w-full flex flex-row flex-shrink-0 justify-center items-start p-2.5 gap-2 ">
         {children.map((_, idx) => (
           <input
             name="radio-section"

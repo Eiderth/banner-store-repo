@@ -44,7 +44,7 @@ export default function Banner<T extends Record<string, any>>({
       <h2 className="text-center font-bold md:text-3xl">{title}</h2>
       <table
         className={twMerge(
-          "w-full border-separate border-spacing-0.5 border-spacing-y-1.5 md:border-spacing-2",
+          "w-full border-separate border-spacing-0.5 border-spacing-y-1.5 md:border-spacing-2 ",
           classNameTable
         )}
       >

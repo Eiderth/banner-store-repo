@@ -11,7 +11,8 @@ export default function SectionBanner({}: Props) {
         headers={["producto", "precio"]}
         keys={["producto", "precio"]}
         data={products}
-        className="w-fit h-fit"
+        className="w-[70%] h-fit"
+        classNameTable="table-fixed lg:border-spacing-y-5"
       ></Banner>
     </section>
   );

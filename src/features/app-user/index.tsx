@@ -1,10 +1,9 @@
-import SectionData from "./components/SectionData";
-("./components/SectionData");
-
 import SectionForm from "./components/SectionForm";
+import SectionData from "./components/SectionData";
+import SectionCalc from "./components/SectionCal";
+import SectionBanner from "./components/SectionBanner";
 import DataContext from "../../contexts/DataContext";
-// import SectionBanner from "./components/SectionBanner";
-import Slider from "../../components/slider";
+import Slider from "../../components/Slider";
 
 export default function Aplication() {
   return (
@@ -13,6 +12,8 @@ export default function Aplication() {
         <Slider>
           <SectionForm />
           <SectionData />
+          <SectionCalc />
+          <SectionBanner />
         </Slider>
       </main>
     </DataContext>
