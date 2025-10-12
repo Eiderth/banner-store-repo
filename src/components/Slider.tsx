@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type Props = {
   children: ReactElement[];
@@ -7,6 +7,7 @@ type Props = {
 
 export default function Slider({ children }: Props) {
   const contendorRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<Array<HTMLDivElement | null>>([]);
   const [handleSlider, setHandleSlider] = useState(0);
 
   useEffect(() => {
@@ -16,16 +17,45 @@ export default function Slider({ children }: Props) {
     }
   }, [handleSlider]);
 
+  const sectionObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        const index = entry.target.getAttribute("data-index");
+        if (entry.isIntersecting) {
+          setHandleSlider(Number(index));
+        }
+      });
+    },
+    []
+  );
+  useEffect(() => {
+    if (!contendorRef.current) return;
+    const observer = new IntersectionObserver(sectionObserver, {
+      root: contendorRef.current,
+      threshold: 0.5,
+    });
+    sectionRef.current.forEach((section) => {
+      section && observer.observe(section);
+    });
+    return () => {
+      observer.disconnect();
+    };
+  }, [children, sectionObserver]);
+
   return (
     <div className="w-screen h-screen grid grid-cols-1 grid-rows-[90%_10%]">
       <div
         ref={contendorRef}
-        className="flex overflow-x-scroll hide-scroll-bar h-full scroll-smooth"
+        className="flex overflow-x-scroll hide-scroll-bar h-full snap-x snap-mandatory scroll-smooth"
       >
         {children.map((child, idx) => (
           <div
             key={idx}
             className="w-full h-full overflow-y-auto flex-shrink-0"
+            ref={(el) => {
+              sectionRef.current[idx] = el;
+            }}
+            data-index={idx}
           >
             {child}
           </div>
@@ -38,7 +68,7 @@ export default function Slider({ children }: Props) {
             type="radio"
             key={`radio-${idx}`}
             onChange={() => setHandleSlider(idx)}
-            defaultChecked={idx === 0}
+            checked={idx === handleSlider}
           />
         ))}
       </div>
