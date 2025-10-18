@@ -36,7 +36,7 @@ export default function Banner<T extends Record<string, any>>({
     <div
       className={twMerge(
         `box-border w-full rounded-3xl flex flex-col gap-2 border-4 border-blue-400 p-1 text-nowrap md:gap-y-5 md:py-2.5
-        lg:p-2.5
+        lg:p-2.5 hide-scroll-bar scroll-smooth overflow-y-scroll max-h-80
         ${data.length === 0 && "hidden"}`,
         className
       )}

@@ -6,9 +6,12 @@ export default function SectionCalc({}: Props) {
   const { productsProps, products } = useDataContext();
 
   return (
-    <section className="w-full flex flex-col items-center justify-center lg:p-5 gap-y-4 h-full">
+    <section
+      className="w-full min-h-full p-3.5 grid grid-cols-2 grid-rows-[1fr_auto_1fr] place-items-center gap-4
+    lg:grid-cols-3 lg:grid-rows-2 lg:p-10 lg:gap-10"
+    >
       <Banner
-        className="col-span-full md:row-start-1 md:row-span-3 md:m-5 md:w-[90%] md:h-96 lg:h-[50vh] overflow-y-scroll hide-scroll-bar scroll-smooth"
+        className="col-span-full min-h-60 lg:w-[80%] lg:h-full"
         classNameTable="table-fixed"
         title="Resultados"
         headers={["producto", "precio base", "ganancia", "iva", "precio"]}
@@ -19,35 +22,33 @@ export default function SectionCalc({}: Props) {
           ganancia: Number((item.ganancia / item.unidades).toFixed(2)),
         }))}
       />
-      <div className="w-full grid grid-cols-2 grid-rows-2 p-1 gap-2 md:grid-cols-3 md:grid-rows-1 lg:h-[40vh] lg:gap-5 place-items-center">
-        <Banner
-          className="lg:w-2xs lg:p-5 aspect-square overflow-y-scroll hide-scroll-bar scroll-smooth"
-          classNameTable="table-fixed"
-          title="Precio base"
-          headers={["producto", "precio"]}
-          keys={["producto", "precio"]}
-          data={productsProps}
-          sign={{ precio: "$" }}
-        />
-        <Banner
-          className="lg:w-2xs lg:p-5 aspect-square overflow-y-scroll hide-scroll-bar scroll-smooth"
-          classNameTable="table-fixed"
-          title="Iva"
-          headers={["producto", "iva"]}
-          keys={["producto", "iva"]}
-          data={products}
-          sign={{ iva: "$" }}
-        />
-        <Banner
-          className="col-span-full md:col-span-1 lg:w-2xs lg:p-5 aspect-square overflow-y-scroll hide-scroll-bar scroll-smooth"
-          classNameTable="table-fixed"
-          title="porcentaje"
-          headers={["producto", "ganancia"]}
-          keys={["producto", "ganancia"]}
-          data={products}
-          sign={{ ganancia: "$" }}
-        />
-      </div>
+      <Banner
+        className="aspect-square"
+        classNameTable="table-fixed"
+        title="Precio base"
+        headers={["producto", "precio"]}
+        keys={["producto", "precio"]}
+        data={productsProps}
+        sign={{ precio: "$" }}
+      />
+      <Banner
+        className="aspect-square "
+        classNameTable="table-fixed"
+        title="Iva"
+        headers={["producto", "iva"]}
+        keys={["producto", "iva"]}
+        data={products}
+        sign={{ iva: "$" }}
+      />
+      <Banner
+        className="col-span-full rows-3 lg:row-2 lg:col-3 lg:aspect-square"
+        classNameTable="table-fixed"
+        title="porcentaje"
+        headers={["producto", "ganancia"]}
+        keys={["producto", "ganancia"]}
+        data={products}
+        sign={{ ganancia: "$" }}
+      />
     </section>
   );
 }

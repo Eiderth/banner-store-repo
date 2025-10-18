@@ -6,10 +6,10 @@ type Props = {};
 export default function SectionData({}: Props) {
   const { productsProps, deleteProduct } = useDataContext();
   return (
-    <section className="w-full h-full flex flex-col items-center justify-center">
+    <section className="w-full h-full flex flex-col items-center justify-center p-2">
       <Banner
-        className="w-[60%] h-[70%] overflow-y-auto scroll-smooth hide-scroll-bar"
-        classNameTable="table-fixed"
+        className="w-full md:w-[80%] md:p-2.5 min-h-60 max-h-full"
+        classNameTable="md:border-spacing-2"
         data={productsProps}
         headers={["producto", "costo", "unidades", "porcentaje", "iva"]}
         keys={["producto", "costo", "unidades", "porcentaje", "iva"]}

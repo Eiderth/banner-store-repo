@@ -61,7 +61,7 @@ export default function Slider({ children }: Props) {
           </div>
         ))}
       </div>
-      <div className="w-full flex flex-row flex-shrink-0 justify-center items-start p-2.5 gap-2 ">
+      <div className="z-10 w-full flex flex-row flex-shrink-0 justify-center items-start p-2.5 gap-2 ">
         {children.map((_, idx) => (
           <input
             name="radio-section"
