@@ -1,10 +1,16 @@
-import { useState, useEffect, useCallback, useReducer } from "react";
-import { useDataContext } from "../../../contexts/DataContext";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useReducer,
+  useContext,
+} from "react";
 import type { ChangeEvent } from "react";
 import type { FormData } from "../../../types";
 import Form from "../../../components/Form";
 import Input from "../../../components/Input";
 import Btn from "../../../components/Btn";
+import { Context } from "../../../contexts/Contex";
 
 const initialData: Omit<FormData, "precio"> = {
   producto: "",
@@ -113,7 +119,7 @@ export default function FormProduct() {
     setDisabled(isInvalid || emptyField);
   }, [stateData]);
 
-  const { setProductsProps } = useDataContext();
+  const { setProductsProps } = useContext(Context);
   const handleClick = useCallback(() => {
     const newState = { ...stateData, producto: stateData.producto.trim() };
     setProductsProps(newState);

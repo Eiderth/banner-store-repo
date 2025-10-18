@@ -1,9 +1,10 @@
-import { useDataContext } from "../../../contexts/DataContext";
+import { useContext } from "react";
 import Banner from "../../../components/Banner";
+import { Context } from "../../../contexts/Contex";
 type Props = {};
 
 export default function SectionCalc({}: Props) {
-  const { productsProps, products } = useDataContext();
+  const { productsProps, products } = useContext(Context);
 
   return (
     <section

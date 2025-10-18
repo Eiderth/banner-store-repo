@@ -1,10 +1,11 @@
 import Banner from "../../../components/Banner";
-import { useDataContext } from "../../../contexts/DataContext";
+import { useContext } from "react";
+import { Context } from "../../../contexts/Contex";
 
 type Props = {};
 
 export default function SectionData({}: Props) {
-  const { productsProps, deleteProduct } = useDataContext();
+  const { productsProps, deleteProduct } = useContext(Context);
   return (
     <section className="w-full h-full flex flex-col items-center justify-center p-2">
       <Banner

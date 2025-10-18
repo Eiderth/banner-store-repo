@@ -1,18 +1,6 @@
-import {
-  createContext,
-  useCallback,
-  useMemo,
-  useState,
-  useContext,
-} from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
+import { Context } from "./Contex";
 import type { Products, FormData } from "../types";
-
-type DataContextType = {
-  products: Products[];
-  productsProps: FormData[];
-  setProductsProps: (data: Omit<FormData, "precio">) => void;
-  deleteProduct: (indexToDelete: number) => void;
-};
 
 function calculateProductMetrics(item: FormData): Products {
   const costoNum = Number(item.costo);
@@ -41,19 +29,20 @@ function calculateProductMetrics(item: FormData): Products {
   };
 }
 
-const Context = createContext<DataContextType>({
-  products: [],
-  productsProps: [],
-  setProductsProps: () => {},
-  deleteProduct: () => {},
-});
-
-export default function DataContext({
+export default function ComponentContext({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [productsProps, setProductsProps] = useState<FormData[]>([]);
+  const [productsProps, setProductsProps] = useState<FormData[]>(() => {
+    // Esta función se ejecuta solo una vez al inicio
+    try {
+      const props = localStorage.getItem("props");
+      return props ? JSON.parse(props) : [];
+    } catch (error) {
+      return [];
+    }
+  });
 
   const SetProducts = useCallback((data: Omit<FormData, "precio">) => {
     const newData: FormData = {
@@ -74,6 +63,11 @@ export default function DataContext({
     );
   }, []);
 
+  useEffect(() => {
+    const DataJsonProps = JSON.stringify(productsProps);
+    localStorage.setItem("props", DataJsonProps);
+  }, [productsProps]);
+
   return (
     <Context.Provider
       value={{
@@ -87,8 +81,3 @@ export default function DataContext({
     </Context.Provider>
   );
 }
-
-export const useDataContext = () => {
-  const context = useContext(Context);
-  return context;
-};
