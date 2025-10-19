@@ -35,7 +35,6 @@ export default function ComponentContext({
   children: React.ReactNode;
 }) {
   const [productsProps, setProductsProps] = useState<FormData[]>(() => {
-    // Esta función se ejecuta solo una vez al inicio
     try {
       const props = localStorage.getItem("props");
       return props ? JSON.parse(props) : [];

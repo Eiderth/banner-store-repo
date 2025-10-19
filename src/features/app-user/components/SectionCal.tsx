@@ -12,7 +12,7 @@ export default function SectionCalc({}: Props) {
     lg:grid-cols-3 lg:grid-rows-2 lg:p-10 lg:gap-10"
     >
       <Banner
-        className="col-span-full min-h-60 lg:w-[80%] lg:h-full"
+        className="col-span-full h-full lg:w-[80%] lg:h-full"
         classNameTable="table-fixed"
         title="Resultados"
         headers={["producto", "precio base", "ganancia", "iva", "precio"]}
@@ -42,7 +42,7 @@ export default function SectionCalc({}: Props) {
         sign={{ iva: "$" }}
       />
       <Banner
-        className="col-span-full rows-3 lg:row-2 lg:col-3 lg:aspect-square"
+        className="col-span-full h-full rows-3 lg:row-2 lg:col-3 lg:aspect-square"
         classNameTable="table-fixed"
         title="porcentaje"
         headers={["producto", "ganancia"]}

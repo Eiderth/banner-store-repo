@@ -4,7 +4,6 @@ import SectionCalc from "./components/SectionCal";
 import SectionBanner from "./components/SectionBanner";
 import Slider from "../../components/Slider";
 import ComponentContext from "../../contexts/ComponentContext";
-
 export default function Aplication() {
   return (
     <ComponentContext>
