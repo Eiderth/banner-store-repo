@@ -17,7 +17,7 @@ export default function SectionBanner({}: Props) {
           useCORS: true,
         });
         const dataURL = canvas.toDataURL("image/png");
-        downloadjs(dataURL, "banner-tabla.png", "image/png");
+        downloadjs(dataURL, "tabla-de-precios.png", "image/png");
       } catch {
         alert("error en descarga");
       }
@@ -25,14 +25,14 @@ export default function SectionBanner({}: Props) {
   }, []);
 
   return (
-    <section className="h-full flex flex-col justify-center items-center gap-2.5">
+    <section className="h-full grid grid-rows-[80%_auto] place-items-center gap-2.5">
       <Banner
         ref={bannerRef}
         title="Precios"
         headers={["producto", "precio"]}
         keys={["producto", "precio"]}
         data={products}
-        className="w-[70%] min-h-60 max-h-full"
+        className="w-[70%] max-w-80 min-h-[70%]"
         classNameTable="table-fixed lg:border-spacing-y-5"
       />
       <Btn
