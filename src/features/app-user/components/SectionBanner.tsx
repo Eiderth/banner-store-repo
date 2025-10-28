@@ -2,6 +2,7 @@ import { useCallback, useContext, useRef } from "react";
 import { Context } from "../../../contexts/Contex";
 import html2canvas from "html2canvas-pro";
 import downloadjs from "downloadjs";
+import { IconEdit } from "@tabler/icons-react";
 import Btn from "../../../components/Btn";
 import Banner from "../../../components/Banner";
 type Props = {};
@@ -34,7 +35,11 @@ export default function SectionBanner({}: Props) {
         data={products}
         className="w-[70%] max-w-80 min-h-[70%]"
         classNameTable="table-fixed lg:border-spacing-y-5"
-      />
+      >
+        <button className="bg-amber-100 p-2.5 rounded-full">
+          <IconEdit size={12} />
+        </button>
+      </Banner>
       <Btn
         text="Descargar"
         className="bg-blue-400"

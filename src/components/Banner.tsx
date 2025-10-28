@@ -1,5 +1,5 @@
 import { twMerge } from "tailwind-merge";
-import { forwardRef } from "react";
+import { forwardRef, type ReactElement, cloneElement } from "react";
 const defaultSign = {
   iva: "",
   precio_base: "$",
@@ -10,6 +10,7 @@ const defaultSign = {
 };
 
 type Props<T> = {
+  children?: ReactElement<{ className?: string }>;
   headers: string[];
   keys: (keyof T)[];
   data: T[];
@@ -22,21 +23,38 @@ type Props<T> = {
 
 const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
   (
-    { headers, keys, data, title, sign, className, classNameTable, onDelete },
+    {
+      children,
+      headers,
+      keys,
+      data,
+      title,
+      sign,
+      className,
+      classNameTable,
+      onDelete,
+    },
     ref
   ) => {
     const finalSign = { ...defaultSign, ...sign };
+
+    const cloneChildren = children
+      ? cloneElement(children, {
+          className: `${children.props.className} absolute bottom-2.5 right-2.5 md:scale-125`,
+        })
+      : "";
 
     return (
       <div
         ref={ref}
         className={twMerge(
-          `box-border w-full rounded-3xl flex flex-col gap-2 border-4 border-blue-400 p-1 text-nowrap md:gap-y-5 md:py-2.5
+          `box-border w-full relative rounded-3xl flex flex-col gap-2 border-4 border-blue-400 p-1 text-nowrap md:gap-y-5 md:py-2.5
         lg:p-2.5 hide-scroll-bar scroll-smooth overflow-y-scroll max-h-80
         ${data.length === 0 && "hidden"}`,
           className
         )}
       >
+        {cloneChildren}
         <h2 className="text-center font-bold md:text-3xl">{title}</h2>
         <table
           className={twMerge(
