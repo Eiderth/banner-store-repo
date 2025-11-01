@@ -73,10 +73,6 @@ const validate = (
   }
 };
 
-// type Props = {
-//   onClick: (data: Omit<FormData, "precio">) => void;
-// };
-
 export default function FormProduct() {
   const [stateData, dispathData] = useReducer(reducerData, initialData);
 

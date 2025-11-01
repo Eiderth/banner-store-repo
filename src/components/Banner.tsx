@@ -48,8 +48,8 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
       <div
         ref={ref}
         className={twMerge(
-          `box-border w-full relative rounded-3xl border-4 border-blue-400 p-1 text-nowrap
-        ${data.length === 0 && "hidden"}`,
+          `box-border w-full relative rounded-3xl border-4 border-blue-400 p-1
+          ${data.length === 0 && "hidden"}`,
           className
         )}
       >
@@ -58,10 +58,12 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
           className="flex flex-col gap-2 md:gap-y-5 md:py-2.5
         lg:p-2.5 hide-scroll-bar scroll-smooth overflow-y-scroll max-h-80"
         >
-          <h2 className="text-center font-bold md:text-3xl">{title}</h2>
+          <h2 className="text-center font-bold md:text-3xl max-w-[70%] self-center">
+            {title}
+          </h2>
           <table
             className={twMerge(
-              "w-full border-separate border-spacing-0.5 border-spacing-y-1.5 md:border-spacing-2 ",
+              "w-full border-separate border-spacing-0.5 border-spacing-y-1.5 md:border-spacing-2 text-nowrap",
               classNameTable
             )}
           >
