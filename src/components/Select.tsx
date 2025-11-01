@@ -20,7 +20,7 @@ export default function Select({
     <label
       htmlFor={props.id}
       className={twMerge(
-        "w-full h-fit rounded-2xl bg-amber-50 border-2 border-amber-300 p-2.5 active:bg-amber-400 col-span-full",
+        "w-full h-full rounded-2xl bg-amber-50 border-2 border-amber-300 p-2.5 active:bg-amber-400",
         classNameLabel
       )}
     >

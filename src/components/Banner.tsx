@@ -58,7 +58,7 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
           className="flex flex-col gap-2 md:gap-y-5 md:py-2.5
         lg:p-2.5 hide-scroll-bar scroll-smooth overflow-y-scroll max-h-80"
         >
-          <h2 className="text-center font-bold md:text-3xl max-w-[70%] self-center">
+          <h2 className="text-center font-bold md:text-3xl w-full self-center">
             {title}
           </h2>
           <table

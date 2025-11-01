@@ -92,7 +92,14 @@ export default function SectionBanner({}: Props) {
 
   const [styleBanner, updateStyleBanner] = useReducer(
     reducerStyle,
-    InitialstyleBanner
+    (() => {
+      try {
+        const data = localStorage.getItem("BannerStyle");
+        return data ? JSON.parse(data) : InitialstyleBanner;
+      } catch {
+        return InitialstyleBanner;
+      }
+    })()
   );
 
   const editStyleBanner = useCallback(
@@ -149,6 +156,9 @@ export default function SectionBanner({}: Props) {
     bannerStyle.background = styleBanner.backgroundImage;
     bannerStyle.color = styleBanner.color;
     bannerStyle.fontFamily = styleBanner.font;
+
+    const DataJson = JSON.stringify(styleBanner);
+    localStorage.setItem("BannerStyle", DataJson);
   }, [styleBanner]);
 
   return (
@@ -159,7 +169,7 @@ export default function SectionBanner({}: Props) {
         headers={["producto", "precio"]}
         keys={["producto", "precio"]}
         data={products}
-        className="w-[70%] max-w-80 min-h-[70%] bg-white"
+        className="w-[70%] max-w-80 min-h-[70%] bg-white "
         classNameTable="table-fixed lg:border-spacing-y-5"
       >
         <button
@@ -171,19 +181,19 @@ export default function SectionBanner({}: Props) {
       </Banner>
 
       <dialog
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl border-4 border-amber-300 max-w-10/12 w-96"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl border-4 border-amber-300 max-w-10/12 w-96 max-h-[80vh]"
         ref={dialogRef}
       >
         <Form
           title="Edicion de Banner"
           classNameTitle="md:text-2xl"
-          className="w-full h-full border-none bg-transparent grid-cols-2 md:grid-cols-2 gap-5 md:gap-10 "
+          className="w-full h-full border-none bg-transparent grid  md:grid-cols-2 gap-5 md:gap-10 "
         >
           <InputIcon
             label="fondo"
             type="file"
             name="bgImg-input"
-            id="file"
+            id="file-editInput"
             className="hidden"
             onChange={editStyleBanner}
           >
@@ -194,7 +204,7 @@ export default function SectionBanner({}: Props) {
             label="Color de texto"
             type="color"
             name="textColor-input"
-            id="color"
+            id="color-editInput"
             className="hidden"
             onChange={editStyleBanner}
           >
@@ -205,7 +215,7 @@ export default function SectionBanner({}: Props) {
             label="Cambiar titulo"
             type="text"
             name="textTitle-input"
-            id="title"
+            id="title-editInput"
             value={styleBanner.title}
             className="w-full outline-0 pt-2"
             onChange={editStyleBanner}
