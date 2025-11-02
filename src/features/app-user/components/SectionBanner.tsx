@@ -14,8 +14,11 @@ import {
   IconColorPickerOff,
   IconEdit,
   IconImageInPicture,
-  IconTiltShiftFilled,
+  IconBackground,
+  IconTextCaption,
   IconFountain,
+  IconBorderAll,
+  IconBorderCornerIos,
 } from "@tabler/icons-react";
 import Btn from "../../../components/Btn";
 import Banner from "../../../components/Banner";
@@ -56,12 +59,30 @@ const fonts = [
   "Impact, sans-serif",
   "Tahoma, sans-serif",
 ];
+const borders = [
+  "solid",
+  "none",
+  "hidden",
+  "dotted",
+  "dashed",
+  "double",
+  "groove",
+  "ridge",
+  "inset",
+  "outset",
+];
+const borderWidths = Array.from({ length: 10 }, (_, idx) => `${idx + 1}px`);
 const InitialstyleBanner = {
   backgroundImage: "none",
-  color: "black",
+  bgColor: "#ffffff",
+  color: "#000000",
   title: "Lista de Precios",
   font: fonts[0],
+  border: borders[0],
+  borderColor: "#42a5f5",
+  borderWidth: "4px",
 };
+console.log(borderWidths);
 export default function SectionBanner({}: Props) {
   const { products } = useContext(Context);
   const bannerRef = useRef<HTMLDivElement | null>(null);
@@ -122,10 +143,18 @@ export default function SectionBanner({}: Props) {
           }
           break;
         }
+        case "bgColor-input":
+          updateStyleBanner({
+            key: "bgColor",
+            value: e.target.value,
+            action: "EDIT",
+          });
+          break;
+
         case "textColor-input":
           updateStyleBanner({
             key: "color",
-            value: `${e.target.value}`,
+            value: e.target.value,
             action: "EDIT",
           });
           break;
@@ -133,7 +162,7 @@ export default function SectionBanner({}: Props) {
         case "textTitle-input":
           updateStyleBanner({
             key: "title",
-            value: `${e.target.value}`,
+            value: e.target.value,
             action: "EDIT",
           });
           break;
@@ -141,7 +170,29 @@ export default function SectionBanner({}: Props) {
         case "textFont-select":
           updateStyleBanner({
             key: "font",
-            value: `${e.target.value}`,
+            value: e.target.value,
+            action: "EDIT",
+          });
+          break;
+
+        case "borderColor-input":
+          updateStyleBanner({
+            key: "borderColor",
+            value: e.target.value,
+            action: "EDIT",
+          });
+          break;
+        case "border-select":
+          updateStyleBanner({
+            key: "border",
+            value: e.target.value,
+            action: "EDIT",
+          });
+          break;
+        case "borderWidth-select":
+          updateStyleBanner({
+            key: "borderWidth",
+            value: e.target.value,
             action: "EDIT",
           });
           break;
@@ -154,8 +205,12 @@ export default function SectionBanner({}: Props) {
     if (!bannerRef.current) return;
     const bannerStyle = bannerRef.current.style;
     bannerStyle.background = styleBanner.backgroundImage;
+    bannerStyle.backgroundColor = styleBanner.bgColor;
     bannerStyle.color = styleBanner.color;
     bannerStyle.fontFamily = styleBanner.font;
+    bannerStyle.border = styleBanner.border;
+    bannerStyle.borderColor = styleBanner.borderColor;
+    bannerStyle.borderWidth = styleBanner.borderWidth;
 
     const DataJson = JSON.stringify(styleBanner);
     localStorage.setItem("BannerStyle", DataJson);
@@ -187,10 +242,10 @@ export default function SectionBanner({}: Props) {
         <Form
           title="Edicion de Banner"
           classNameTitle="md:text-2xl"
-          className="w-full h-full border-none bg-transparent grid  md:grid-cols-2 gap-5 md:gap-10 "
+          className="w-full h-full border-none bg-transparent grid  md:grid-cols-1 gap-y-5 md:gap-y-8"
         >
           <InputIcon
-            label="fondo"
+            label="Imagen de fondo"
             type="file"
             name="bgImg-input"
             id="file-editInput"
@@ -201,14 +256,29 @@ export default function SectionBanner({}: Props) {
           </InputIcon>
 
           <InputIcon
+            label="Color de fondo"
+            type="color"
+            name="bgColor-input"
+            id="bgcolor-editInput"
+            classNameLabel="flex items-center"
+            className="ml-auto"
+            value={styleBanner.bgColor}
+            onChange={editStyleBanner}
+          >
+            <IconBackground />
+          </InputIcon>
+
+          <InputIcon
             label="Color de texto"
             type="color"
             name="textColor-input"
             id="color-editInput"
-            className="hidden"
+            classNameLabel="flex items-center"
+            className="ml-auto"
+            value={styleBanner.color}
             onChange={editStyleBanner}
           >
-            <IconColorPickerOff className="inline" />
+            <IconColorPickerOff />
           </InputIcon>
 
           <InputIcon
@@ -220,32 +290,67 @@ export default function SectionBanner({}: Props) {
             className="w-full outline-0 pt-2"
             onChange={editStyleBanner}
           >
-            <IconTiltShiftFilled className="inline" />
+            <IconTextCaption className="inline" />
           </InputIcon>
           <Select
             label="Fuente"
             options={fonts}
-            id="font-select"
+            id="font-editSelect"
             name="textFont-select"
             value={styleBanner.font}
-            handleChangue={editStyleBanner}
+            onChange={editStyleBanner}
           >
-            <IconFountain className="inline" />
+            <IconFountain className="inline " />
           </Select>
 
-          <Btn
-            text="Anular"
-            type="button"
-            className="bg-gray-500 shadow-2xl w-fit justify-self-start md:p-2.5"
-            onClick={() => updateStyleBanner({ action: "RESET" })}
-          />
+          <InputIcon
+            label="Color de borde"
+            type="color"
+            name="borderColor-input"
+            id="borderColor-editInput"
+            classNameLabel="flex items-center"
+            className="ml-auto"
+            value={styleBanner.borderColor}
+            onChange={editStyleBanner}
+          >
+            <IconBorderAll />
+          </InputIcon>
+          <Select
+            label="Tipo de borde"
+            options={borders}
+            id="border-editSelect"
+            name="border-select"
+            value={styleBanner.border}
+            onChange={editStyleBanner}
+          >
+            <IconBorderCornerIos className="inline" />
+          </Select>
+          <Select
+            label="grosor de borde"
+            options={borderWidths}
+            id="borderWidth-editSelect"
+            name="borderWidth-select"
+            value={styleBanner.borderWidth}
+            onChange={editStyleBanner}
+          >
+            <IconBorderCornerIos className="inline" />
+          </Select>
 
-          <Btn
-            text="Cerrar"
-            type="button"
-            className="bg-amber-300 shadow-2xl w-full md:p-2.5"
-            onClick={handleDialog}
-          />
+          <div className="flex gap-2.5 col-span-full">
+            <Btn
+              text="Anular"
+              type="button"
+              className="bg-gray-500 shadow-2xl w-fit justify-self-start md:p-2.5"
+              onClick={() => updateStyleBanner({ action: "RESET" })}
+            />
+
+            <Btn
+              text="Cerrar"
+              type="button"
+              className="bg-amber-300 shadow-2xl flex-1 w-full md:p-2.5"
+              onClick={handleDialog}
+            />
+          </div>
         </Form>
       </dialog>
 

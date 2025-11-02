@@ -5,7 +5,7 @@ type Props = {
   label: string;
   options: string[];
   classNameLabel?: string;
-  handleChangue: (e: ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 } & ComponentProps<"select">;
 
 export default function Select({
@@ -13,7 +13,7 @@ export default function Select({
   label,
   options,
   classNameLabel,
-  handleChangue,
+  onChange,
   ...props
 }: Props) {
   return (
@@ -26,7 +26,7 @@ export default function Select({
     >
       {children}
       <span className="inline">{label}</span>
-      <select className="block pt-2 w-full" {...props} onChange={handleChangue}>
+      <select className="block pt-2 w-full" {...props} onChange={onChange}>
         {options.map((opt) => (
           <option key={opt} value={opt}>
             {opt}
