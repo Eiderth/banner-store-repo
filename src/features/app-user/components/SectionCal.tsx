@@ -1,13 +1,14 @@
 import { useContext } from "react";
 import Banner from "../../../components/Banner";
 import { Context } from "../../../contexts/Contex";
-type Props = {};
+type Props = { id: string };
 
-export default function SectionCalc({}: Props) {
+export default function SectionCalc({ id }: Props) {
   const { productsProps, products } = useContext(Context);
 
   return (
     <section
+      id={id}
       className="w-full min-h-full p-3.5 grid grid-cols-2 grid-rows-[1fr_auto_1fr] place-items-center gap-4
     lg:grid-cols-3 lg:grid-rows-2 lg:p-10 lg:gap-10"
     >

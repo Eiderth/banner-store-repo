@@ -5,15 +5,17 @@ import SectionBanner from "./components/SectionBanner";
 import Slider from "../../components/Slider";
 import ComponentContext from "../../contexts/ComponentContext";
 import NavApp from "./components/NavApp";
+import { useState } from "react";
 export default function Aplication() {
+  const [isHover, setIsHover] = useState(false);
   return (
     <ComponentContext>
       <main className="flex w-dvw">
-        <NavApp />
-        <Slider className="flex-1">
+        <NavApp isHover={setIsHover} />
+        <Slider className={`flex-1 ${isHover ? "blur-sm" : ""}`}>
           <SectionForm id="formulario" />
-          <SectionData />
-          <SectionCalc />
+          <SectionData id="data" />
+          <SectionCalc id="calc" />
           <SectionBanner id="banner" />
         </Slider>
       </main>

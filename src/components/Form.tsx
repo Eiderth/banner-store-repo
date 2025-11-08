@@ -16,7 +16,7 @@ export default function Form({
   return (
     <form
       className={twMerge(
-        "w-fit p-3 border-blue-200 border-4 rounded-2xl grid gap-2 grid-cols-1 md:grid-cols-2 md:gap-4 md:p-3",
+        "w-fit p-3 border-blue-300 border-4 rounded-2xl grid gap-2 grid-cols-1 md:grid-cols-2 md:gap-4 md:p-3",
         className
       )}
     >
