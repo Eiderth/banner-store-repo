@@ -72,8 +72,8 @@ const validate = (
       return !/^\d*\.?\d*$/.test(value);
   }
 };
-
-export default function FormProduct() {
+type Props = { id: string };
+export default function FormProduct({ id }: Props) {
   const [stateData, dispathData] = useReducer(reducerData, initialData);
 
   const [stateInvalid, dispathInvalid] = useReducer(
@@ -123,8 +123,11 @@ export default function FormProduct() {
   }, [setProductsProps, stateData]);
 
   return (
-    <section className="w-screen h-full flex flex-col items-center justify-center p-2">
-      <Form title="Formulario de Productos">
+    <section
+      id={id}
+      className="w-full h-full flex flex-col items-center justify-center p-2"
+    >
+      <Form title="Formulario de Productos" className="bg-white">
         <Input
           label="Producto"
           name="producto"

@@ -48,7 +48,7 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
       <div
         ref={ref}
         className={twMerge(
-          `box-border w-full relative rounded-3xl border-4 border-blue-400 p-1
+          `box-border w-full relative rounded-3xl border-4 bg-gray-50 border-blue-400 p-1
           ${data.length === 0 && "hidden"}`,
           className
         )}

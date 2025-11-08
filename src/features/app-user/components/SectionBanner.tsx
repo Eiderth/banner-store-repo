@@ -26,8 +26,6 @@ import Form from "../../../components/Form";
 import InputIcon from "../../../components/InputIcon";
 import Select from "../../../components/Select";
 
-type Props = {};
-
 const reducerStyle = (
   prev: typeof InitialstyleBanner,
   state:
@@ -82,8 +80,9 @@ const InitialstyleBanner = {
   borderColor: "#42a5f5",
   borderWidth: "4px",
 };
-console.log(borderWidths);
-export default function SectionBanner({}: Props) {
+
+type Props = { id: string };
+export default function SectionBanner({ id }: Props) {
   const { products } = useContext(Context);
   const bannerRef = useRef<HTMLDivElement | null>(null);
 
@@ -217,7 +216,10 @@ export default function SectionBanner({}: Props) {
   }, [styleBanner]);
 
   return (
-    <section className="h-full grid grid-rows-[80%_auto] place-items-center gap-2.5 relative">
+    <section
+      id={id}
+      className="h-full grid grid-rows-[80%_auto] place-items-center gap-2.5 relative"
+    >
       <Banner
         ref={bannerRef}
         title={styleBanner.title}
