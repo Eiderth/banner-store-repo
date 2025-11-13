@@ -19,6 +19,7 @@ import {
   IconFountain,
   IconBorderAll,
   IconBorderCornerIos,
+  IconX,
 } from "@tabler/icons-react";
 import Btn from "../../../components/Btn";
 import Banner from "../../../components/Banner";
@@ -85,20 +86,26 @@ type Props = { id: string };
 export default function SectionBanner({ id }: Props) {
   const { products } = useContext(Context);
   const bannerRef = useRef<HTMLDivElement | null>(null);
+  const [hiddenEdit, setHiddenEdit] = useState(false);
 
   const handleDownloadImage = useCallback(async () => {
-    if (bannerRef.current) {
+    if (!bannerRef.current) return;
+
+    setHiddenEdit(true);
+
+    setTimeout(async () => {
+      if (!bannerRef.current) return;
       try {
-        const canvas = await html2canvas(bannerRef.current, {
-          useCORS: true,
-        });
+        const canvas = await html2canvas(bannerRef.current, { useCORS: true });
         const dataURL = canvas.toDataURL("image/png");
         downloadjs(dataURL, "tabla-de-precios.png", "image/png");
-      } catch {
-        alert("error en descarga 😢");
+      } catch (e) {
+        alert("Ocurrió un error al descargar la imagen 😢");
+      } finally {
+        setHiddenEdit(false);
       }
-    }
-  }, []);
+    }, 0);
+  }, [bannerRef]);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -218,7 +225,7 @@ export default function SectionBanner({ id }: Props) {
   return (
     <section
       id={id}
-      className="h-full grid grid-rows-[80%_auto] place-items-center gap-2.5 relative"
+      className="h-full flex flex-col justify-center items-center gap-2.5 relative"
     >
       <Banner
         ref={bannerRef}
@@ -229,22 +236,26 @@ export default function SectionBanner({ id }: Props) {
         className="w-[70%] max-w-80 min-h-[70%] bg-white "
         classNameTable="table-fixed lg:border-spacing-y-5"
       >
-        <button
-          className="bg-amber-100 p-2.5 rounded-full"
-          onClick={handleDialog}
-        >
-          <IconEdit size={12} color="black" />
-        </button>
+        {hiddenEdit === false ? (
+          <button
+            className="bg-amber-100 p-2.5 rounded-full"
+            onClick={handleDialog}
+          >
+            <IconEdit size={12} color="black" />
+          </button>
+        ) : (
+          <></>
+        )}
       </Banner>
 
       <dialog
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl border-4 border-amber-300 max-w-10/12 w-96 max-h-[80vh]"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl border-4 border-amber-300 max-w-10/12 w-96 max-h-[90vh] overflow-visible p-1"
         ref={dialogRef}
       >
         <Form
           title="Edicion de Banner"
           classNameTitle="md:text-2xl"
-          className="w-full h-full border-none bg-transparent grid  md:grid-cols-1 gap-y-5 md:gap-y-8"
+          className="w-full h-full border-none bg-transparent grid  grid-cols-2 gap-y-2.5 "
         >
           <InputIcon
             label="Imagen de fondo"
@@ -254,7 +265,7 @@ export default function SectionBanner({ id }: Props) {
             className="hidden"
             onChange={editStyleBanner}
           >
-            <IconImageInPicture className="inline" />
+            <IconImageInPicture />
           </InputIcon>
 
           <InputIcon
@@ -262,7 +273,7 @@ export default function SectionBanner({ id }: Props) {
             type="color"
             name="bgColor-input"
             id="bgcolor-editInput"
-            classNameLabel="flex items-center"
+            classNameLabel=""
             className="ml-auto"
             value={styleBanner.bgColor}
             onChange={editStyleBanner}
@@ -275,7 +286,7 @@ export default function SectionBanner({ id }: Props) {
             type="color"
             name="textColor-input"
             id="color-editInput"
-            classNameLabel="flex items-center"
+            classNameLabel=""
             className="ml-auto"
             value={styleBanner.color}
             onChange={editStyleBanner}
@@ -292,7 +303,7 @@ export default function SectionBanner({ id }: Props) {
             className="w-full outline-0 pt-2"
             onChange={editStyleBanner}
           >
-            <IconTextCaption className="inline" />
+            <IconTextCaption />
           </InputIcon>
           <Select
             label="Fuente"
@@ -310,8 +321,8 @@ export default function SectionBanner({ id }: Props) {
             type="color"
             name="borderColor-input"
             id="borderColor-editInput"
-            classNameLabel="flex items-center"
-            className="ml-auto"
+            classNameLabel=""
+            className=""
             value={styleBanner.borderColor}
             onChange={editStyleBanner}
           >
@@ -322,6 +333,7 @@ export default function SectionBanner({ id }: Props) {
             options={borders}
             id="border-editSelect"
             name="border-select"
+            className="pt-2 block w-full"
             value={styleBanner.border}
             onChange={editStyleBanner}
           >
@@ -332,6 +344,7 @@ export default function SectionBanner({ id }: Props) {
             options={borderWidths}
             id="borderWidth-editSelect"
             name="borderWidth-select"
+            className="pt-2 block w-full"
             value={styleBanner.borderWidth}
             onChange={editStyleBanner}
           >
@@ -345,20 +358,20 @@ export default function SectionBanner({ id }: Props) {
               className="bg-gray-500 shadow-2xl w-fit justify-self-start md:p-2.5"
               onClick={() => updateStyleBanner({ action: "RESET" })}
             />
-
-            <Btn
-              text="Cerrar"
-              type="button"
-              className="bg-amber-300 shadow-2xl flex-1 w-full md:p-2.5"
-              onClick={handleDialog}
-            />
           </div>
         </Form>
+        <button
+          type="button"
+          className="bg-red-500 text-amber-50 p-1 rounded-full absolute top-0 right-0 translate-x-1/2 -translate-y-1/2"
+          onClick={handleDialog}
+        >
+          <IconX size={32} />
+        </button>
       </dialog>
 
       <Btn
         text="Descargar"
-        className="bg-blue-400"
+        className="bg-blue-400 absolute top-5 right-2"
         onClick={handleDownloadImage}
       />
     </section>

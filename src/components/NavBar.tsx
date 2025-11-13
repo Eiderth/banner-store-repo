@@ -23,7 +23,7 @@ export default function NavBar({
 }: Props) {
   return (
     <nav {...props}>
-      <ul className={twMerge("flex flex-col relative gap-3.5", className)}>
+      <ul className={twMerge("flex flex-col gap-3.5", className)}>
         {links.map((link) => (
           <li
             key={link.link}
@@ -33,7 +33,7 @@ export default function NavBar({
             {link.info && (
               <span
                 className={twMerge(
-                  "transition-opacity group-hover:opacity-100 opacity-0 group-hover:inline-block hidden absolute top-1/2 -translate-y-1/2",
+                  "absolute top-1/2 -translate-y-1/2",
                   classNameSpan
                 )}
               >

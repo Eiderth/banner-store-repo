@@ -5,9 +5,7 @@ import {
   IconChecklist,
   IconFilePencil,
 } from "@tabler/icons-react";
-type Props = {
-  isHover: (boolean: boolean) => void;
-};
+type Props = {};
 
 const links: Links[] = [
   {
@@ -31,15 +29,13 @@ const links: Links[] = [
     info: "Banner",
   },
 ];
-export default function NavApp({ isHover }: Props) {
+export default function NavApp({}: Props) {
   return (
     <NavBar
-      onMouseEnter={() => isHover(true)}
-      onMouseLeave={() => isHover(false)}
       links={links}
-      className="w-fit h-11/12 p-2.5 pt-5 rounded-br-2xl bg-[#F6FAFD] hover:gap-5 group z-50"
-      classNameLi="p-0 group-hover:p-2.5"
-      classNameSpan="left-full ml-6 bg-[#F6FAFD] p-2 rounded-2xl"
+      className="w-fit h-11/12 p-2.5 pt-5 rounded-br-2xl bg-[#F6FAFD]  gap-3.5 group z-50 "
+      classNameLi="p-0 group-hover:p-2.5 transition-all duration-500 hover:bg-[#BDD8E9] rounded-2xl"
+      classNameSpan="bg-[#F6FAFD] p-2 rounded-2xl -translate-x-25 group-hover:translate-x-14 opacity-0 group-hover:opacity-100 transition-transform duration-200 z-50"
     />
   );
 }

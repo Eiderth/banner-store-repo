@@ -53,14 +53,11 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
           className
         )}
       >
+        <h2 className="text-center font-bold md:text-3xl w-full self-center">
+          {title}
+        </h2>
         {cloneChildren}
-        <div
-          className="flex flex-col gap-2 md:gap-y-5 md:py-2.5
-        lg:p-2.5 hide-scroll-bar scroll-smooth overflow-y-scroll max-h-80"
-        >
-          <h2 className="text-center font-bold md:text-3xl w-full self-center">
-            {title}
-          </h2>
+        <div className="hide-scroll-bar scroll-smooth overflow-y-scroll max-h-80">
           <table
             className={twMerge(
               "w-full border-separate border-spacing-0.5 border-spacing-y-1.5 md:border-spacing-2 text-nowrap",
