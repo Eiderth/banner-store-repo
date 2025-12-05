@@ -3,6 +3,7 @@ import {
   IconAlbum,
   IconChartDots,
   IconChecklist,
+  IconDashboard,
   IconFilePencil,
 } from "@tabler/icons-react";
 type Props = {};
@@ -27,6 +28,11 @@ const links: Links[] = [
     link: "banner",
     icon: <IconAlbum />,
     info: "Banner",
+  },
+  {
+    link: "dashBoard",
+    icon: <IconDashboard />,
+    info: "DashBoard",
   },
 ];
 export default function NavApp({}: Props) {

@@ -5,6 +5,7 @@ import SectionBanner from "./components/SectionBanner";
 import Slider from "../../components/Slider";
 import ComponentContext from "../../contexts/ComponentContext";
 import NavApp from "./components/NavApp";
+import DashBoard from "./components/DashBoard";
 export default function Aplication() {
   return (
     <ComponentContext>
@@ -15,6 +16,7 @@ export default function Aplication() {
           <SectionData id="data" />
           <SectionCalc id="calc" />
           <SectionBanner id="banner" />
+          <DashBoard id="dashBoard" />
         </Slider>
       </main>
     </ComponentContext>
