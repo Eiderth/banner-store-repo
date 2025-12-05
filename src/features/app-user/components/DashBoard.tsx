@@ -57,7 +57,7 @@ export default function DashBoard({ id }: Props) {
             Relacion Ingresos/Ganancias
           </h3>
           <div className="flex flex-col md:flex-row gap-5">
-            <svg className="border-4 " height="250" viewBox="0 0 200 200">
+            <svg className="shadow" height="250" viewBox="0 0 200 200">
               <circle
                 r={70}
                 cx="50%"
@@ -89,18 +89,20 @@ export default function DashBoard({ id }: Props) {
                   transformOrigin: "50% 50%",
                 }}
               />
-              <text x="50%" y="50%" textAnchor="middle" fontSize="bold">
+              <text x="50%" y="50%" textAnchor="middle" fontWeight="bold">
                 Ganancias
                 <tspan x="50%" dy="1.2em">
                   {((data.ganancias / data.ingresos) * 100).toFixed(2)}%
                 </tspan>
               </text>
             </svg>
-            <div className="w-full p-2.5 font-bold flex flex-col justify-center gap-5">
+            <div className="w-full p-2.5 flex flex-col justify-center gap-5">
               <div>
-                Ingresos totales : <span>{data.ingresos.toFixed(2)}</span>
-                <div className="w-3/4 h-8  rounded-3xl border-2 overflow-hidden relative">
-                  <span className="absolute left-1/2 -translate-x-2/4">
+                <strong className="text-sm text-gray-600 ml-2.5">
+                  Ingresos totales : {data.ingresos.toFixed(2)}
+                </strong>
+                <div className="w-3/4 h-8  rounded-3xl shadow overflow-hidden relative">
+                  <span className="absolute left-1/2  -translate-x-2/4 font-bold">
                     100%
                   </span>
                   <div
@@ -112,9 +114,11 @@ export default function DashBoard({ id }: Props) {
                 </div>
               </div>
               <div>
-                Invertido : <span>{data.invertido.toFixed(2)}</span>
-                <div className="w-3/4 h-8 rounded-3xl border-2 overflow-hidden relative">
-                  <span className="absolute left-1/2 -translate-x-2/4">
+                <strong className="text-sm text-gray-600 ml-2.5">
+                  Invertido : {data.invertido.toFixed(2)}
+                </strong>
+                <div className="w-3/4 h-8 rounded-3xl shadow overflow-hidden relative">
+                  <span className="absolute left-1/2 -translate-x-2/4 font-bold">
                     {((data.invertido / data.ingresos) * 100).toFixed(2)}%
                   </span>
                   <div
@@ -126,9 +130,11 @@ export default function DashBoard({ id }: Props) {
                 </div>
               </div>
               <div>
-                Ganacias : <span>{data.ganancias.toFixed(2)}</span>
-                <div className="w-3/4 h-8  rounded-3xl border-2 overflow-hidden relative">
-                  <span className="absolute left-1/2 -translate-x-2/4">
+                <strong className="text-sm text-gray-600 ml-2.5">
+                  Ganacias : {data.ganancias.toFixed(2)}
+                </strong>
+                <div className="w-3/4 h-8 rounded-3xl shadow overflow-hidden relative">
+                  <span className="absolute left-1/2 -translate-x-2/4 font-bold">
                     {((data.ganancias / data.ingresos) * 100).toFixed(2)}%
                   </span>
 
