@@ -1,35 +1,18 @@
-import { useContext, useMemo } from "react";
-import { Context } from "../../../contexts/Contex";
-type Props = { id: string };
+import { useMemo } from "react";
+import { IconArrowRampRight2 } from "@tabler/icons-react";
+import { type Data } from "../features/app-user/components/SectionDashBoard";
+import type { Products } from "../types";
+type Props = {
+  onClick: () => void;
+  data: Data;
+  productsSort: Products[];
+};
 
 const colors = {
   color1: "blue",
   color2: "#01AB18",
 };
-export default function DashBoard({ id }: Props) {
-  const { products } = useContext(Context);
-
-  const data = useMemo(() => {
-    return products.reduce(
-      (acc, product) => {
-        const ingreso = product.precio * product.unidades;
-        const ganancia = product.ganancia;
-        acc.ingresos += ingreso;
-        acc.ganancias += ganancia;
-        acc.invertido += ingreso - ganancia;
-        return acc;
-      },
-      { ingresos: 0, ganancias: 0, invertido: 0 }
-    );
-  }, [products]);
-
-  const productsMaxValue = useMemo(() => {
-    const productsSort = products.slice().sort((a, b) => {
-      return a.ganancia - b.ganancia;
-    });
-    return productsSort.slice(0, 6);
-  }, [products]);
-
+export default function DashBoard({ onClick, data, productsSort }: Props) {
   const porcents = useMemo(() => {
     return {
       invertido: ((data.invertido / data.ingresos) * 100).toFixed(2) + "%",
@@ -38,7 +21,7 @@ export default function DashBoard({ id }: Props) {
   }, [data]);
 
   return (
-    <section id={id} className="w-full min-h-[400px] p-6">
+    <>
       <header className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-semibold">Dashboard</h2>
         <div className="text-sm text-gray-500">Resumen rápido</div>
@@ -47,7 +30,7 @@ export default function DashBoard({ id }: Props) {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white p-4 rounded-lg shadow">
           <p className="text-sm text-gray-500">Cant Productos</p>
-          <p className="text-2xl font-bold">{products.length}</p>
+          <p className="text-2xl font-bold">{productsSort.length}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <p className="text-sm text-gray-500">Ingresos</p>
@@ -165,25 +148,31 @@ export default function DashBoard({ id }: Props) {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-white p-4 rounded-lg shadow relative">
+          <button
+            className="absolute top-2.5 right-5 transition rounded-b-sm shadow hover:scale-120"
+            onClick={onClick}
+          >
+            <IconArrowRampRight2 />
+          </button>
           <h3 className="text-sm text-gray-600 mb-2">
-            Productos con mayor ganancias
+            Productos con mayor ganancia
           </h3>
           <table className="w-full text-left text-sm">
             <thead>
               <tr>
                 <th className="py-1">Producto</th>
                 <th className="py-1">Costo</th>
-                <th className="py-1">Unidades</th>
-                <th className="py-1">ganancia</th>
+                <th className="py-1">Ingreso</th>
+                <th className="py-1">Ganancia</th>
               </tr>
             </thead>
             <tbody>
-              {productsMaxValue.map((product, i) => (
+              {productsSort.slice(0, 6).map((product, i) => (
                 <tr key={`${product.producto}--${i}`} className="border-t">
                   <td className="py-2">{product.producto}</td>
                   <td className="py-2">{product.costo}</td>
-                  <td className="py-2">{product.unidades}</td>
+                  <td className="py-2">{product.precio * product.unidades}</td>
                   <td className="py-2">{product.ganancia}</td>
                 </tr>
               ))}
@@ -191,6 +180,6 @@ export default function DashBoard({ id }: Props) {
           </table>
         </div>
       </div>
-    </section>
+    </>
   );
 }
