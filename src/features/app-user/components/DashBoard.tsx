@@ -1,4 +1,4 @@
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Context } from "../../../contexts/Contex";
 type Props = { id: string };
 
@@ -22,6 +22,18 @@ export default function DashBoard({ id }: Props) {
       { ingresos: 0, ganancias: 0, invertido: 0 }
     );
   }, [products]);
+
+  const [porcents, setPorcents] = useState({
+    invertido: ((data.invertido / data.ingresos) * 100).toFixed(2) + "%",
+    ganancias: ((data.ganancias / data.ingresos) * 100).toFixed(2) + "%",
+  });
+
+  useEffect(() => {
+    setPorcents({
+      invertido: ((data.invertido / data.ingresos) * 100).toFixed(2) + "%",
+      ganancias: ((data.ganancias / data.ingresos) * 100).toFixed(2) + "%",
+    });
+  }, [data]);
 
   return (
     <section id={id} className="w-full min-h-[400px] p-6">
@@ -65,13 +77,11 @@ export default function DashBoard({ id }: Props) {
                 fill="none"
                 stroke={colors.color1}
                 strokeWidth={30}
-                strokeDasharray={`${data.ingresos} ${data.ingresos}`}
                 strokeDashoffset={0}
                 pathLength={data.ingresos}
                 style={{
                   transform: "rotate(-90deg)",
                   transformOrigin: "50% 50%",
-                  animation: "ease-out",
                 }}
               />
               <circle
@@ -81,9 +91,11 @@ export default function DashBoard({ id }: Props) {
                 fill="none"
                 stroke={colors.color2}
                 strokeWidth={30}
-                strokeDasharray={`${data.ganancias} ${data.ingresos}`}
-                strokeDashoffset={-data.ingresos}
-                pathLength={data.ingresos + data.ganancias}
+                strokeDasharray={`${data.ganancias} ${
+                  data.ingresos - data.ganancias
+                }`}
+                strokeDashoffset={-(data.ingresos - data.ganancias)}
+                pathLength={data.ingresos}
                 style={{
                   transform: "rotate(-90deg)",
                   transformOrigin: "50% 50%",
@@ -96,6 +108,7 @@ export default function DashBoard({ id }: Props) {
                 </tspan>
               </text>
             </svg>
+
             <div className="w-full p-2.5 flex flex-col justify-center gap-5">
               <div>
                 <strong className="text-sm text-gray-600 ml-2.5">
@@ -108,7 +121,7 @@ export default function DashBoard({ id }: Props) {
                   <div
                     className="h-full bg-yellow-300"
                     style={{
-                      width: `${(data.ingresos / data.ingresos) * 100}%`,
+                      width: "100%",
                     }}
                   />
                 </div>
@@ -119,12 +132,12 @@ export default function DashBoard({ id }: Props) {
                 </strong>
                 <div className="w-3/4 h-8 rounded-3xl shadow overflow-hidden relative">
                   <span className="absolute left-1/2 -translate-x-2/4 font-bold">
-                    {((data.invertido / data.ingresos) * 100).toFixed(2)}%
+                    {porcents.invertido}
                   </span>
                   <div
                     className="h-full  bg-blue-600"
                     style={{
-                      width: `${(data.invertido / data.ingresos) * 100}%`,
+                      width: porcents.invertido,
                     }}
                   />
                 </div>
@@ -135,13 +148,13 @@ export default function DashBoard({ id }: Props) {
                 </strong>
                 <div className="w-3/4 h-8 rounded-3xl shadow overflow-hidden relative">
                   <span className="absolute left-1/2 -translate-x-2/4 font-bold">
-                    {((data.ganancias / data.ingresos) * 100).toFixed(2)}%
+                    {porcents.ganancias}
                   </span>
 
                   <div
                     className="h-full  bg-green-500 "
                     style={{
-                      width: `${(data.ganancias / data.ingresos) * 100}%`,
+                      width: porcents.ganancias,
                     }}
                   />
                 </div>
@@ -167,7 +180,7 @@ export default function DashBoard({ id }: Props) {
                   <td className="py-2">{product.producto}</td>
                   <td className="py-2">{product.costo}</td>
                   <td className="py-2">{product.unidades}</td>
-                  <td className="py-2">{product.precio}</td>
+                  <td className="py-2">{product.ganancia}</td>
                 </tr>
               ))}
             </tbody>
