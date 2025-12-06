@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import { Context } from "../../../contexts/Contex";
 type Props = { id: string };
 
@@ -23,16 +23,18 @@ export default function DashBoard({ id }: Props) {
     );
   }, [products]);
 
-  const [porcents, setPorcents] = useState({
-    invertido: ((data.invertido / data.ingresos) * 100).toFixed(2) + "%",
-    ganancias: ((data.ganancias / data.ingresos) * 100).toFixed(2) + "%",
-  });
+  const productsMaxValue = useMemo(() => {
+    const productsSort = products.slice().sort((a, b) => {
+      return a.ganancia - b.ganancia;
+    });
+    return productsSort.slice(0, 6);
+  }, [products]);
 
-  useEffect(() => {
-    setPorcents({
+  const porcents = useMemo(() => {
+    return {
       invertido: ((data.invertido / data.ingresos) * 100).toFixed(2) + "%",
       ganancias: ((data.ganancias / data.ingresos) * 100).toFixed(2) + "%",
-    });
+    };
   }, [data]);
 
   return (
@@ -164,18 +166,20 @@ export default function DashBoard({ id }: Props) {
         </div>
 
         <div className="bg-white p-4 rounded-lg shadow">
-          <h3 className="text-sm text-gray-600 mb-2">Productos</h3>
+          <h3 className="text-sm text-gray-600 mb-2">
+            Productos con mayor ganancias
+          </h3>
           <table className="w-full text-left text-sm">
             <thead>
               <tr>
                 <th className="py-1">Producto</th>
                 <th className="py-1">Costo</th>
                 <th className="py-1">Unidades</th>
-                <th className="py-1">Precio</th>
+                <th className="py-1">ganancia</th>
               </tr>
             </thead>
             <tbody>
-              {products.map((product, i) => (
+              {productsMaxValue.map((product, i) => (
                 <tr key={`${product.producto}--${i}`} className="border-t">
                   <td className="py-2">{product.producto}</td>
                   <td className="py-2">{product.costo}</td>
