@@ -14,10 +14,18 @@ const colors = {
 };
 export default function DashBoard({ onClick, data, productsSort }: Props) {
   const porcents = useMemo(() => {
-    return {
-      invertido: ((data.invertido / data.ingresos) * 100).toFixed(2) + "%",
-      ganancias: ((data.ganancias / data.ingresos) * 100).toFixed(2) + "%",
-    };
+    if (data.ingresos !== 0)
+      return {
+        ingresos: ((data.ingresos / data.ingresos) * 100).toFixed(2) + "%",
+        invertido: ((data.invertido / data.ingresos) * 100).toFixed(2) + "%",
+        ganancias: ((data.ganancias / data.ingresos) * 100).toFixed(2) + "%",
+      };
+    else
+      return {
+        ingresos: "0%",
+        invertido: "0%",
+        ganancias: "0%",
+      };
   }, [data]);
 
   return (
@@ -42,9 +50,7 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <p className="text-sm text-gray-500">Tasa de ganancia</p>
-          <p className="text-2xl font-bold">
-            + %{((data.ganancias / data.ingresos) * 100).toFixed(2)}
-          </p>
+          <p className="text-2xl font-bold">+ {porcents.ganancias}</p>
         </div>
       </div>
 
@@ -69,27 +75,32 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
                   transformOrigin: "50% 50%",
                 }}
               />
-              <circle
-                r={70}
-                cx="50%"
-                cy="50%"
-                fill="none"
-                stroke={colors.color2}
-                strokeWidth={30}
-                strokeDasharray={`${data.ganancias} ${
-                  data.ingresos - data.ganancias
-                }`}
-                strokeDashoffset={-(data.ingresos - data.ganancias)}
-                pathLength={data.ingresos}
-                style={{
-                  transform: "rotate(-90deg)",
-                  transformOrigin: "50% 50%",
-                }}
-              />
+              {data.ganancias < 1 ? (
+                ""
+              ) : (
+                <circle
+                  r={70}
+                  cx="50%"
+                  cy="50%"
+                  fill="none"
+                  stroke={colors.color2}
+                  strokeWidth={30}
+                  strokeDasharray={`${data.ganancias} ${
+                    data.ingresos - data.ganancias
+                  }`}
+                  strokeDashoffset={-(data.ingresos - data.ganancias)}
+                  pathLength={data.ingresos}
+                  style={{
+                    transform: "rotate(-90deg)",
+                    transformOrigin: "50% 50%",
+                  }}
+                />
+              )}
+
               <text x="50%" y="50%" textAnchor="middle" fontWeight="bold">
                 Ganancias
                 <tspan x="50%" dy="1.2em">
-                  {((data.ganancias / data.ingresos) * 100).toFixed(2)}%
+                  {porcents.ganancias}
                 </tspan>
               </text>
             </svg>
@@ -97,27 +108,27 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
             <div className="w-full p-2.5 flex flex-col justify-center gap-5">
               <div>
                 <strong className="text-sm text-gray-600 ml-2.5">
-                  Ingresos totales : {data.ingresos.toFixed(2)}
+                  Ingresos totales : {porcents.ingresos}
                 </strong>
                 <div className="w-3/4 h-8  rounded-3xl shadow overflow-hidden relative">
                   <span className="absolute left-1/2  -translate-x-2/4 font-bold">
-                    100%
+                    {data.ingresos.toFixed(2)}$
                   </span>
                   <div
                     className="h-full bg-yellow-300"
                     style={{
-                      width: "100%",
+                      width: porcents.ingresos,
                     }}
                   />
                 </div>
               </div>
               <div>
                 <strong className="text-sm text-gray-600 ml-2.5">
-                  Invertido : {data.invertido.toFixed(2)}
+                  Invertido : {porcents.invertido}
                 </strong>
                 <div className="w-3/4 h-8 rounded-3xl shadow overflow-hidden relative">
                   <span className="absolute left-1/2 -translate-x-2/4 font-bold">
-                    {porcents.invertido}
+                    {data.invertido.toFixed(2)}$
                   </span>
                   <div
                     className="h-full  bg-blue-600"
@@ -129,11 +140,11 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
               </div>
               <div>
                 <strong className="text-sm text-gray-600 ml-2.5">
-                  Ganacias : {data.ganancias.toFixed(2)}
+                  Ganacias :{porcents.ganancias}
                 </strong>
                 <div className="w-3/4 h-8 rounded-3xl shadow overflow-hidden relative">
                   <span className="absolute left-1/2 -translate-x-2/4 font-bold">
-                    {porcents.ganancias}
+                    {data.ganancias.toFixed(2)}$
                   </span>
 
                   <div
