@@ -40,10 +40,10 @@ export default function TableProducts({ onCLick, data, productsSort }: Props) {
 
         <tfoot className="border-t h-10">
           <tr className="">
-            <th className="py-1">Total</th>
-            <th className="py-1">{data.invertido}</th>
-            <th className="py-1">{data.ingresos}</th>
-            <th className="py-1">{data.ganancias}</th>
+            <td className="py-1">Total</td>
+            <td className="py-1">{data.invertido}</td>
+            <td className="py-1">{data.ingresos}</td>
+            <td className="py-1">{data.ganancias}</td>
           </tr>
         </tfoot>
       </table>

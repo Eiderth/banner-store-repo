@@ -182,9 +182,11 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
               {productsSort.slice(0, 6).map((product, i) => (
                 <tr key={`${product.producto}--${i}`} className="border-t">
                   <td className="py-2">{product.producto}</td>
-                  <td className="py-2">{product.costo}</td>
-                  <td className="py-2">{product.precio * product.unidades}</td>
-                  <td className="py-2">{product.ganancia}</td>
+                  <td className="py-2">{product.costo.toFixed(2)}</td>
+                  <td className="py-2">
+                    {(product.precio * product.unidades).toFixed(2)}
+                  </td>
+                  <td className="py-2">{product.ganancia.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
