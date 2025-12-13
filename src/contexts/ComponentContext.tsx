@@ -72,6 +72,7 @@ export default function ComponentContext({
       value={{
         products,
         productsProps,
+        editProducts: setProductsProps,
         setProductsProps: SetProducts,
         deleteProduct: handleDelete,
       }}
