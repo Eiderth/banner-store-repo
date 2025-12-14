@@ -146,7 +146,6 @@ export default function FormProduct({ id }: Props) {
           type="number"
           placeholder="$"
           required
-          step="any"
           value={stateData.costo}
           onChange={handleChangue}
           invalid={stateInvalid.costo}

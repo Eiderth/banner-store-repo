@@ -1,45 +1,76 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ChangeEvent,
+} from "react";
 import { Context } from "../../../contexts/Contex";
-
+// import type { FormData } from "../../../types";
 import Btn from "../../../components/Btn";
+
 import { IconTrash, IconEdit } from "@tabler/icons-react";
 
 type Props = {
   id: string;
 };
+// const initialInvalid = {
+//   producto: false,
+//   costo: false,
+//   unidades: false,
+//   porcentaje: false,
+// };
+
+// const validate = (
+//   name: keyof Omit<FormData, "precio" | "iva">,
+//   value: string
+// ): boolean => {
+//   switch (name) {
+//     case "producto": {
+//       const newValue = value.toUpperCase();
+//       return newValue.length > 20 || /[^a-zA-Z ]/.test(newValue);
+//     }
+//     case "costo":
+//       return !/^\d*\.?\d*$/.test(value);
+
+//     case "unidades":
+//       return !/^\d*$/.test(value);
+
+//     case "porcentaje":
+//       return !/^\d*\.?\d*$/.test(value);
+//   }
+// };
 
 export default function SectionData({ id }: Props) {
-  const { productsProps, deleteProduct } = useContext(Context);
-
-  const initialDat = useMemo(() => {
-    return productsProps.map((product) => {
-      return {
-        ...product,
-        isEditing: false,
-      };
-    });
-  }, []);
-
-  const [data, setData] = useState(initialDat);
+  const { productsProps, deleteProduct, editProducts } = useContext(Context);
+  const [isEditing, setIsEditing] = useState(
+    new Array(productsProps.length).fill(false)
+  );
 
   const handleClick = (i: number) => {
-    const dataEdit = data.map((dat, idx) => {
-      if (i != idx) return dat;
-      else return { ...dat, isEditing: !dat.isEditing };
-    });
-    setData(dataEdit);
+    setIsEditing(
+      isEditing.map((bool, idx) => {
+        if (i === idx) return !bool;
+        return bool;
+      })
+    );
   };
 
   useEffect(() => {
-    const newDat = productsProps.map((product) => {
-      return {
-        ...product,
-        isEditing: false,
-      };
-    });
-    setData(newDat);
-  }, [productsProps]);
+    setIsEditing(new Array(productsProps.length).fill(false));
+  }, [productsProps.length]);
 
+  const handleChangue = useCallback(
+    (e: ChangeEvent<HTMLInputElement>, idx: number) => {
+      const { name, value } = e.target;
+
+      const props1 = [...productsProps];
+      const props2 = { ...productsProps[idx], [name]: value };
+      props1[idx] = props2;
+      editProducts(props1);
+    },
+    []
+  );
   return (
     <section id={id} className="w-full min-h-[400px] p-6 scroll-smooth">
       <div className="bg-white p-4 rounded-lg shadow">
@@ -54,57 +85,66 @@ export default function SectionData({ id }: Props) {
             </tr>
           </thead>
           <tbody>
-            {data.map((product, i) => (
+            {productsProps.map((product, i) => (
               <tr
-                key={`table-row-${i}-${product.producto}`}
-                className={`border-t ${product.isEditing && "bg-green-200"}`}
+                key={`table-row-${i}`}
+                className={`border-t ${isEditing[i] && "bg-green-200"}`}
               >
                 <td key={`table-col-${i}-producto`} className="py-2 pl-2">
                   <input
-                    className={
-                      product.isEditing
-                        ? "hover:outline-2 hover:p-2 rounded-2xl transition-all"
-                        : "outline-0 cursor-auto"
-                    }
+                    className={`
+                      ${
+                        isEditing[i]
+                          ? "hover:outline-2 hover:p-2 rounded-2xl transition-all"
+                          : "outline-0 cursor-auto"
+                      }`}
                     type="text"
+                    name="producto"
                     value={product.producto}
-                    readOnly={!product.isEditing}
+                    readOnly={!isEditing[i]}
+                    onChange={(e) => handleChangue(e, i)}
                   />
                 </td>
                 <td key={`table-col-${i}-costo`} className="py-2">
                   <input
                     className={
-                      product.isEditing
+                      isEditing[i]
                         ? "hover:outline-2 hover:p-2 rounded-2xl transition-all"
                         : "outline-0 cursor-auto"
                     }
                     type="number"
+                    name="costo"
                     value={product.costo}
-                    readOnly={!product.isEditing}
+                    readOnly={!isEditing[i]}
+                    onChange={(e) => handleChangue(e, i)}
                   />
                 </td>
                 <td key={`table-col-${i}-unidades`} className="py-2">
                   <input
                     className={
-                      product.isEditing
+                      isEditing[i]
                         ? "hover:outline-2 hover:p-2 rounded-2xl transition-all"
                         : "outline-0 cursor-auto"
                     }
                     type="number"
+                    name="unidades"
                     value={product.unidades}
-                    readOnly={!product.isEditing}
+                    readOnly={!isEditing[i]}
+                    onChange={(e) => handleChangue(e, i)}
                   />
                 </td>
                 <td key={`table-col-${i}-porcentaje`} className="py-2">
                   <input
                     className={
-                      product.isEditing
+                      isEditing[i]
                         ? "hover:outline-2 hover:p-2 rounded-2xl transition-all"
                         : "outline-0 cursor-auto"
                     }
                     type="number"
+                    name="porcentaje"
                     value={product.porcentaje}
-                    readOnly={!product.isEditing}
+                    readOnly={!isEditing[i]}
+                    onChange={(e) => handleChangue(e, i)}
                   />
                 </td>
 
@@ -124,19 +164,3 @@ export default function SectionData({ id }: Props) {
     </section>
   );
 }
-
-/* <Table
-  className="table-fixed"
-  data={productsProps}
-  nameTable="Edition-Table"
-  keysD={[
-    "producto",
-    "costo",
-    "unidades",
-    "porcentaje",
-    "iva",
-    "precio",
-  ]}
-  onClick={deleteProduct}
-  iconOnClick={<IconTrash />}
-/> */
