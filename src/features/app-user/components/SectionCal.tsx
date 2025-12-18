@@ -1,56 +1,40 @@
 import { useContext } from "react";
-import Banner from "../../../components/Banner";
+
 import { Context } from "../../../contexts/Contex";
 type Props = { id: string };
 
 export default function SectionCalc({ id }: Props) {
-  const { productsProps, products } = useContext(Context);
+  const { products } = useContext(Context);
 
   return (
-    <section
-      id={id}
-      className="w-full min-h-full p-3.5 grid grid-cols-2 grid-rows-[1fr_auto_1fr] place-items-center gap-4
-    lg:grid-cols-3 lg:grid-rows-2 lg:p-10 lg:gap-10"
-    >
-      <Banner
-        className="col-span-full h-full lg:w-[80%] lg:h-full"
-        classNameTable="table-fixed"
-        title="Resultados"
-        headers={["producto", "precio base", "ganancia", "iva", "precio"]}
-        keys={["producto", "precio_base", "ganancia", "iva", "precio"]}
-        sign={{ iva: "$" }}
-        data={products.map((item) => ({
-          ...item,
-          ganancia: Number((item.ganancia / item.unidades).toFixed(2)),
-        }))}
-      />
-      <Banner
-        className="aspect-square"
-        classNameTable="table-fixed"
-        title="Precio base"
-        headers={["producto", "precio"]}
-        keys={["producto", "precio"]}
-        data={productsProps}
-        sign={{ precio: "$" }}
-      />
-      <Banner
-        className="aspect-square "
-        classNameTable="table-fixed"
-        title="Iva"
-        headers={["producto", "iva"]}
-        keys={["producto", "iva"]}
-        data={products}
-        sign={{ iva: "$" }}
-      />
-      <Banner
-        className="col-span-full h-full rows-3 lg:row-2 lg:col-3 lg:aspect-square"
-        classNameTable="table-fixed"
-        title="porcentaje"
-        headers={["producto", "ganancia"]}
-        keys={["producto", "ganancia"]}
-        data={products}
-        sign={{ ganancia: "$" }}
-      />
+    <section id={id} className="w-full min-h-[400px] p-6 scroll-smooth">
+      <div className="bg-white p-4 rounded-lg shadow relative">
+        <h3 className="text-sm text-gray-600 mb-2">Resultados</h3>
+        <table className="w-full text-left text-sm">
+          <thead>
+            <tr>
+              <th className="py-1">Producto</th>
+              <th className="py-1">Costo</th>
+              <th className="py-1">Unidades</th>
+              <th className="py-1">Precio base</th>
+              <th className="py-1">Ganancia por unidad</th>
+              <th className="py-1">Precio Final</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.slice(0, 6).map((product, i) => (
+              <tr key={`${product.producto}--${i}`} className="border-t">
+                <td className="py-2">{product.producto}</td>
+                <td className="py-2">{product.costo}</td>
+                <td className="py-2">{product.unidades}</td>
+                <td className="py-2">{product.precio_base}</td>
+                <td className="py-2">+{product.ganancia / product.unidades}</td>
+                <td className="py-2">+{product.precio_final}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }

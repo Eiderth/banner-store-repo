@@ -4,7 +4,7 @@ type DataContextType = {
   products: Products[];
   productsProps: FormData[];
   editProducts: (FormData: FormData[]) => void;
-  setProductsProps: (data: Omit<FormData, "precio">) => void;
+  addProducts: (data: Omit<FormData, "precio">) => void;
   deleteProduct: (indexToDelete: number) => void;
 };
 
@@ -12,6 +12,6 @@ export const Context = createContext<DataContextType>({
   products: [],
   productsProps: [],
   editProducts: () => {},
-  setProductsProps: () => {},
+  addProducts: () => {},
   deleteProduct: () => {},
 });

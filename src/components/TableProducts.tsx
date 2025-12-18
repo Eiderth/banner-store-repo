@@ -32,7 +32,9 @@ export default function TableProducts({ onCLick, data, productsSort }: Props) {
             <tr key={`${product.producto}--${i}`} className="border-t">
               <td className="py-2">{product.producto}</td>
               <td className="py-2">{product.costo}</td>
-              <td className="py-2">{product.precio * product.unidades}</td>
+              <td className="py-2">
+                {product.precio_final * product.unidades}
+              </td>
               <td className="py-2">{product.ganancia}</td>
             </tr>
           ))}

@@ -42,11 +42,11 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <p className="text-sm text-gray-500">Ingresos</p>
-          <p className="text-2xl font-bold">${data.ingresos.toFixed(0)}</p>
+          <p className="text-2xl font-bold">${data.ingresos}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <p className="text-sm text-gray-500">Ganancias</p>
-          <p className="text-2xl font-bold">${data.ganancias.toFixed(0)}</p>
+          <p className="text-2xl font-bold">${data.ganancias}</p>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <p className="text-sm text-gray-500">Tasa de ganancia</p>
@@ -112,7 +112,7 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
                 </strong>
                 <div className="w-3/4 h-8  rounded-3xl shadow overflow-hidden relative">
                   <span className="absolute left-1/2  -translate-x-2/4 font-bold">
-                    {data.ingresos.toFixed(2)}$
+                    {data.ingresos}$
                   </span>
                   <div
                     className="h-full bg-yellow-300"
@@ -128,7 +128,7 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
                 </strong>
                 <div className="w-3/4 h-8 rounded-3xl shadow overflow-hidden relative">
                   <span className="absolute left-1/2 -translate-x-2/4 font-bold">
-                    {data.invertido.toFixed(2)}$
+                    {data.invertido}$
                   </span>
                   <div
                     className="h-full  bg-blue-600"
@@ -144,7 +144,7 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
                 </strong>
                 <div className="w-3/4 h-8 rounded-3xl shadow overflow-hidden relative">
                   <span className="absolute left-1/2 -translate-x-2/4 font-bold">
-                    {data.ganancias.toFixed(2)}$
+                    {data.ganancias}$
                   </span>
 
                   <div
@@ -182,11 +182,11 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
               {productsSort.slice(0, 6).map((product, i) => (
                 <tr key={`${product.producto}--${i}`} className="border-t">
                   <td className="py-2">{product.producto}</td>
-                  <td className="py-2">{product.costo.toFixed(2)}</td>
+                  <td className="py-2">{product.costo}</td>
                   <td className="py-2">
-                    {(product.precio * product.unidades).toFixed(2)}
+                    {product.precio_final * product.unidades}
                   </td>
-                  <td className="py-2">{product.ganancia.toFixed(2)}</td>
+                  <td className="py-2">{product.ganancia}</td>
                 </tr>
               ))}
             </tbody>

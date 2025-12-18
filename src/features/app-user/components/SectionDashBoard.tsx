@@ -10,7 +10,7 @@ export default function SectionDashBoard({ id }: Props) {
   const data: Data = useMemo(() => {
     return products.reduce(
       (acc, product) => {
-        const ingreso = product.precio * product.unidades;
+        const ingreso = product.precio_final * product.unidades;
         const ganancia = product.ganancia;
         acc.ingresos += ingreso;
         acc.ganancias += ganancia;

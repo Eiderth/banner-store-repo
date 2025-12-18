@@ -231,7 +231,7 @@ export default function SectionBanner({ id }: Props) {
         ref={bannerRef}
         title={styleBanner.title}
         headers={["producto", "precio"]}
-        keys={["producto", "precio"]}
+        keys={["producto", "precio_final"]}
         data={products}
         className="w-[70%] max-w-80 min-h-[70%] bg-white "
         classNameTable="table-fixed lg:border-spacing-y-5"

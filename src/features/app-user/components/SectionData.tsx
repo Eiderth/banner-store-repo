@@ -1,53 +1,27 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ChangeEvent,
-} from "react";
+import { useContext, useEffect, useState, type ChangeEvent } from "react";
 import { Context } from "../../../contexts/Contex";
-import type { FormData } from "../../../types";
 import Btn from "../../../components/Btn";
-
 import { IconTrash, IconEdit } from "@tabler/icons-react";
-
+import validate from "../../../functions/validate";
+import { initialInvalid } from "../../../functions/validate";
 type Props = {
   id: string;
-};
-const initialInvalid = {
-  producto: false,
-  costo: false,
-  unidades: false,
-  porcentaje: false,
-};
-
-const validate = (
-  name: keyof Omit<FormData, "precio" | "iva">,
-  value: string
-): boolean => {
-  switch (name) {
-    case "producto": {
-      const newValue = value.toUpperCase();
-      return (
-        newValue.length > 20 ||
-        /[^a-zA-Z ]/.test(newValue) ||
-        newValue.length < 3
-      );
-    }
-    case "costo":
-      return !/^\d*\.?\d*$/.test(value) || value === "";
-
-    case "unidades":
-      return !/^\d*$/.test(value) || value === "";
-
-    case "porcentaje":
-      return !/^\d*\.?\d*$/.test(value) || value === "";
-  }
 };
 
 export default function SectionData({ id }: Props) {
   const { productsProps, deleteProduct, editProducts } = useContext(Context);
 
+  // se crea una copia para manejar mejor los cambios y evitar daño a los demas componentes en caso de errores
+  const [copyProps, setCopyProps] = useState(productsProps);
+
+  //useEffect para actualizar el estado de la copia y reiniciar valores
+  useEffect(() => {
+    setCopyProps(productsProps);
+    setIdx(-1);
+    setIsInvalid(initialInvalid);
+  }, [productsProps]);
+
+  //Manejador de click de edicion
   const [idxEditing, setIdx] = useState(-1);
   const handleClick = (i: number) => {
     if (idxEditing != i) {
@@ -55,10 +29,14 @@ export default function SectionData({ id }: Props) {
       return;
     }
     setIdx(-1);
+    editProducts(copyProps);
+    setDat({ key: "", value: "" });
   };
+
+  //almacenado de Data y validacion
   const [newDat, setDat] = useState({ key: "", value: "" });
   const [isInvalid, setIsInvalid] = useState(initialInvalid);
-  const handleChangue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setDat({ key: name, value: value });
@@ -67,16 +45,17 @@ export default function SectionData({ id }: Props) {
       ...isInvalid,
       [name]: validate(name as keyof typeof initialInvalid, value),
     });
-  }, []);
-
+  };
+  //prevenir que el usuario deje campos vacios o invalidos
   useEffect(() => {
-    const props = [...productsProps];
-    const newProp = {
-      ...productsProps[idxEditing],
+    if (newDat.key == "") return;
+    const newProps = [...copyProps];
+    const newDate = {
+      ...copyProps[idxEditing],
       [newDat.key]: newDat.value.toUpperCase(),
     };
-    props[idxEditing] = newProp;
-    editProducts(props);
+    newProps[idxEditing] = newDate;
+    setCopyProps(newProps);
   }, [newDat]);
 
   const [disabled, setDisabled] = useState(-1);
@@ -85,7 +64,8 @@ export default function SectionData({ id }: Props) {
     if (arrInvalid) {
       setDisabled(idxEditing);
     } else setDisabled(-1);
-  }, [productsProps[idxEditing]]);
+  }, [copyProps[idxEditing]]);
+
   return (
     <section id={id} className="w-full min-h-[400px] p-6 scroll-smooth ">
       <div className="bg-white p-4 w- rounded-lg shadow ">
@@ -100,7 +80,7 @@ export default function SectionData({ id }: Props) {
             </tr>
           </thead>
           <tbody>
-            {productsProps.map((product, i) => (
+            {copyProps.map((product, i) => (
               <tr
                 key={`table-row-${i}`}
                 className={`border-t ${idxEditing === i && "bg-green-200"}`}
@@ -132,7 +112,7 @@ export default function SectionData({ id }: Props) {
                   <input
                     className={
                       idxEditing === i
-                        ? "hover:outline-2 hover:p-2 rounded-2xl transition-all w-9/12"
+                        ? "hover:outline-2 focus:p-2 hover:p-2 rounded-2xl transition-all w-9/12"
                         : "outline-0 cursor-auto"
                     }
                     type="number"
@@ -150,7 +130,7 @@ export default function SectionData({ id }: Props) {
                   <input
                     className={
                       idxEditing === i
-                        ? "hover:outline-2 hover:p-2 rounded-2xl transition-all w-9/12"
+                        ? "hover:outline-2 focus:p-2 hover:p-2 rounded-2xl transition-all w-9/12"
                         : "outline-0 cursor-auto"
                     }
                     type="number"
@@ -168,7 +148,7 @@ export default function SectionData({ id }: Props) {
                   <input
                     className={
                       idxEditing === i
-                        ? "hover:outline-2 hover:p-2 rounded-2xl transition-all w-9/12"
+                        ? "hover:outline-2 focus:p-2 hover:p-2 rounded-2xl transition-all w-9/12"
                         : "outline-0 cursor-auto"
                     }
                     type="number"

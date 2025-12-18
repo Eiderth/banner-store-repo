@@ -5,36 +5,32 @@ import {
   useReducer,
   useContext,
 } from "react";
-import type { ChangeEvent } from "react";
-import type { FormData } from "../../../types";
+import { Context } from "../../../contexts/Contex";
 import Form from "../../../components/Form";
 import Input from "../../../components/Input";
 import Btn from "../../../components/Btn";
-import { Context } from "../../../contexts/Contex";
+import type { ChangeEvent } from "react";
+import type { FormData } from "../../../types";
 
-const initialData: Omit<FormData, "precio"> = {
+import validate from "../../../functions/validate";
+import { initialInvalid } from "../../../functions/validate";
+
+const initialData: FormData = {
   producto: "",
   costo: "",
   unidades: "",
   porcentaje: "",
-  iva: false,
-};
-const initialInvalid = {
-  producto: false,
-  costo: false,
-  unidades: false,
-  porcentaje: false,
 };
 
 type ActionData =
   | {
       type: "FIELD_SET";
       fieldName: string;
-      value: string | boolean;
+      value: string;
     }
   | { type: "FIELD_RESET" };
 
-const reducerData = (state: Omit<FormData, "precio">, action: ActionData) => {
+const reducerData = (state: FormData, action: ActionData) => {
   switch (action.type) {
     case "FIELD_SET": {
       return { ...state, [action.fieldName]: action.value };
@@ -46,50 +42,31 @@ const reducerData = (state: Omit<FormData, "precio">, action: ActionData) => {
 };
 const reducerInvalid = (
   state: typeof initialInvalid,
-  action: { key: keyof typeof initialInvalid; value: string | boolean }
+  action: { key: keyof typeof initialInvalid; value: boolean }
 ) => {
   return {
     ...state,
     [action.key]: action.value,
   };
 };
-const validate = (
-  name: keyof Omit<FormData, "precio" | "iva">,
-  value: string
-): boolean => {
-  switch (name) {
-    case "producto": {
-      const newValue = value.toUpperCase();
-      return newValue.length > 20 || /[^a-zA-Z ]/.test(newValue);
-    }
-    case "costo":
-      return !/^\d*\.?\d*$/.test(value);
 
-    case "unidades":
-      return !/^\d*$/.test(value);
-
-    case "porcentaje":
-      return !/^\d*\.?\d*$/.test(value);
-  }
-};
 type Props = { id: string };
 export default function FormProduct({ id }: Props) {
+  //estado de los valores de los inputs
   const [stateData, dispathData] = useReducer(reducerData, initialData);
 
+  //estado invalido de los inputs
   const [stateInvalid, dispathInvalid] = useReducer(
     reducerInvalid,
     initialInvalid
   );
 
+  //estado del boton
   const [disabled, setDisabled] = useState(true);
 
+  //funcion manejadora de cambios (valida y guarda el estado de los inputs)
   const handleChangue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const { name, type, value, checked } = e.target;
-
-    if (type === "checkbox") {
-      dispathData({ type: "FIELD_SET", fieldName: name, value: checked });
-      return;
-    }
+    const { name, type, value } = e.target;
 
     dispathInvalid({
       key: name as keyof typeof initialInvalid,
@@ -103,24 +80,20 @@ export default function FormProduct({ id }: Props) {
     });
   }, []);
 
+  //useEfect para desactivar el boton cuando se detecte un valor invalido
   useEffect(() => {
     const isInvalid = Object.values(stateInvalid).some((item) => item);
 
-    const emptyField =
-      !stateData.producto ||
-      !stateData.costo ||
-      !stateData.unidades ||
-      !stateData.porcentaje;
-
-    setDisabled(isInvalid || emptyField);
+    setDisabled(isInvalid);
   }, [stateData]);
 
-  const { setProductsProps } = useContext(Context);
+  // añadir objeto a las props de los productos
+  const { addProducts } = useContext(Context);
   const handleClick = useCallback(() => {
     const newState = { ...stateData, producto: stateData.producto.trim() };
-    setProductsProps(newState);
+    addProducts(newState);
     dispathData({ type: "FIELD_RESET" });
-  }, [setProductsProps, stateData]);
+  }, [addProducts, stateData]);
 
   return (
     <section
@@ -172,17 +145,6 @@ export default function FormProduct({ id }: Props) {
           onChange={handleChangue}
           invalid={stateInvalid.porcentaje}
           classNameSpan="md:p-0"
-        />
-        <Input
-          label="Iva"
-          name="iva"
-          id="iva"
-          type="checkbox"
-          placeholder="%"
-          checked={stateData.iva}
-          onChange={handleChangue}
-          className="col-span-full pl-1 gap-2 flex-row items-center mb-2 md:mb-5"
-          classNameInput="w-auto md:h-5 md:w-5"
         />
         <Btn
           text="Agregar"
