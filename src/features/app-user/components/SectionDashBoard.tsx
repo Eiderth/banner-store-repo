@@ -7,6 +7,8 @@ type Props = { id: string };
 
 export default function SectionDashBoard({ id }: Props) {
   const { products } = useContext(Context);
+
+  //funcion para reducir el array de objetos
   const data: Data = useMemo(() => {
     return products.reduce(
       (acc, product) => {
@@ -21,24 +23,26 @@ export default function SectionDashBoard({ id }: Props) {
     );
   }, [products]);
 
+  //funcion para ordenar el array de mayor ganancia a menor
   const productsMaxValue = useMemo(() => {
     return products.slice().sort((a, b) => {
       return b.ganancia - a.ganancia;
     });
   }, [products]);
 
-  const [view, setView] = useState(true);
+  //estado para hacer visible al componente TableProducts
+  const [viewTable, setViewTable] = useState(true);
   return (
     <section id={id} className="w-full min-h-[400px] p-6 scroll-smooth">
-      {view ? (
+      {viewTable ? (
         <DashBoard
-          onClick={() => setView(!view)}
+          onClick={() => setViewTable(!viewTable)}
           data={data}
           productsSort={productsMaxValue}
         />
       ) : (
         <TableProducts
-          onCLick={() => setView(!view)}
+          onCLick={() => setViewTable(!viewTable)}
           data={data}
           productsSort={productsMaxValue}
         />

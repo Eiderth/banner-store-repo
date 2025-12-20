@@ -8,13 +8,12 @@ import {
   type ChangeEvent,
 } from "react";
 import { Context } from "../../../contexts/Contex";
-
 import { IconEdit } from "@tabler/icons-react";
 import Btn from "../../../components/Btn";
 import Banner from "../../../components/Banner";
-
 import Dialog from "../../../components/Dialog";
 import downloadImage from "../../../functions/downloadImage";
+
 const reducerStyle = (
   prev: typeof InitialstyleBanner,
   state:
@@ -83,6 +82,7 @@ export default function SectionBanner({ id }: Props) {
       }
     })()
   );
+
   const editStyleBanner = useCallback(
     (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
       const name = e.target.name;

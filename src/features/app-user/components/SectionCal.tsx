@@ -8,7 +8,7 @@ export default function SectionCalc({ id }: Props) {
 
   return (
     <section id={id} className="w-full min-h-[400px] p-6 scroll-smooth">
-      <div className="bg-white p-4 rounded-lg shadow relative">
+      <div className="bg-white p-4 rounded-lg shadow">
         <h3 className="text-sm text-gray-600 mb-2">Resultados</h3>
         <table className="w-full text-left text-sm">
           <thead>
@@ -27,9 +27,11 @@ export default function SectionCalc({ id }: Props) {
                 <td className="py-2">{product.producto}</td>
                 <td className="py-2">{product.costo}</td>
                 <td className="py-2">{product.unidades}</td>
-                <td className="py-2">{product.precio_base}</td>
-                <td className="py-2">+{product.ganancia / product.unidades}</td>
-                <td className="py-2">+{product.precio_final}</td>
+                <td className="py-2">{product.precio_base}$</td>
+                <td className="py-2">
+                  +{product.ganancia / product.unidades}$
+                </td>
+                <td className="py-2">{product.precio_final}$</td>
               </tr>
             ))}
           </tbody>

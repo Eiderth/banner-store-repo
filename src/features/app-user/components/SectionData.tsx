@@ -21,7 +21,7 @@ export default function SectionData({ id }: Props) {
     setIsInvalid(initialInvalid);
   }, [productsProps]);
 
-  //Manejador de click de edicion
+  //manejador de click de edicion
   const [idxEditing, setIdx] = useState(-1);
   const handleClick = (i: number) => {
     if (idxEditing != i) {
@@ -46,6 +46,7 @@ export default function SectionData({ id }: Props) {
       [name]: validate(name as keyof typeof initialInvalid, value),
     });
   };
+
   //prevenir que el usuario deje campos vacios o invalidos
   useEffect(() => {
     if (newDat.key == "") return;
@@ -68,7 +69,7 @@ export default function SectionData({ id }: Props) {
 
   return (
     <section id={id} className="w-full min-h-[400px] p-6 scroll-smooth ">
-      <div className="bg-white p-4 w- rounded-lg shadow ">
+      <div className="bg-white p-4 rounded-lg shadow ">
         <table className="w-full text-left text-sm ">
           <thead>
             <tr>
