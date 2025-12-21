@@ -2,7 +2,7 @@ import type { RefObject } from "react";
 import html2canvas from "html2canvas-pro";
 import downloadjs from "downloadjs";
 const downloadImage = (
-  ref: RefObject<HTMLDivElement | null>,
+  ref: RefObject<HTMLElement | null>,
   final: () => void
 ) => {
   setTimeout(async () => {

@@ -52,13 +52,14 @@ export default function SectionBanner({ id }: Props) {
 
   //referencia para descargar la imagen del banner y estado hidden para ocultar boton de editar
   const bannerRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
   const [hiddenEdit, setHiddenEdit] = useState(false);
 
   //funcion de descarga de imagen
   const handleDownloadImage = useCallback(async () => {
     setHiddenEdit(true);
-    if (!bannerRef.current) return;
-    downloadImage(bannerRef, () => setHiddenEdit(false));
+    if (!sectionRef.current) return;
+    downloadImage(sectionRef, () => setHiddenEdit(false));
   }, []);
 
   //funcion para manejar el estado del dialog
@@ -179,6 +180,8 @@ export default function SectionBanner({ id }: Props) {
     <section
       id={id}
       className="h-full flex flex-col justify-center items-center gap-2.5 relative"
+      ref={sectionRef}
+      //recordar corregir como sen guarda la imagen en dispositivos moviles
     >
       <Banner
         ref={bannerRef}
@@ -207,11 +210,15 @@ export default function SectionBanner({ id }: Props) {
         editStyleBanner={editStyleBanner}
         updateStyleBanner={() => updateStyleBanner({ action: "RESET" })}
       />
-      <Btn
-        text="Descargar"
-        className="bg-blue-400 absolute top-5 right-2"
-        onClick={handleDownloadImage}
-      />
+      {hiddenEdit === false ? (
+        <Btn
+          text="Descargar"
+          className="bg-blue-400 absolute top-5 right-2"
+          onClick={handleDownloadImage}
+        />
+      ) : (
+        ""
+      )}
     </section>
   );
 }
