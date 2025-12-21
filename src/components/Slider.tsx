@@ -15,26 +15,27 @@ export default function Slider({ children, className }: Props) {
   //stateSlider maneja que seccion tendra foco en el slider
   const [stateSlider, setStateSlider] = useState(0);
 
-  //funcion que maneja cuantos pixeles se desplazaran los div para que una seccion tenga foco
-  const scrollToSection = useCallback(() => {
+  // Ref para acceder al estado actual dentro del ResizeObserver sin reiniciar el efecto
+  const stateSliderRef = useRef(stateSlider);
+  useEffect(() => {
+    stateSliderRef.current = stateSlider;
+  }, [stateSlider]);
+
+  // Efecto para mover el scroll cuando cambia el estado (Click en radio)
+  useEffect(() => {
     if (contendorRef.current) {
       contendorRef.current.scrollLeft =
         contendorRef.current.offsetWidth * stateSlider;
     }
   }, [stateSlider]);
 
-  //useEfect se activa cada que stateSlider
-  useEffect(() => {
-    scrollToSection();
-  }, [stateSlider]);
-
   //esta funcion se encarga  de crear un intersection Observer
   const sectionObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        const index = entry.target.getAttribute("data-index");
+        const index = Number(entry.target.getAttribute("data-index"));
         if (entry.isIntersecting) {
-          setStateSlider(Number(index));
+          setStateSlider((prev) => (prev !== index ? index : prev));
         }
       });
     },
@@ -43,20 +44,21 @@ export default function Slider({ children, className }: Props) {
 
   //useEffect principal para manejar el rendimencionamiento de los contenedores
   useEffect(() => {
-    if (!contendorRef.current) return;
+    const container = contendorRef.current;
+    if (!container) return;
 
     const observer = new IntersectionObserver(sectionObserver, {
-      root: contendorRef.current,
+      root: container,
       threshold: 0.5,
     });
 
     const resizeObserver = new ResizeObserver(() => {
-      if (contendorRef.current) {
-        scrollToSection();
+      if (container) {
+        container.scrollLeft = container.offsetWidth * stateSliderRef.current;
       }
     });
 
-    resizeObserver.observe(contendorRef.current);
+    resizeObserver.observe(container);
 
     sectionRef.current.forEach((section) => {
       section && observer.observe(section);
@@ -66,7 +68,7 @@ export default function Slider({ children, className }: Props) {
       observer.disconnect();
       resizeObserver.disconnect();
     };
-  }, [children, sectionObserver, scrollToSection]);
+  }, [children, sectionObserver]);
 
   return (
     <div
