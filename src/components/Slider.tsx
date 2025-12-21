@@ -8,42 +8,54 @@ type Props = {
 };
 
 export default function Slider({ children, className }: Props) {
+  //referencias a los contenedores
   const contendorRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<Array<HTMLDivElement | null>>([]);
-  const [handleSlider, setHandleSlider] = useState(0);
 
+  //stateSlider maneja que seccion tendra foco en el slider
+  const [stateSlider, setStateSlider] = useState(0);
+
+  //funcion que maneja cuantos pixeles se desplazaran los div para que una seccion tenga foco
   const scrollToSection = useCallback(() => {
     if (contendorRef.current) {
       contendorRef.current.scrollLeft =
-        contendorRef.current.offsetWidth * handleSlider;
+        contendorRef.current.offsetWidth * stateSlider;
     }
-  }, [handleSlider]);
+  }, [stateSlider]);
 
+  //useEfect se activa cada que stateSlider
   useEffect(() => {
     scrollToSection();
-  }, [handleSlider, scrollToSection]);
+  }, [stateSlider]);
 
+  //esta funcion se encarga  de crear un intersection Observer
   const sectionObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         const index = entry.target.getAttribute("data-index");
         if (entry.isIntersecting) {
-          setHandleSlider(Number(index));
+          setStateSlider(Number(index));
         }
       });
     },
     []
   );
+
+  //useEffect principal para manejar el rendimencionamiento de los contenedores
   useEffect(() => {
     if (!contendorRef.current) return;
+
     const observer = new IntersectionObserver(sectionObserver, {
       root: contendorRef.current,
       threshold: 0.5,
     });
 
     const resizeObserver = new ResizeObserver(() => {
-      scrollToSection();
+      if (contendorRef.current) {
+        scrollToSection();
+      }
     });
+
     resizeObserver.observe(contendorRef.current);
 
     sectionRef.current.forEach((section) => {
@@ -86,8 +98,8 @@ export default function Slider({ children, className }: Props) {
             name="radio-section"
             type="radio"
             key={`radio-${idx}`}
-            onChange={() => setHandleSlider(idx)}
-            checked={idx === handleSlider}
+            onChange={() => setStateSlider(idx)}
+            checked={idx === stateSlider}
           />
         ))}
       </div>

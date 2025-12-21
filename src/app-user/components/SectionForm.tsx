@@ -5,15 +5,15 @@ import {
   useReducer,
   useContext,
 } from "react";
-import { Context } from "../../../contexts/Contex";
-import Form from "../../../components/Form";
-import Input from "../../../components/Input";
-import Btn from "../../../components/Btn";
+import { Context } from "../../contexts/Contex";
+import Form from "../../components/Form";
+import Input from "../../components/Input";
+import Btn from "../../components/Btn";
 import type { ChangeEvent } from "react";
-import type { FormData } from "../../../types";
+import type { FormData } from "../../types";
 
-import validate from "../../../functions/validate";
-import { initialInvalid } from "../../../functions/validate";
+import validate from "../../functions/validate";
+import { initialInvalid } from "../../functions/validate";
 
 const initialData: FormData = {
   producto: "",

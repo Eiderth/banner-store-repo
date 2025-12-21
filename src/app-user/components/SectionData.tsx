@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState, type ChangeEvent } from "react";
-import { Context } from "../../../contexts/Contex";
-import Btn from "../../../components/Btn";
+import { Context } from "../../contexts/Contex";
+import Btn from "../../components/Btn";
 import { IconTrash, IconEdit } from "@tabler/icons-react";
-import validate from "../../../functions/validate";
-import { initialInvalid } from "../../../functions/validate";
+import validate from "../../functions/validate";
+import { initialInvalid } from "../../functions/validate";
 type Props = {
   id: string;
 };
@@ -69,15 +69,15 @@ export default function SectionData({ id }: Props) {
 
   return (
     <section id={id} className="w-full min-h-[400px] p-6 scroll-smooth ">
-      <div className="bg-white p-4 rounded-lg shadow ">
-        <table className="w-full text-left text-sm ">
+      <div className="bg-white p-4 rounded-lg shadow overflow-x-auto">
+        <table className="w-full text-left text-sm">
           <thead>
             <tr>
-              <th className="py-1">Producto</th>
-              <th className="py-1">Costo</th>
-              <th className="py-1">Unidades</th>
-              <th className="py-1">Porcentaje</th>
-              <th className="py-1">editar</th>
+              <th className="py-1 pr-2.5">Producto</th>
+              <th className="py-1 pr-2.5">Costo</th>
+              <th className="py-1 pr-2.5">Unidades</th>
+              <th className="py-1 pr-2.5">Porcentaje</th>
+              <th className="py-1 pr-2.5">editar</th>
             </tr>
           </thead>
           <tbody>
@@ -93,11 +93,11 @@ export default function SectionData({ id }: Props) {
                 >
                   <input
                     className={`
-                      ${
-                        idxEditing === i
-                          ? "hover:outline-2 focus:p-2 hover:p-2 rounded-2xl transition-all w-9/12"
-                          : "outline-0 cursor-auto"
-                      }`}
+                        ${
+                          idxEditing === i
+                            ? "hover:outline-2 focus:p-2 hover:p-2 rounded-2xl transition-all w-full"
+                            : "outline-0 cursor-auto w-full"
+                        }`}
                     type="text"
                     name="producto"
                     value={product.producto}
@@ -114,7 +114,7 @@ export default function SectionData({ id }: Props) {
                     className={
                       idxEditing === i
                         ? "hover:outline-2 focus:p-2 hover:p-2 rounded-2xl transition-all w-9/12"
-                        : "outline-0 cursor-auto"
+                        : "outline-0 cursor-auto w-full"
                     }
                     type="number"
                     name="costo"
@@ -132,7 +132,7 @@ export default function SectionData({ id }: Props) {
                     className={
                       idxEditing === i
                         ? "hover:outline-2 focus:p-2 hover:p-2 rounded-2xl transition-all w-9/12"
-                        : "outline-0 cursor-auto"
+                        : "outline-0 cursor-auto w-full"
                     }
                     type="number"
                     name="unidades"
@@ -150,7 +150,7 @@ export default function SectionData({ id }: Props) {
                     className={
                       idxEditing === i
                         ? "hover:outline-2 focus:p-2 hover:p-2 rounded-2xl transition-all w-9/12"
-                        : "outline-0 cursor-auto"
+                        : "outline-0 cursor-auto w-full"
                     }
                     type="number"
                     name="porcentaje"

@@ -7,12 +7,12 @@ import {
   useState,
   type ChangeEvent,
 } from "react";
-import { Context } from "../../../contexts/Contex";
+import { Context } from "../../contexts/Contex";
 import { IconEdit } from "@tabler/icons-react";
-import Btn from "../../../components/Btn";
-import Banner from "../../../components/Banner";
-import Dialog from "../../../components/Dialog";
-import downloadImage from "../../../functions/downloadImage";
+import Btn from "../../components/Btn";
+import Banner from "../../components/Banner";
+import Dialog from "../../components/Dialog";
+import downloadImage from "../../functions/downloadImage";
 
 const reducerStyle = (
   prev: typeof InitialstyleBanner,

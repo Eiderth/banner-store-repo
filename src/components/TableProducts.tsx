@@ -1,5 +1,5 @@
 import { IconArrowLeft } from "@tabler/icons-react";
-import { type Data } from "../features/app-user/components/SectionDashBoard";
+import type { Data } from "../app-user/components/SectionDashBoard";
 import type { Products } from "../types";
 type Props = {
   onCLick: () => void;
@@ -9,7 +9,7 @@ type Props = {
 
 export default function TableProducts({ onCLick, data, productsSort }: Props) {
   return (
-    <div className="bg-white p-4 rounded-lg shadow relative">
+    <div className="bg-white p-4 rounded-lg shadow relative overflow-x-auto">
       <button
         className="p-2.5 mb-5 transition rounded-b-sm shadow hover:scale-120"
         onClick={onCLick}
@@ -32,9 +32,7 @@ export default function TableProducts({ onCLick, data, productsSort }: Props) {
             <tr key={`${product.producto}--${i}`} className="border-t">
               <td className="py-2">{product.producto}</td>
               <td className="py-2">{product.costo}</td>
-              <td className="py-2">
-                {product.precio_final * product.unidades}
-              </td>
+              <td className="py-2">{product.costo + product.ganancia}</td>
               <td className="py-2">{product.ganancia}</td>
             </tr>
           ))}

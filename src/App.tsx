@@ -1,4 +1,4 @@
-import Aplication from "./features/app-user";
+import Aplication from "./app-user";
 function App() {
   return (
     <>

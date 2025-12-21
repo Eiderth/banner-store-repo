@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { IconArrowRampRight2 } from "@tabler/icons-react";
-import { type Data } from "../features/app-user/components/SectionDashBoard";
+import { type Data } from "../app-user/components/SectionDashBoard";
 import type { Products } from "../types";
 type Props = {
   onClick: () => void;
@@ -183,9 +183,7 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
                 <tr key={`${product.producto}--${i}`} className="border-t">
                   <td className="py-2">{product.producto}</td>
                   <td className="py-2">{product.costo}</td>
-                  <td className="py-2">
-                    {product.precio_final * product.unidades}
-                  </td>
+                  <td className="py-2">{product.costo + product.ganancia}</td>
                   <td className="py-2">{product.ganancia}</td>
                 </tr>
               ))}

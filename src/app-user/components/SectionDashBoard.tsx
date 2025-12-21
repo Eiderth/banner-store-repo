@@ -1,7 +1,7 @@
 import { useContext, useState, useMemo } from "react";
-import DashBoard from "../../../components/DashBoard";
-import TableProducts from "../../../components/TableProducts";
-import { Context } from "../../../contexts/Contex";
+import DashBoard from "../../components/DashBoard";
+import TableProducts from "../../components/TableProducts";
+import { Context } from "../../contexts/Contex";
 export type Data = { ingresos: number; ganancias: number; invertido: number };
 type Props = { id: string };
 
@@ -14,9 +14,9 @@ export default function SectionDashBoard({ id }: Props) {
       (acc, product) => {
         const ingreso = product.precio_final * product.unidades;
         const ganancia = product.ganancia;
-        acc.ingresos += ingreso;
-        acc.ganancias += ganancia;
-        acc.invertido += ingreso - ganancia;
+        acc.ingresos += Number(ingreso.toFixed(2));
+        acc.ganancias += Number(ganancia.toFixed(2));
+        acc.invertido += product.costo;
         return acc;
       },
       { ingresos: 0, ganancias: 0, invertido: 0 }
