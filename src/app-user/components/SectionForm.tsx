@@ -70,7 +70,7 @@ export default function FormProduct({ id }: Props) {
 
     dispathInvalid({
       key: name as keyof typeof initialInvalid,
-      value: validate(name as keyof Omit<FormData, "precio" | "iva">, value),
+      value: validate(name as keyof Omit<FormData, "precio">, value),
     });
 
     dispathData({

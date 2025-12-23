@@ -16,9 +16,9 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
   const porcents = useMemo(() => {
     if (data.ingresos !== 0)
       return {
-        ingresos: ((data.ingresos / data.ingresos) * 100).toFixed(2) + "%",
-        invertido: ((data.invertido / data.ingresos) * 100).toFixed(2) + "%",
-        ganancias: ((data.ganancias / data.ingresos) * 100).toFixed(2) + "%",
+        ingresos: +((data.ingresos / data.ingresos) * 100).toFixed(2) + "%",
+        invertido: +((data.invertido / data.ingresos) * 100).toFixed(2) + "%",
+        ganancias: +((data.ganancias / data.ingresos) * 100).toFixed(2) + "%",
       };
     else
       return {

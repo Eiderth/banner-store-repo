@@ -18,22 +18,11 @@ type Props<T> = {
   sign?: Partial<typeof defaultSign>;
   className?: string;
   classNameTable?: string;
-  onDelete?: (index: number) => void;
 };
 
 const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
   (
-    {
-      children,
-      headers,
-      keys,
-      data,
-      title,
-      sign,
-      className,
-      classNameTable,
-      onDelete,
-    },
+    { children, headers, keys, data, title, sign, className, classNameTable },
     ref
   ) => {
     const finalSign = { ...defaultSign, ...sign };
@@ -48,7 +37,7 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
       <div
         ref={ref}
         className={twMerge(
-          `box-border w-full relative rounded-3xl border-4 bg-gray-50 border-blue-400 p-1
+          `box-border w-full relative rounded-3xl border-4 bg-gray-50 border-blue-400 p-1 px-5
           ${data.length === 0 && "hidden"}`,
           className
         )}
@@ -69,7 +58,7 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
                 {headers.map((header) => (
                   <th
                     key={header}
-                    className="p-0.5 text-xs font-medium text-balance text-center md:text-base"
+                    className="p-0.5 pb-3 text-xs font-medium text-balance text-center md:text-base"
                   >
                     {header === "porcentaje" ? "%" : header.toUpperCase()}
                   </th>
@@ -78,33 +67,14 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
             </thead>
             <tbody>
               {data?.map((props, keyRow) => (
-                <tr key={keyRow}>
+                <tr key={keyRow} className="mt-10">
                   {keys.map((key) => (
-                    <td
-                      key={`${String(key)}-${keyRow}`}
-                      className="text-center font-medium text-xs md:text-lg"
-                    >
-                      {typeof props[key] === "boolean"
-                        ? props[key]
-                          ? "Si"
-                          : "No"
-                        : `${String(props[key])}${
-                            finalSign[key as keyof typeof finalSign] ?? ""
-                          }`}
+                    <td className="font-medium text-xs md:text-lg first:pl-5 first:text-left text-center">
+                      {`${String(props[key])} ${
+                        finalSign[key as keyof typeof finalSign] ?? ""
+                      }`}
                     </td>
                   ))}
-                  {onDelete && (
-                    <td>
-                      <button
-                        type="button"
-                        key={`button-${keyRow}`}
-                        onClick={() => onDelete(keyRow)}
-                        className="bg-red-600 text-white rounded-2xl p-1 max-w-full "
-                      >
-                        Borrar
-                      </button>
-                    </td>
-                  )}
                 </tr>
               ))}
             </tbody>
