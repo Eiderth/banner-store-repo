@@ -29,7 +29,7 @@ export default function SectionCalc({ id }: Props) {
                 <td className="py-2">{product.unidades}</td>
                 <td className="py-2">{product.precio_base}$</td>
                 <td className="py-2">
-                  +{(product.ganancia / product.unidades).toFixed(2)}$
+                  +{+(product.ganancia / product.unidades).toFixed(2)}$
                 </td>
                 <td className="py-2">{product.precio_final}$</td>
               </tr>
