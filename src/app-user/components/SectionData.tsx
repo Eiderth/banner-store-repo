@@ -5,7 +5,7 @@ import { IconTrash, IconEdit } from "@tabler/icons-react";
 import validate from "../../functions/validate";
 import { initialInvalid } from "../../functions/validate";
 type Props = {
-  id?: string;
+  id: string;
 };
 
 export default function SectionData({ id }: Props) {

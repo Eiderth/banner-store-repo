@@ -159,7 +159,7 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow relative">
+        <div className="bg-white p-4 rounded-lg shadow relative overflow-x-scroll">
           <button
             className="absolute top-2.5 right-5 transition rounded-b-sm shadow hover:scale-120"
             onClick={onClick}

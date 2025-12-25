@@ -50,7 +50,7 @@ const reducerInvalid = (
   };
 };
 
-type Props = { id?: string };
+type Props = { id: string };
 export default function FormProduct({ id }: Props) {
   //estado de los valores de los inputs
   const [stateData, dispathData] = useReducer(reducerData, initialData);

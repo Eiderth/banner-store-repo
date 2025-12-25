@@ -34,25 +34,28 @@ const links = [
   },
 ];
 
-type Props = {};
+type Props = {
+  setActiveComponent: (componentId: string) => void;
+};
 
-export default function NavBar({}: Props) {
+export default function NavBar({ setActiveComponent }: Props) {
   return (
     <nav>
       <ul className="flex flex-col gap-3.5 w-fit h-11/12 p-2.5 pt-5 rounded-br-2xl bg-[#F6FAFD] group z-50">
         {links.map((link) => (
           <li
             key={link.link}
-            className="transition-all relative group p-0 group-hover:p-2.5 duration-500 hover:bg-[#BDD8E9] rounded-2xl"
+            className="transition-all relative group p-0 group-hover:p-2.5 duration-500 hover:bg-[#BDD8E9] rounded-2xl cursor-pointer"
+            onClick={() => setActiveComponent(link.link)}
           >
-            <a href={`#${link.link}`} className="flex flex-row gap-2.5">
+            <div className="flex flex-row gap-2.5 p-2.5">
               {link.icon}
               {link.info && (
                 <span className="font-semibold hidden group-hover:inline-block">
                   {link.info}
                 </span>
               )}
-            </a>
+            </div>
           </li>
         ))}
       </ul>
