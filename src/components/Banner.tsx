@@ -3,6 +3,7 @@ import { forwardRef, type ReactElement, cloneElement } from "react";
 const defaultSign = {
   iva: "",
   precio_base: "$",
+  precio_final: "$",
   precio: "$",
   costo: "$",
   porcentaje: "%",

@@ -181,7 +181,6 @@ export default function SectionBanner({ id }: Props) {
       id={id}
       className="h-full flex flex-col justify-center items-center gap-2.5 relative"
       ref={sectionRef}
-      //recordar corregir como sen guarda la imagen en dispositivos moviles
     >
       <Banner
         ref={bannerRef}

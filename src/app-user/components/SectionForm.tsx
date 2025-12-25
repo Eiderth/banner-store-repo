@@ -42,7 +42,7 @@ const reducerData = (state: FormData, action: ActionData) => {
 };
 const reducerInvalid = (
   state: typeof initialInvalid,
-  action: { key: keyof typeof initialInvalid; value: boolean }
+  action: { key: keyof FormData; value: boolean }
 ) => {
   return {
     ...state,
@@ -50,7 +50,7 @@ const reducerInvalid = (
   };
 };
 
-type Props = { id: string };
+type Props = { id?: string };
 export default function FormProduct({ id }: Props) {
   //estado de los valores de los inputs
   const [stateData, dispathData] = useReducer(reducerData, initialData);
@@ -70,7 +70,7 @@ export default function FormProduct({ id }: Props) {
 
     dispathInvalid({
       key: name as keyof typeof initialInvalid,
-      value: validate(name as keyof Omit<FormData, "precio">, value),
+      value: validate(name as keyof FormData, value),
     });
 
     dispathData({
@@ -86,6 +86,13 @@ export default function FormProduct({ id }: Props) {
 
     setDisabled(isInvalid);
   }, [stateData]);
+
+  //useEfect para que la primera vez que cargue el disabled se mantenga en true
+  useEffect(() => {
+    setTimeout(() => {
+      setDisabled(true);
+    }, 0);
+  }, []);
 
   // añadir objeto a las props de los productos
   const { addProducts } = useContext(Context);
