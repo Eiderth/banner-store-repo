@@ -28,9 +28,11 @@ export default function Aplication() {
 
   return (
     <ComponentContext>
-      <main className="flex h-screen p-0">
+      <main className="flex h-screen">
         <NavApp setActiveComponent={setActiveComponent} />
-        <div className="flex-1 min-w-0">{renderComponent()}</div>
+        <div className="flex-1 min-w-0 overflow-y-scroll">
+          {renderComponent()}
+        </div>
       </main>
     </ComponentContext>
   );
