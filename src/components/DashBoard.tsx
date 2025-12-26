@@ -183,8 +183,8 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
                 <tr key={`${product.producto}--${i}`} className="border-t">
                   <td className="py-2">{product.producto}</td>
                   <td className="py-2">{product.costo}</td>
-                  <td className="py-2">{product.costo + product.ganancia}</td>
-                  <td className="py-2">{product.ganancia}</td>
+                  <td className="py-2">{product.ingresos}</td>
+                  <td className="py-2">{product.ganancia_total}</td>
                 </tr>
               ))}
             </tbody>

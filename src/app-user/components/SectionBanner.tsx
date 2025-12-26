@@ -13,6 +13,7 @@ import Btn from "../../components/Btn";
 import Banner from "../../components/Banner";
 import Dialog from "../../components/Dialog";
 import downloadImage from "../../functions/downloadImage";
+import exportoExcel from "../../functions/exportExcel";
 
 const reducerStyle = (
   prev: typeof InitialstyleBanner,
@@ -188,7 +189,7 @@ export default function SectionBanner({ id }: Props) {
         headers={["producto", "precio"]}
         keys={["producto", "precio_final"]}
         data={products}
-        className="w-[70%] max-w-80 min-h-[70%] bg-white "
+        className="w-[90%] max-w-80 min-h-[70%] bg-white "
         classNameTable="table-fixed lg:border-spacing-y-5"
       >
         {hiddenEdit === false ? (
@@ -210,11 +211,19 @@ export default function SectionBanner({ id }: Props) {
         updateStyleBanner={() => updateStyleBanner({ action: "RESET" })}
       />
       {hiddenEdit === false ? (
-        <Btn
-          text="Descargar"
-          className="bg-blue-400 absolute top-5 right-2"
-          onClick={handleDownloadImage}
-        />
+        <div className="absolute w-[90%] top-5 right-2 flex items-end justify-end gap-2.5">
+          <Btn
+            text="Descargar"
+            className="bg-blue-400 shadow"
+            onClick={handleDownloadImage}
+          />
+          <Btn
+            text="Report Excel 📄"
+            className="bg-green-600"
+            onClick={() => exportoExcel(products)}
+          />
+          {/* <ExportoExcel data={products} /> */}
+        </div>
       ) : (
         ""
       )}

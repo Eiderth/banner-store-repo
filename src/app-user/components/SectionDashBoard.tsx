@@ -12,10 +12,8 @@ export default function SectionDashBoard({ id }: Props) {
   const data: Data = useMemo(() => {
     return products.reduce(
       (acc, product) => {
-        const ingreso = product.precio_final * product.unidades;
-        const ganancia = product.ganancia;
-        acc.ingresos += Number(ingreso.toFixed(2));
-        acc.ganancias += Number(ganancia.toFixed(2));
+        acc.ingresos += product.ingresos;
+        acc.ganancias += product.ganancia_total;
         acc.invertido += product.costo;
         return acc;
       },
@@ -26,7 +24,7 @@ export default function SectionDashBoard({ id }: Props) {
   //funcion para ordenar el array de mayor ganancia a menor
   const productsMaxValue = useMemo(() => {
     return products.slice().sort((a, b) => {
-      return b.ganancia - a.ganancia;
+      return b.ganancia_total - a.ganancia_total;
     });
   }, [products]);
 

@@ -38,7 +38,7 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
       <div
         ref={ref}
         className={twMerge(
-          `box-border w-full relative rounded-3xl border-4 bg-gray-50 border-blue-400 p-1 px-5
+          `box-border w-full relative rounded-3xl border-4 bg-gray-50 border-blue-400 p-1 px-2.5
           ${data.length === 0 && "hidden"}`,
           className
         )}
@@ -59,7 +59,7 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
                 {headers.map((header) => (
                   <th
                     key={header}
-                    className="p-0.5 pb-3 text-xs font-medium text-balance text-center md:text-base"
+                    className="p-0.5 pb-3 text-xs font-medium text-balance first:text-start not-first:text-end md:text-base"
                   >
                     {header === "porcentaje" ? "%" : header.toUpperCase()}
                   </th>
@@ -70,7 +70,7 @@ const Banner = forwardRef<HTMLDivElement, Props<Record<string, any>>>(
               {data?.map((props, keyRow) => (
                 <tr key={keyRow} className="mt-10">
                   {keys.map((key) => (
-                    <td className="font-medium text-xs md:text-lg first:pl-5 first:text-left text-center">
+                    <td className="font-medium text-xs first:text-start not-first:text-end md:text-lg text-center">
                       {`${String(props[key])} ${
                         finalSign[key as keyof typeof finalSign] ?? ""
                       }`}
