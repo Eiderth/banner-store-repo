@@ -1,8 +1,11 @@
-import Btn from "./Btn";
-import { IconChevronDown, IconEdit, IconTrash } from "@tabler/icons-react";
 import { useState, type ChangeEvent } from "react";
-import { initialInvalid } from "../functions/validate";
 import type { FormData } from "../types";
+
+import { IconChevronDown, IconEdit, IconTrash } from "@tabler/icons-react";
+import Btn from "./Btn";
+
+import { initialInvalid } from "../functions/validate";
+
 type Props = {
   isEditing: boolean;
   isInvalid: typeof initialInvalid;
@@ -34,7 +37,7 @@ export default function TableCardDataEditing({
               <th className="py-1 pr-2.5">Costo</th>
               <th className="py-1 pr-2.5">Unidades</th>
               <th className="py-1 pr-2.5">Porcentaje</th>
-              <th className="py-3 pr-2.5">editar</th>
+              <th className="py-3 pr-2.5">Accion</th>
             </>
           )}
         </tr>
@@ -60,7 +63,7 @@ export default function TableCardDataEditing({
               onChange={(e) => handleChangue(e)}
             />
           </td>
-          {expanded && (
+          {expanded === true && (
             <>
               <td
                 className={`py-1 ${

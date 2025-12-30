@@ -1,6 +1,8 @@
 import { useMemo } from "react";
+import useIsMobile from "../hooks/useIsMobile";
 import { IconArrowRampRight2 } from "@tabler/icons-react";
-import { type Data } from "../app-user/components/SectionDashBoard";
+import TableCard from "./TableCard";
+import type { Data } from "../app-user/components/SectionDashBoard";
 import type { Products } from "../types";
 type Props = {
   onClick: () => void;
@@ -27,6 +29,8 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
         ganancias: "0%",
       };
   }, [data]);
+
+  const isMobile = useIsMobile();
 
   return (
     <>
@@ -169,26 +173,42 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
           <h3 className="text-sm text-gray-600 mb-2">
             Productos con mayor ganancia
           </h3>
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr>
-                <th className="py-1">Producto</th>
-                <th className="py-1">Costo</th>
-                <th className="py-1">Ingreso</th>
-                <th className="py-1">Ganancia</th>
-              </tr>
-            </thead>
-            <tbody>
-              {productsSort.slice(0, 6).map((product, i) => (
-                <tr key={`${product.producto}--${i}`} className="border-t">
-                  <td className="py-2">{product.producto}</td>
-                  <td className="py-2">{product.costo}</td>
-                  <td className="py-2">{product.ingresos}</td>
-                  <td className="py-2">{product.ganancia_total}</td>
+
+          {isMobile ? (
+            productsSort.map((product, i) => {
+              return (
+                <TableCard
+                  data={product}
+                  headers={["Producto", "Ingresos", "Costo", "Ganancia total"]}
+                  keys={["producto", "ingresos", "costo", "ganancia_total"]}
+                  rowView={2}
+                  signs={["", "$", "$", "$"]}
+                  key={`table-${i}`}
+                />
+              );
+            })
+          ) : (
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr>
+                  <th className="py-1">Producto</th>
+                  <th className="py-1">Costo</th>
+                  <th className="py-1">Ingreso</th>
+                  <th className="py-1">Ganancia</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {productsSort.slice(0, 6).map((product, i) => (
+                  <tr key={`${product.producto}--${i}`} className="border-t">
+                    <td className="py-2">{product.producto}</td>
+                    <td className="py-2">{product.costo}$</td>
+                    <td className="py-2">{product.ingresos}$</td>
+                    <td className="py-2">{product.ganancia_total}$</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </>

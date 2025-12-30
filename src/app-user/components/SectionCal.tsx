@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Context } from "../../contexts/Contex";
 import useIsMobile from "../../hooks/useIsMobile";
-import TableCardProducts from "../../components/TableCardProducts";
+import TableCard from "../../components/TableCard";
 type Props = { id: string };
 
 export default function SectionCalc({ id }: Props) {
@@ -20,9 +20,27 @@ export default function SectionCalc({ id }: Props) {
         {isMobile ? (
           products.map((product, i) => {
             return (
-              <TableCardProducts
+              <TableCard
                 data={product}
-                key={`${product.producto}--${i}`}
+                headers={[
+                  "Producto",
+                  "Costo",
+                  "Unidades",
+                  "Precio Base",
+                  "Ganancia/unidad",
+                  "Precio Final",
+                ]}
+                keys={[
+                  "producto",
+                  "costo",
+                  "unidades",
+                  "precio_base",
+                  "ganancia_unidad",
+                  "precio_final",
+                ]}
+                rowView={1}
+                signs={["", "$", "", "$", "$", "$"]}
+                key={`producto--${i}`}
               />
             );
           })

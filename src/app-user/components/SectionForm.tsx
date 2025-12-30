@@ -83,16 +83,9 @@ export default function FormProduct({ id }: Props) {
   //useEfect para desactivar el boton cuando se detecte un valor invalido
   useEffect(() => {
     const isInvalid = Object.values(stateInvalid).some((item) => item);
-
-    setDisabled(isInvalid);
+    const empyFields = Object.values(stateData).some((item) => item === "");
+    setDisabled(isInvalid || empyFields);
   }, [stateData]);
-
-  //useEfect para que la primera vez que cargue el disabled se mantenga en true
-  useEffect(() => {
-    setTimeout(() => {
-      setDisabled(true);
-    }, 0);
-  }, []);
 
   // añadir objeto a las props de los productos
   const { addProducts } = useContext(Context);

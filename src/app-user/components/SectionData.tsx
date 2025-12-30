@@ -3,7 +3,6 @@ import { Context } from "../../contexts/Contex";
 import useIsMobile from "../../hooks/useIsMobile";
 
 import { IconTrash, IconEdit } from "@tabler/icons-react";
-
 import TableCardDataEditing from "../../components/TableCardDataEditing";
 import Btn from "../../components/Btn";
 
@@ -88,6 +87,7 @@ export default function SectionData({ id }: Props) {
           copyProps.map((product, i) => {
             return (
               <TableCardDataEditing
+                key={`producto--${i}`}
                 isEditing={idxEditing === i}
                 isInvalid={isInvalid}
                 values={product}
