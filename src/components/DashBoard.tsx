@@ -163,7 +163,7 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow relative overflow-x-scroll">
+        <div className="bg-white p-2 md:p-4 rounded-lg shadow relative overflow-x-scroll">
           <button
             className="absolute top-2.5 right-5 transition rounded-b-sm shadow hover:scale-120"
             onClick={onClick}
@@ -179,7 +179,7 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
               return (
                 <TableCard
                   data={product}
-                  headers={["Producto", "Ingresos", "Costo", "Ganancia total"]}
+                  headers={["Producto", "Ingresos", "Costo", "Ganancia"]}
                   keys={["producto", "ingresos", "costo", "ganancia_total"]}
                   rowView={2}
                   signs={["", "$", "$", "$"]}
@@ -192,9 +192,9 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
               <thead>
                 <tr>
                   <th className="py-1">Producto</th>
-                  <th className="py-1">Costo</th>
-                  <th className="py-1">Ingreso</th>
-                  <th className="py-1">Ganancia</th>
+                  <th className="py-1 pr-1">Costo</th>
+                  <th className="py-1 pr-1">Ingreso</th>
+                  <th className="py-1 pr-1">Ganancia</th>
                 </tr>
               </thead>
               <tbody>

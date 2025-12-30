@@ -27,7 +27,7 @@ export default function SectionCalc({ id }: Props) {
                   "Costo",
                   "Unidades",
                   "Precio Base",
-                  "Ganancia/unidad",
+                  "Ganancia",
                   "Precio Final",
                 ]}
                 keys={[

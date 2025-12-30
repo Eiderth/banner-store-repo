@@ -21,7 +21,7 @@ export default function TableCard<T extends Record<string, any>>({
 
   return (
     <>
-      <table className="w-full text-left flex items-center gap-2 text-sm p-2.5 border-t">
+      <table className="w-full text-left flex items-center gap-2 text-sm p-2.5 border-t relative">
         <thead>
           <tr className="flex flex-col">
             {headers.map((head, i) => {
@@ -61,7 +61,7 @@ export default function TableCard<T extends Record<string, any>>({
           </tr>
         </tbody>
         <Btn
-          className="bg-yellow-400 h-fit ml-auto mb-auto"
+          className="bg-yellow-400 h-fit absolute top-1 right-0.5"
           onClick={() => setExpanded(!expanded)}
         >
           <IconChevronDown className={`${expanded && "rotate-180"}`} />

@@ -31,7 +31,10 @@ export default function SectionDashBoard({ id }: Props) {
   //estado para hacer visible al componente TableProducts
   const [viewTable, setViewTable] = useState(true);
   return (
-    <section id={id} className="w-full min-h-[400px] p-6 scroll-smooth">
+    <section
+      id={id}
+      className="w-full min-h-[400px] p-2.5 md:p-6 scroll-smooth"
+    >
       {viewTable ? (
         <DashBoard
           onClick={() => setViewTable(!viewTable)}

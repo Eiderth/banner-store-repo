@@ -21,29 +21,29 @@ export default function TableProducts({ onCLick, data, productsSort }: Props) {
       <table className="w-full text-left text-sm">
         <thead>
           <tr>
-            <th className="py-1">Producto</th>
-            <th className="py-1">Costo</th>
-            <th className="py-1">Ingreso</th>
-            <th className="py-1">Ganancia</th>
+            <th className="py-1 pr-1">Producto</th>
+            <th className="py-1 pr-1">Costo</th>
+            <th className="py-1 pr-1">Ingreso</th>
+            <th className="py-1 pr-1">Ganancia</th>
           </tr>
         </thead>
         <tbody>
           {productsSort.map((product, i) => (
             <tr key={`${product.producto}--${i}`} className="border-t">
               <td className="py-2">{product.producto}</td>
-              <td className="py-2">{product.costo}</td>
-              <td className="py-2">{product.ingresos}</td>
-              <td className="py-2">{product.ganancia_total}</td>
+              <td className="py-2">{product.costo} $</td>
+              <td className="py-2">{product.ingresos} $</td>
+              <td className="py-2">{product.ganancia_total} $</td>
             </tr>
           ))}
         </tbody>
 
         <tfoot className="border-t h-10">
-          <tr className="">
-            <td className="py-1">Total</td>
-            <td className="py-1">{data.invertido}</td>
-            <td className="py-1">{data.ingresos}</td>
-            <td className="py-1">{data.ganancias}</td>
+          <tr>
+            <td className="py-4">Total</td>
+            <td className="py-4">{data.invertido} $</td>
+            <td className="py-4">{data.ingresos} $</td>
+            <td className="py-4">{data.ganancias} $</td>
           </tr>
         </tfoot>
       </table>
