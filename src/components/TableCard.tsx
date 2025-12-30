@@ -21,19 +21,19 @@ export default function TableCard<T extends Record<string, any>>({
 
   return (
     <>
-      <table className="w-full text-left flex items-center gap-2 text-sm p-2.5 border-t relative">
+      <table className="w-full text-left flex items-center gap-1 text-sm py-5 border-t relative">
         <thead>
           <tr className="flex flex-col">
             {headers.map((head, i) => {
               if (i <= rowView - 1) {
                 return (
-                  <th key={`th-${i}`} className="py-1 pr-2.5 text-nowrap">
+                  <th key={`th-${i}`} className="py-1 pr-1 text-nowrap">
                     {head}
                   </th>
                 );
               } else if (expanded === true) {
                 return (
-                  <th key={`th-${i}`} className="py-1 pr-2.5 text-nowrap">
+                  <th key={`th-${i}`} className="py-1 pr-1 text-nowrap">
                     {head}
                   </th>
                 );
@@ -46,13 +46,13 @@ export default function TableCard<T extends Record<string, any>>({
             {keys.map((key, i) => {
               if (i <= rowView - 1) {
                 return (
-                  <td key={`td-${i}`} className="py-1 pr-2.5 text-nowrap">
+                  <td key={`td-${i}`} className="py-1 pr-1 text-nowrap">
                     {data[key]} {signs?.[i] ?? ""}
                   </td>
                 );
               } else if (expanded) {
                 return (
-                  <td key={`td-${i}`} className="py-1">
+                  <td key={`td-${i}`} className="py-1 pr-1">
                     {data[key]} {signs?.[i] ?? ""}
                   </td>
                 );
@@ -61,7 +61,7 @@ export default function TableCard<T extends Record<string, any>>({
           </tr>
         </tbody>
         <Btn
-          className="bg-yellow-400 h-fit absolute top-1 right-0.5"
+          className="bg-yellow-400 h-fit absolute top-1 right-1"
           onClick={() => setExpanded(!expanded)}
         >
           <IconChevronDown className={`${expanded && "rotate-180"}`} />

@@ -170,7 +170,7 @@ export default function DashBoard({ onClick, data, productsSort }: Props) {
           >
             <IconArrowRampRight2 />
           </button>
-          <h3 className="text-sm text-gray-600 mb-2">
+          <h3 className="text-sm text-gray-600 mb-2 max-w-5/6">
             Productos con mayor ganancia
           </h3>
 

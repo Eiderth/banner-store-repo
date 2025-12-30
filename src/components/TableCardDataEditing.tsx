@@ -28,16 +28,16 @@ export default function TableCardDataEditing({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <table className="w-full text-left text-sm flex items-center gap-2 p-2.5 border-t">
+    <table className="w-full text-left flex items-center gap-1 text-sm py-5 border-t relative">
       <thead>
         <tr className="flex flex-col">
-          <th className="py-1 pr-2.5">Producto</th>
+          <th className="py-1 pr-1">Producto</th>
           {expanded && (
             <>
-              <th className="py-1 pr-2.5">Costo</th>
-              <th className="py-1 pr-2.5">Unidades</th>
-              <th className="py-1 pr-2.5">Porcentaje</th>
-              <th className="py-3 pr-2.5">Accion</th>
+              <th className="py-1 pr-1">Costo</th>
+              <th className="py-1 pr-1">Unidades</th>
+              <th className="py-1 pr-1">Porcentaje</th>
+              <th className="py-3 pr-1">Accion</th>
             </>
           )}
         </tr>
@@ -142,7 +142,7 @@ export default function TableCardDataEditing({
         </tr>
       </tbody>
       <Btn
-        className="bg-yellow-400 h-fit w-fit ml-auto mb-auto"
+        className="bg-yellow-400 h-fit absolute top-1 right-1"
         onClick={() => setExpanded(!expanded)}
       >
         <IconChevronDown className={`${expanded && "rotate-180"}`} />
